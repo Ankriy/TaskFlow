@@ -1,0 +1,63 @@
+﻿@{
+    ViewData["Title"] = "Name32434";
+}
+<form method="post">
+<h2>Таблица клиентов</h2>
+<div class="dropdown">
+    <span>Выберите столбцы</span>
+    <div class="dropdown-content">
+        <label><input type="checkbox" value="passport"> Passport</label><br>
+        <label><input type="checkbox" value="snils"> SNILS</label><br>
+        <label><input type="checkbox" value="polis"> Polis</label>
+    </div>
+</div>
+<table>
+    <thead>
+        <tr>
+            <th>ФИО</th>
+            <th>Телефон</th>
+            <th>Дата рождения</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Иванов Иван Иванович</td>
+            <td>+7 (123) 456-78-90</td>
+            <td>01.01.1990</td>
+            <td>...</td>
+        </tr>
+        <tr>
+            <td>Иванов Иван Иванович</td>
+            <td>+7 (123) 456-78-90</td>
+            <td>01.01.1990</td>
+            <td>...</td>
+        </tr>
+        <tr>
+            <td>Иванов Иван Иванович</td>
+            <td>+7 (123) 456-78-90</td>
+            <td>01.01.1990</td>
+            <td>...</td>
+        </tr>
+        <tr>
+            <td>Иванов Иван Иванович</td>
+            <td>+7 (123) 456-78-90</td>
+            <td>01.01.1990</td>
+            <td>...</td>
+        </tr>
+    </tbody>
+</table>
+
+<div style="text-align: center;">
+        <button>Предыдущая</button>
+        <button>Следующая</button>
+    </div>
+
+    <div style="text-align: right;">
+        <select>
+            <option>10 записей</option>
+            <option>20 записей</option>
+            <option>50 записей</option>
+        </select>
+    </div>
+</form>

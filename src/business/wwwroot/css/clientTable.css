@@ -1,0 +1,86 @@
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    border: 1px solid #ccc;
+    padding: 5px;
+    z-index: 1;
+}
+
+    .dropdown-content input[type="checkbox"] {
+        margin-right: 5px;
+    }
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+
+/* Стилизация таблицы */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+tr:hover {
+    background-color: #f9f9f9;
+}
+
+button {
+    background-color: #f9f9f9;
+    color: black;
+    padding: 4px 10px;
+    margin-top: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+    button:hover {
+        border-color: #999;
+    }
+
+    button:active {
+        background-color: #829bab;
+        border-color: #829bab;
+    }
+/* Стилизация выпадающего списка */
+select {
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+    select:hover {
+        border-color: #999;
+    }
+
+    select:focus {
+        outline: none;
+        border-color: #3498db;
+    }

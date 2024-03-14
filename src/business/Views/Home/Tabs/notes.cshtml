@@ -1,0 +1,47 @@
+﻿@{
+    ViewData["Title"] = "Name32434";
+}
+
+
+<div id="wrapper">
+    <!-- блок с карточками -->
+    <div class="flexDiv">
+        <!-- теги для фильтра -->
+        <!-- тег — это чекбокс -->
+        <input type="checkbox" id="work-box" checked />
+        <!-- подписываем его -->
+        <label for="work-box">
+            <!-- и указываем название и классы -->
+            <div class="tag work pos-abs">Работа</div>
+        </label>
+        <!-- делаем то же самое для двух остальных тегов -->
+        <input type="checkbox" id="personal-box" checked />
+        <label for="personal-box">
+            <div class="tag personal pos-abs">Личное</div>
+        </label>
+
+        <input type="checkbox" id="read-box" checked />
+        <label for="read-box">
+            <div class="tag read pos-abs">Почитать</div>
+        </label>
+
+        <!-- карточки -->
+        <div>
+        </div>
+        <div class="note">
+            «Ясно, понятно» / Максим Ильяхов
+            <div class="tag read">Почитать</div>
+        </div>
+        <div class="note">
+            Добавить сортировку карточек
+            <div class="tag work">Работа</div>
+        </div>
+        <div class="note">
+            Купить шампунь
+            <div class="tag personal">Личное</div>
+        </div>
+
+
+    </div>
+</div>
+
