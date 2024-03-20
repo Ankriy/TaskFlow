@@ -7,6 +7,7 @@ function setTab() {
     $('.tab').on('click', function () {
         $('.tab').removeClass('active');
         $(this).addClass('active');
+        localStorage.setItem('activeTab', $(this).attr('id'));
     });
 }
 function setContent(page) {

@@ -40,6 +40,14 @@ namespace business.Controllers
             var skip = page * size;
             var listUsers = _clientService.GetClientList(1,1);
             return PartialView("Tabs/client");
+            //return View();
+        }
+        [HttpPost]
+        public ActionResult client()
+        {
+            var listUsers = _clientService.GetClientList(1, 1);
+            //return PartialView("Tabs/client");
+            return View();
         }
         [HttpGet]
         public ActionResult order()

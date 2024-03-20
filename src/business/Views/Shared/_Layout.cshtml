@@ -1,11 +1,12 @@
-﻿<!DOCTYPE html>
+﻿@model business.Application.Web.Models.Tab.TabViewModel
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - business</title>
     <link rel="stylesheet" href="~/index.css">
-    <script src="~/index.js"></script>
+    <script src="~/TabNavigarion.js"></script>
 
     <link rel="stylesheet" href="~/DashboardCharts.css">
     <link rel="stylesheet" href="~/css/notes.css">
@@ -20,11 +21,11 @@
     <nav class="sidebar">
         <ul>
             <li>@Html.ActionLink("Главная", "dashboard", "Home")</li>
-            <li><a href="/Home/dashboard" class="tab active" onclick="showContent('dashboard')">Графики</a></li>
-            <li><a href="/Home/notes" class="tab" onclick="showContent('notes')">Заметки</a></li>
-            <li><a href="/Home/client" class="tab" onclick="showContent('client')">Клиенты</a></li>
-            <li><a href="order" class="tab" onclick="showContent('order')">Заказы</a></li>
-            <li><a href="settings" class="tab" onclick="showContent('settings')">Настройки</a></li>
+            <li><a class="tab active" onclick="showContent('dashboard')">Графики</a></li>
+            <li><a class="tab" onclick="showContent('notes')">Заметки</a></li>
+            <li><a class="tab" onclick="showContent('client')">Клиенты</a></li>
+            <li><a class="tab" onclick="showContent('order')">Заказы</a></li>
+            <li><a class="tab" onclick="showContent('settings')">Настройки</a></li>
         </ul>
     </nav>
     <div id="content" class="content">
@@ -32,3 +33,5 @@
     </div>
 </body>
 </html>
+
+
