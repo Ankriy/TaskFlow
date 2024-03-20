@@ -1,6 +1,6 @@
 using business.DAL.EF;
 using business.DAL.EF.Repositories;
-using business.Logic.DataContracts.Repositories.Clients;
+using business.Logic.DataContracts.Repositories.Customers;
 using business.Logic.Services;
 using business.PostgresMigrate;
 using Microsoft.EntityFrameworkCore;
@@ -11,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddScoped<ClientService>();
+builder.Services.AddScoped<CustomerService>();
 var connectionStringEF = "host=localhost; port=5432; database=business; username=postgres; password=123;";  //builder.Configuration.GetConnectionString("NpgsqlConnectionString");
 PostgresMigrator.Migrate(connectionStringEF);
 
@@ -21,7 +21,7 @@ builder.Services.AddDbContext<PostgreeContext>(
         options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
     });
 
-builder.Services.AddScoped<IClientRepository, EFClientRepository>();
+builder.Services.AddScoped<ICustomerRepository, EFCustomerRepository>();
 
 var app = builder.Build();
 

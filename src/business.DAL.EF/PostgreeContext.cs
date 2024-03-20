@@ -1,7 +1,5 @@
-﻿
-
-using Microsoft.EntityFrameworkCore;
-using business.Logic.Domain.Models.Client;
+﻿using Microsoft.EntityFrameworkCore;
+using business.Logic.Domain.Models.Customer;
 
 namespace business.DAL.EF
 {
@@ -13,6 +11,6 @@ namespace business.DAL.EF
         }
 
 
-        public DbSet<Client> Client => Set<Client>();
+        public DbSet<Customer> Client => Set<Customer>();
     }
 }

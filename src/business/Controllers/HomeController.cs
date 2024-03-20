@@ -10,9 +10,9 @@ namespace business.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly ClientService _clientService;
+        private readonly CustomerService _clientService;
 
-        public HomeController(ILogger<HomeController> logger, ClientService clientService)
+        public HomeController(ILogger<HomeController> logger, CustomerService clientService)
         {
             _logger = logger;
             _clientService = clientService;

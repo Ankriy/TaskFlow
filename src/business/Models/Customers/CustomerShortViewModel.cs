@@ -1,8 +1,8 @@
-﻿using business.Logic.Domain.Models.Client;
+﻿using business.Logic.Domain.Models.Customer;
 
-namespace business.Models.Clients
+namespace business.Application.Web.Models.Customers
 {
-    public class ClientShortViewModel
+    public class CustomerShortViewModel
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -10,9 +10,9 @@ namespace business.Models.Clients
         public string Middlename { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
-        public ClientShortViewModel() { }
+        public CustomerShortViewModel() { }
 
-        public ClientShortViewModel(Client user)
+        public CustomerShortViewModel(Customer user)
         {
             Id = user.Id;
             Name = user.Name;

@@ -1,12 +1,12 @@
-﻿using business.Logic.DataContracts.Repositories.Clients;
-using business.Logic.Domain.Models.Client;
+﻿using business.Logic.DataContracts.Repositories.Customers;
+using business.Logic.Domain.Models.Customer;
 
 namespace business.Logic.Services
 {
-    public class ClientService
+    public class CustomerService
     {
-        private IClientRepository _clientRepository;
-        public ClientService(IClientRepository clientRepository)
+        private ICustomerRepository _clientRepository;
+        public CustomerService(ICustomerRepository clientRepository)
         {
             _clientRepository = clientRepository;
         }
@@ -14,10 +14,10 @@ namespace business.Logic.Services
         {
             return _clientRepository.Count();
         }
-        public List<Client> GetClientList(int skip, int take)
+        public List<Customer> GetClientList(int skip, int take)
         {
             var users = _clientRepository.Get("", skip, take);
-            var list = users.Select(x => new Client()
+            var list = users.Select(x => new Customer()
             {
                 Id = x.Id,
                 Name = x.Name,
@@ -29,9 +29,9 @@ namespace business.Logic.Services
             return list;
         }
 
-        public int AddClient(Client client)
+        public int AddClient(Customer client)
         {
-            var newClient = new Client()
+            var newClient = new Customer()
             {
                 Id = client.Id,
                 Name = client.Name,
@@ -41,11 +41,11 @@ namespace business.Logic.Services
             _clientRepository.Create(newClient);
             return newClient.Id;
         }
-        public Client GetClient(int id)
+        public Customer GetClient(int id)
         {
             
             var client = _clientRepository.Get(id);
-            return new Client()
+            return new Customer()
             {
                 Id = id,
                 Name = client.Name,
@@ -53,9 +53,9 @@ namespace business.Logic.Services
                 Email = client.Email
             };
         }
-        public object EditClient(Client clientUpdate)
+        public object EditClient(Customer clientUpdate)
         {
-            var client = new Client()
+            var client = new Customer()
             {
                 Id = clientUpdate.Id,
                 Name = clientUpdate.Name,

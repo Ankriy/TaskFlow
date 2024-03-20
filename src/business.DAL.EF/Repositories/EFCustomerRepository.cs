@@ -1,18 +1,13 @@
 ﻿using business.Logic.DataContracts.Repositories;
-using business.Logic.DataContracts.Repositories.Clients;
-using business.Logic.Domain.Models.Client;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using business.Logic.DataContracts.Repositories.Customers;
+using business.Logic.Domain.Models.Customer;
 
 namespace business.DAL.EF.Repositories
 {
-    public class EFClientRepository : IClientRepository, IRepository<Client>
+    public class EFCustomerRepository : ICustomerRepository, IRepository<Customer>
     {
         private readonly PostgreeContext _context;
-        public EFClientRepository(PostgreeContext context)
+        public EFCustomerRepository(PostgreeContext context)
         {
             _context = context;
         }
@@ -26,7 +21,7 @@ namespace business.DAL.EF.Repositories
             throw new NotImplementedException();
         }
 
-        public Client Create(Client item)
+        public Customer Create(Customer item)
         {
             _context.Client.Add(item);
             _context.SaveChanges();
@@ -38,9 +33,9 @@ namespace business.DAL.EF.Repositories
             throw new NotImplementedException();
         }
 
-        public ICollection<Client> Get(string search, int skip, int take)
+        public ICollection<Customer> Get(string search, int skip, int take)
         {
-            IQueryable<Client> query = _context.Client;
+            IQueryable<Customer> query = _context.Client;
             if (!string.IsNullOrEmpty(search))
                 query = query.Where(x => x.Name.StartsWith(search) || x.Surname.StartsWith(search));
 
@@ -53,12 +48,12 @@ namespace business.DAL.EF.Repositories
             return users;
         }
 
-        public Client? Get(int id)
+        public Customer? Get(int id)
         {
             return _context.Client.FirstOrDefault(x => x.Id == id);
         }
 
-        public void Update(Client item)
+        public void Update(Customer item)
         {
             _context.Client.Update(item);
             _context.SaveChanges();

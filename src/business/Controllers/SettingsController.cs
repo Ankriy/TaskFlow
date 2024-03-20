@@ -10,9 +10,9 @@ namespace business.Controllers
     public class SettingsController : Controller
     {
         private readonly ILogger<SettingsController> _logger;
-        private readonly ClientService _clientService;
+        private readonly CustomerService _clientService;
 
-        public SettingsController(ILogger<SettingsController> logger, ClientService clientService)
+        public SettingsController(ILogger<SettingsController> logger, CustomerService clientService)
         {
             _logger = logger;
             _clientService = clientService;

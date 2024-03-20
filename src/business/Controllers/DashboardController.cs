@@ -10,9 +10,9 @@ namespace business.Controllers
     public class DashboardController : Controller
     {
         private readonly ILogger<DashboardController> _logger;
-        private readonly ClientService _clientService;
+        private readonly CustomerService _clientService;
 
-        public DashboardController(ILogger<DashboardController> logger, ClientService clientService)
+        public DashboardController(ILogger<DashboardController> logger, CustomerService clientService)
         {
             _logger = logger;
             _clientService = clientService;

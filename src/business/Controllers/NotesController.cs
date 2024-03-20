@@ -10,9 +10,9 @@ namespace business.Controllers
     public class NotesController : Controller
     {
         private readonly ILogger<NotesController> _logger;
-        private readonly ClientService _clientService;
+        private readonly CustomerService _clientService;
 
-        public NotesController(ILogger<NotesController> logger, ClientService clientService)
+        public NotesController(ILogger<NotesController> logger, CustomerService clientService)
         {
             _logger = logger;
             _clientService = clientService;

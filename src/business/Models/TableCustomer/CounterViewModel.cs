@@ -1,4 +1,4 @@
-﻿namespace business.Models.TableClient
+﻿namespace business.Application.Web.Models.TableCustomer
 {
     public static class CounterViewModel
     {

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace business.Logic.Domain.Models.Client
+namespace business.Logic.Domain.Models.Customer
 {
-    public class Client
+    public class Customer
     {
         public int Id { get; set; }
         public string Name { get; set; }
