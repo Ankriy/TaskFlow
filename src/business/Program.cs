@@ -12,6 +12,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<CustomerService>();
+builder.Services.AddScoped<CustomerListService>();
+builder.Services.AddScoped<ICustomerRepository, EFCustomerRepository>();
+
 var connectionStringEF = "host=localhost; port=5432; database=business; username=postgres; password=123;";  //builder.Configuration.GetConnectionString("NpgsqlConnectionString");
 PostgresMigrator.Migrate(connectionStringEF);
 
@@ -21,7 +24,7 @@ builder.Services.AddDbContext<PostgreeContext>(
         options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
     });
 
-builder.Services.AddScoped<ICustomerRepository, EFCustomerRepository>();
+
 
 var app = builder.Build();
 

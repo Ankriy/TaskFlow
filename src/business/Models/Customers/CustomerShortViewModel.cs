@@ -1,9 +1,12 @@
 ﻿using business.Logic.Domain.Models.Customer;
+using Microsoft.AspNetCore.Mvc;
+using System.Xml.Linq;
 
 namespace business.Application.Web.Models.Customers
 {
     public class CustomerShortViewModel
     {
+        [FromRoute(Name = "id")]
         public int Id { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }

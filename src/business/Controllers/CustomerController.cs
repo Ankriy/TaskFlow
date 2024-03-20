@@ -10,12 +10,12 @@ namespace business.Controllers
     public class CustomerController : Controller
     {
         private readonly ILogger<CustomerController> _logger;
-        private readonly CustomerService _clientService;
+        private readonly CustomerListService _customerListService;
 
-        public CustomerController(ILogger<CustomerController> logger, CustomerService clientService)
+        public CustomerController(ILogger<CustomerController> logger, CustomerListService clientService)
         {
             _logger = logger;
-            _clientService = clientService;
+            _customerListService = clientService;
         }
 
         [HttpGet]
@@ -24,7 +24,7 @@ namespace business.Controllers
             if (size == 0)
                 size = 10;
             var skip = page * size;
-            var listUsers = _clientService.GetClientList(1, 1);
+            var listUsers = _customerListService.GetClientList(1, 1);
             return View();
 
 
@@ -32,7 +32,7 @@ namespace business.Controllers
         [HttpPost]
         public IActionResult TableCustomers(string name1, string name2)
         {
-            var listUsers = _clientService.GetClientList(1, 1);
+            var listUsers = _customerListService.GetClientList(1, 1);
             //return PartialView("Tabs/client");
             return View();
         }

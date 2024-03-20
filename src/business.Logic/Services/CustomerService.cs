@@ -14,21 +14,7 @@ namespace business.Logic.Services
         {
             return _clientRepository.Count();
         }
-        public List<Customer> GetClientList(int skip, int take)
-        {
-            var users = _clientRepository.Get("", skip, take);
-            var list = users.Select(x => new Customer()
-            {
-                Id = x.Id,
-                Name = x.Name,
-                Surname = x.Surname,
-                Middlename = x.Middlename,
-                Email = x.Email,
-                Phone = x.Phone
-            }).ToList();
-            return list;
-        }
-
+        
         public int AddClient(Customer client)
         {
             var newClient = new Customer()
