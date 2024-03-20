@@ -23,46 +23,6 @@ namespace business.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-        [HttpGet]
-        public ActionResult dashboard()
-        {
-            return PartialView("Tabs/dashboard");
-        }
-        [HttpGet]
-        public ActionResult client(int page, int size)
-        {
-            if (size == 0)
-                size = 10;
-            var skip = page * size;
-            var listUsers = _clientService.GetClientList(1,1);
-            return PartialView("Tabs/client");
-            //return View();
-        }
-        [HttpPost]
-        public ActionResult client()
-        {
-            var listUsers = _clientService.GetClientList(1, 1);
-            //return PartialView("Tabs/client");
-            return View();
-        }
-        [HttpGet]
-        public ActionResult order()
-        {
-            return PartialView("Tabs/order");
-        }
-        [HttpGet]
-        public ActionResult notes()
-        {
-            return PartialView("Tabs/notes");
-        }
-        public ActionResult settings()
-        {
-            return PartialView("Tabs/settings");
-        }
 
     }
 }

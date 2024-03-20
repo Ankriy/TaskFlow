@@ -17,19 +17,20 @@
     <script src="~/chart.min.js"></script>
 </head>
 
-<body onload="showContent('')">
+<body>
     <nav class="sidebar">
         <ul>
-            <li>@Html.ActionLink("Главная", "dashboard", "Home")</li>
-            <li><a class="tab active" onclick="showContent('dashboard')">Графики</a></li>
-            <li><a class="tab" onclick="showContent('notes')">Заметки</a></li>
-            <li><a class="tab" onclick="showContent('client')">Клиенты</a></li>
-            <li><a class="tab" onclick="showContent('order')">Заказы</a></li>
-            <li><a class="tab" onclick="showContent('settings')">Настройки</a></li>
+            <li><a class="tab" asp-controller="Dashboard" asp-action="Dashboard">Главная</a></li>
+            <li><a class="tab"  asp-controller="Dashboard" asp-action="Dashboard">Графики</a></li>
+            <li><a class="tab"  asp-controller="Notes" asp-action="Notes">Заметки</a></li>
+            <li><a class="tab" asp-controller="Customer" asp-action="TableCustomers">Клиенты</a></li>
+            <li><a class="tab" asp-controller="Order" asp-action="TableOrders">Заказы</a></li>
+            <li><a class="tab">Настройки</a></li>
         </ul>
     </nav>
     <div id="content" class="content">
         @RenderBody()
+        
     </div>
 </body>
 </html>
