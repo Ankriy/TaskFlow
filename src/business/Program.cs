@@ -42,7 +42,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
-app.MapControllers();
+//app.MapControllers();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Dashboard}/{action=Dashboard}/{id?}");

@@ -1,68 +1,51 @@
-﻿@{
-    ViewData["Title"] = "Name32434";
-}
-
-<h2>Таблица клиентов</h2>
-<div class="dropdown">
-    <span>Выберите столбцы</span>
-    <div class="dropdown-content">
-        <label><input type="checkbox" value="passport"> Passport</label><br>
-        <label><input type="checkbox" value="snils"> SNILS</label><br>
-        <label><input type="checkbox" value="polis"> Polis</label>
+﻿@model business.Application.Web.Models.Customers.CustomerListViewModel
+<form method="post">
+    <h2>Таблица клиентов</h2>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Фамилия</th>
+                <th>Имя</th>
+                <th>Отчество</th>
+                <th>Телефон</th>
+                <th>Почта</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var ppl in Model.Customers)
+            {
+                <tr>
+                    <td>@ppl.Middlename</td>
+                    <td>@ppl.Name</td>
+                    <td>@ppl.Surname</td>
+                    <td>@ppl.Phone</td>
+                    <td>@ppl.Email</td>
+                    <td>...</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    
+    <div style="text-align: center;">
+        <a href="/Customer/TableCustomers/?page=@(Model.Page - 1)&page-size=@(Model.PageSize)" class="btn @(Model.CanBack == false ? "disable" : "")">Предыдущая</a>
+        <a href="/Customer/TableCustomers/?page=@(Model.Page + 1)&page-size=@(Model.PageSize)" class="btn @(Model.CanForward == false ? "disable" : "")">Следующая</a>
     </div>
-</div>
-<table>
-    <thead>
-        <tr>
-            <th>ФИО</th>
-            <th>Телефон</th>
-            <th>Дата рождения</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>Иванов Иван Иванович</td>
-            <td>+7 (123) 456-78-90</td>
-            <td>01.01.1990</td>
-            <td>...</td>
-        </tr>
-        <tr>
-            <td>Иванов Иван Иванович</td>
-            <td>+7 (123) 456-78-90</td>
-            <td>01.01.1990</td>
-            <td>...</td>
-        </tr>
-        <tr>
-            <td>Иванов Иван Иванович</td>
-            <td>+7 (123) 456-78-90</td>
-            <td>01.01.1990</td>
-            <td>...</td>
-        </tr>
-        <tr>
-            <td>Иванов Иван Иванович</td>
-            <td>+7 (123) 456-78-90</td>
-            <td>01.01.1990</td>
-            <td>...</td>
-        </tr>
-    </tbody>
-</table>
-<div style="text-align: center;">
-    <button href="/Customer/?page=@(1)" type="submit">Предыдущая</button>
-    <button type="submit">Следующая</button>
-</div>
+    <div class="dropdown">
+        <div>Кол-во записей:</div>
+        <div class="dropdown-content">
+            <a href="/Customer/TableCustomers/?page=@(Model.Page)&page-size=2">2</a>
+            <a href="/Customer/TableCustomers/?page=@(Model.Page)&page-size=5">5</a>
+            <a href="/Customer/TableCustomers/?page=@(Model.Page)&page-size=10">10</a>
+            <a href="/Customer/TableCustomers/?page=@(Model.Page)&page-size=20">20</a>
+        </div>
+    </div>
+</form>
+
+
 <form id="post2" method="post">
     <input name="name1" value="xxx1" />
     <input name="name2" value="xxx2" />
     <input id="button" type="submit" value="Upload" />
 </form>
-
-
-
-    <div style="text-align: right;">
-        <select>
-            <option>10 записей</option>
-            <option>20 записей</option>
-            <option>50 записей</option>
-        </select>
-    </div>

@@ -1,32 +1,9 @@
-.dropdown {
-    position: relative;
-    display: inline-block;
-}
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    border: 1px solid #ccc;
-    padding: 5px;
-    z-index: 1;
-}
-
-    .dropdown-content input[type="checkbox"] {
-        margin-right: 5px;
-    }
-
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-
-
 /* Стилизация таблицы */
 table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 th, td {
@@ -47,11 +24,11 @@ tr:hover {
     background-color: #f9f9f9;
 }
 
-button {
+button, .btn {
+    text-decoration: none;
     background-color: #f9f9f9;
     color: black;
     padding: 4px 10px;
-    margin-top: 8px;
     border: 1px solid #ccc;
     border-radius: 5px;
     cursor: pointer;
@@ -59,28 +36,46 @@ button {
     transition: background-color 0.3s, color 0.3s, border-color 0.3s;
 }
 
-    button:hover {
+    button:hover, .btn:hover {
         border-color: #999;
     }
 
-    button:active {
+    button:active, .btn:active {
         background-color: #829bab;
         border-color: #829bab;
     }
+.disable {
+    pointer-events: none;
+    /* for "disabled" effect */
+    opacity: 0.5;
+    background: #CCC;
+}
 /* Стилизация выпадающего списка */
-select {
-    padding: 8px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f9f9f9;
+.dropdown {
+    position: relative;
+    display: inline-block;
 }
 
-    select:hover {
-        border-color: #999;
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 60px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
     }
 
-    select:focus {
-        outline: none;
-        border-color: #3498db;
-    }
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
