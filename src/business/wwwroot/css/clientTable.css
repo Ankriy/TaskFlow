@@ -23,7 +23,7 @@ tr:nth-child(even) {
 tr:hover {
     background-color: #f9f9f9;
 }
-
+/*Стилизация кнопки*/
 button, .btn {
     text-decoration: none;
     background-color: #f9f9f9;
@@ -44,9 +44,9 @@ button, .btn {
         background-color: #829bab;
         border-color: #829bab;
     }
+
 .disable {
     pointer-events: none;
-    /* for "disabled" effect */
     opacity: 0.5;
     background: #CCC;
 }
@@ -78,4 +78,56 @@ button, .btn {
 
 .dropdown:hover .dropdown-content {
     display: block;
+}
+
+.dropdown img {
+    width: 30px;
+    height: 30px;
+    margin-right: 5px;
+}
+/*Диалоговое окно*/
+.dialog {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #f9f9f9;
+    padding: 30px;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    z-index: 1000;
+}
+
+    .dialog form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .dialog input {
+        margin-bottom: 10px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .dialog button {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+        .dialog button:hover {
+            background-color: #0056b3;
+        }
+/*Поиск*/
+#searchInput {
+    padding: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }

@@ -1,7 +1,8 @@
 ﻿@model business.Application.Web.Models.Customers.CustomerListViewModel
-<form method="post">
+<form id="myForm" method="post">
     <h2>Таблица клиентов</h2>
-    
+    <input type="text" id="searchInput" placeholder="Поиск...">
+    @*Таблица клиентов*@
     <table>
         <thead>
             <tr>
@@ -27,13 +28,14 @@
             }
         </tbody>
     </table>
-    
+    @*Кнопки перелистывания страниц таблицы*@
     <div style="text-align: center;">
         <a href="/Customer/TableCustomers/?page=@(Model.Page - 1)&page-size=@(Model.PageSize)" class="btn @(Model.CanBack == false ? "disable" : "")">Предыдущая</a>
         <a href="/Customer/TableCustomers/?page=@(Model.Page + 1)&page-size=@(Model.PageSize)" class="btn @(Model.CanForward == false ? "disable" : "")">Следующая</a>
     </div>
+    @*Выпадающий список*@
     <div class="dropdown">
-        <div>Кол-во записей:</div>
+        <img src="~/img/DropDownImg.svg" alt="Кол-во записей">
         <div class="dropdown-content">
             <a href="/Customer/TableCustomers/?page=@(Model.Page)&page-size=2">2</a>
             <a href="/Customer/TableCustomers/?page=@(Model.Page)&page-size=5">5</a>
@@ -41,11 +43,42 @@
             <a href="/Customer/TableCustomers/?page=@(Model.Page)&page-size=20">20</a>
         </div>
     </div>
+
+
+    
 </form>
 
 
-<form id="post2" method="post">
-    <input name="name1" value="xxx1" />
-    <input name="name2" value="xxx2" />
-    <input id="button" type="submit" value="Upload" />
-</form>
+<button id="addUserBtn" type="button">Добавить пользователя</button>
+
+<!-- Диалоговое окно -->
+<div id="dialog" class="dialog">
+    <!-- Форма для добавления пользователя -->
+    <form id="addUserForm" method="post" action="/Customer/AddCustomer">
+        <input type="text" name="name" placeholder="Имя" required><br>
+        <input type="text" name="surname" placeholder="Фамилия" required><br>
+        <input type="text" name="middlename" placeholder="Отчество" required><br>
+        <input type="tel" name="phone" placeholder="Телефон" required><br>
+        <input type="email" name="email" placeholder="Почта" required><br>
+        <button type="submit">Добавить</button>
+    </form>
+</div>
+
+
+<script>
+    const addUserBtn = document.getElementById('addUserBtn');
+    const dialog = document.getElementById('dialog');
+
+    addUserBtn.addEventListener('click', () => {
+        dialog.style.display = 'block';
+    });
+
+    dialog.addEventListener('click', (event) => {
+        if (event.target === dialog) {
+            dialog.style.display = 'none';
+        }
+    });
+
+
+    
+</script>

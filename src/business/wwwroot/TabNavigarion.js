@@ -1,4 +1,4 @@
-﻿//Managing tabs
+﻿//Управление вкладками
 document.addEventListener("DOMContentLoaded", function () {
     var currentUrl = window.location.href;
     var navigationLinks = document.querySelectorAll('.sidebar a.tab');
@@ -9,3 +9,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+
+
+

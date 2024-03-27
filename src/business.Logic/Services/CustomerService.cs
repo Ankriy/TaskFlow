@@ -22,6 +22,8 @@ namespace business.Logic.Services
                 Id = client.Id,
                 Name = client.Name,
                 Surname = client.Surname,
+                Middlename = client.Middlename,
+                Phone = client.Phone,
                 Email = client.Email
             };
             _clientRepository.Create(newClient);
