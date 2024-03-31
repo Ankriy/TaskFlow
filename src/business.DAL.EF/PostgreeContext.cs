@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using business.Logic.Domain.Models.Customer;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace business.DAL.EF
 {
-    public class PostgreeContext : DbContext
+    public class PostgreeContext : IdentityDbContext
     {
         public PostgreeContext(DbContextOptions<PostgreeContext> options)
             : base(options)

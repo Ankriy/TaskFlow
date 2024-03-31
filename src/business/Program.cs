@@ -1,3 +1,4 @@
+
 using business.DAL.EF;
 using business.DAL.EF.Repositories;
 using business.Logic.DataContracts.Repositories.Customers;
@@ -5,11 +6,59 @@ using business.Logic.Services;
 using business.PostgresMigrate;
 using Microsoft.EntityFrameworkCore;
 
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+//builder.Services.AddDbContext<PostgreeContext>(opt =>
+//    opt.UseNpgsql(builder.Configuration.GetConnectionString("Db")));
+
+//builder.Services.AddAuthentication(opt =>
+//{
+//    opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+//    opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+//    //options.DefaultScheme = Options.DefaultAuthScheme;
+//    //options.DefaultChallengeScheme = Options.DefaultAuthScheme;
+//})
+//    .AddJwtBearer(/*"Bearer",*/ options =>
+//    {
+//        //options.SaveToken = true;
+//        //options.RequireHttpsMetadata = false;
+//        options.TokenValidationParameters = new TokenValidationParameters
+//        {
+//            ValidateIssuer = false /*true*/,
+//            ValidateAudience = false /*true*/,
+//            ValidateLifetime = true,
+//            ValidateIssuerSigningKey = true,
+//            //ClockSkew = TimeSpan.Zero,
+
+//            ValidIssuer = builder.Configuration["Jwt:ValidIssuer"],
+//            ValidAudience = builder.Configuration["Jwt:ValidAudience"],
+//            IssuerSigningKey = new SymmetricSecurityKey(
+//                Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Secret"]!))
+//        };
+//    });
+//.AddPolicyScheme(Options.DefaultAuthScheme, Options.DefaultAuthScheme, options =>
+//{
+//    options.ForwardDefaultSelector = context =>
+//    {
+//        string authorization = context.Request.Headers[HeaderNames.Authorization];
+//        if (!string.IsNullOrEmpty(authorization) && authorization.StartsWith("Bearer "))
+//            return JwtBearerDefaults.AuthenticationScheme;
+
+//        return IdentityConstants.ApplicationScheme;
+//    };
+//});
+//builder.Services.AddAuthorization(options => options.DefaultPolicy =
+//    new AuthorizationPolicyBuilder
+//            (JwtBearerDefaults.AuthenticationScheme)
+//        .RequireAuthenticatedUser()
+//        .Build());
+//builder.Services.AddIdentity<ApplicationUser, IdentityRole<long>>()
+//    .AddEntityFrameworkStores<PostgreeContext>()
+//    .AddUserManager<UserManager<ApplicationUser>>()
+//    .AddSignInManager<SignInManager<ApplicationUser>>();
 
 builder.Services.AddScoped<CustomerService>();
 builder.Services.AddScoped<CustomerListService>();
@@ -41,10 +90,11 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 //app.MapControllers();
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Dashboard}/{action=Dashboard}/{id?}");
+    pattern: "{controller=Authorization}/{action=Authorization}/{id?}");
 
 app.Run();

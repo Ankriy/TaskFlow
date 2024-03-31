@@ -1,0 +1,154 @@
+﻿<style>
+    body {
+        background-color: #f2f2f2;
+        font-family: Arial, sans-serif;
+    }
+
+    form {
+        background-color: #fff;
+        padding: 20px;
+        margin: 20px auto;
+        width: 300px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+        color: #333;
+        margin-bottom: 15px;
+    }
+
+    label {
+        color: #666;
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+        width: 95%;
+        padding: 8px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+    }
+
+    button {
+        background-color: #333;
+        color: #fff;
+        padding: 8px 15px;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+
+        button:hover {
+            background-color: #555;
+        }
+
+    /* Стили для модального окна */
+    .modal {
+        display: block; /* Скрыть модальное окно по умолчанию */
+        position: fixed; /* Оставаться на месте при прокрутке */
+        z-index: 1; /* Сидеть над другими элементами */
+        left: 0;
+        top: 0;
+        width: 100%; /* Полная ширина */
+        height: 100%; /* Полная высота */
+        overflow: auto; /* Включить прокрутку, если нужно */
+        background-color: rgb(0,0,0); 
+        background-color: rgba(0,0,0,0.4);
+    }
+
+    /* Стили для содержимого модального окна */
+    .modal-content {
+        background-color: #fefefe;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 100%;
+        height: 100%;
+    }
+
+    .authorization-form-class {
+        position: absolute;
+        display: none;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+    }
+</style>
+
+<div id="loginModal" class="modal">
+    <div class="modal-content">
+        <div id="authorization-form" class="authorization-form-class" style="display:block">
+            <!-- Форма авторизации -->
+            <form asp-action="Login" method="post">
+                <h2>Вход</h2>
+                <input type="email" name="email" placeholder="Почта" required>
+                <input type="password" name="password" placeholder="Пароль" required>
+                <button type="submit">Войти</button>
+                <p><a href="#" id="register-link">Зарегестрироваться</a> | <a href="#" id="forgot-password-link">Восстановить пароль</a></p>
+            </form>
+        </div>
+
+        <div id="registration-form" class="authorization-form-class">
+            <!-- Форма регистрации -->
+            <form asp-action="Register" method="post">
+                <h2>Регистрация</h2>
+                <input type="email" name="email" placeholder="Почта" required>
+                <input type="password" name="password" placeholder="Пароль" required>
+                <button type="submit">Зарегестрироваться</button>
+                <p><a href="#" id="login-link">Назад к входу</a></p>
+            </form>
+        </div>
+
+        <div id="forgot-password-form" class="authorization-form-class">
+            <!-- Форма восстановления пароля -->
+            <form asp-action="ForgotPassword" method="post">
+                <h2>Восстановление пароля</h2>
+                <input type="email" name="email" placeholder="Почта" required>
+                <button type="submit">Восстановить пароль</button>
+                <p><a href="#" id="back-to-login-link">Назад к входу</a></p>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const loginForm = document.querySelector('#authorization-form');
+        const registerForm = document.querySelector('#registration-form');
+        const forgotPasswordForm = document.querySelector('#forgot-password-form');
+
+        document.querySelector('#register-link').addEventListener('click', function (event) {
+            event.preventDefault();
+            loginForm.style.display = 'none';
+            registerForm.style.display = 'block';
+        });
+
+        document.querySelector('#forgot-password-link').addEventListener('click', function (event) {
+            event.preventDefault();
+            loginForm.style.display = 'none';
+            forgotPasswordForm.style.display = 'block';
+        });
+
+        document.querySelector('#back-to-login-link').addEventListener('click', function (event) {
+            event.preventDefault();
+            forgotPasswordForm.style.display = 'none';
+            loginForm.style.display = 'block';
+        });
+        document.querySelector('#login-link').addEventListener('click', function (event) {
+            event.preventDefault();
+            registerForm.style.display = 'none';
+            loginForm.style.display = 'block';
+        });
+
+    });
+</script>
+
+
+
+
+
+       
+    

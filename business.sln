@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "business.Application.Web", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "business.DAL.EF", "src\business.DAL.EF\business.DAL.EF.csproj", "{A9B8EA7E-C36E-4C21-809C-E731A93E4397}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "business.PostgresMigrate", "src\business.PostgresMigrate\business.PostgresMigrate.csproj", "{9E73DD47-0D26-42E7-9B4C-AA4BD46C1036}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "business.PostgresMigrate", "src\business.PostgresMigrate\business.PostgresMigrate.csproj", "{9E73DD47-0D26-42E7-9B4C-AA4BD46C1036}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "business.Application.Api", "src\business.Application.Api\business.Application.Api.csproj", "{88F19612-33F0-4DFE-BFC6-D98CD0B1E37F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{9E73DD47-0D26-42E7-9B4C-AA4BD46C1036}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9E73DD47-0D26-42E7-9B4C-AA4BD46C1036}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9E73DD47-0D26-42E7-9B4C-AA4BD46C1036}.Release|Any CPU.Build.0 = Release|Any CPU
+		{88F19612-33F0-4DFE-BFC6-D98CD0B1E37F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88F19612-33F0-4DFE-BFC6-D98CD0B1E37F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88F19612-33F0-4DFE-BFC6-D98CD0B1E37F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88F19612-33F0-4DFE-BFC6-D98CD0B1E37F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
