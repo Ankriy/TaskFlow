@@ -1,68 +1,61 @@
 
+using business.Application.Web.Data;
+using business.Application.Web.Data.Entities;
+using business.Application.Web.Middleware;
+using business.Application.Web.Services.Identity;
 using business.DAL.EF;
 using business.DAL.EF.Repositories;
 using business.Logic.DataContracts.Repositories.Customers;
 using business.Logic.Services;
 using business.PostgresMigrate;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-//builder.Services.AddDbContext<PostgreeContext>(opt =>
-//    opt.UseNpgsql(builder.Configuration.GetConnectionString("Db")));
+builder.Services.AddDbContext<DataContext>(opt =>
+    opt.UseNpgsql(builder.Configuration.GetConnectionString("Db")));
 
-//builder.Services.AddAuthentication(opt =>
-//{
-//    opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-//    opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-//    //options.DefaultScheme = Options.DefaultAuthScheme;
-//    //options.DefaultChallengeScheme = Options.DefaultAuthScheme;
-//})
-//    .AddJwtBearer(/*"Bearer",*/ options =>
-//    {
-//        //options.SaveToken = true;
-//        //options.RequireHttpsMetadata = false;
-//        options.TokenValidationParameters = new TokenValidationParameters
-//        {
-//            ValidateIssuer = false /*true*/,
-//            ValidateAudience = false /*true*/,
-//            ValidateLifetime = true,
-//            ValidateIssuerSigningKey = true,
-//            //ClockSkew = TimeSpan.Zero,
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddAuthentication(opt => {
+    opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"]!,
+            ValidAudience = builder.Configuration["Jwt:Audience"]!,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Secret"]!))
+        };
+    });
+builder.Services.AddAuthorization(options => options.DefaultPolicy =
+    new AuthorizationPolicyBuilder
+            (JwtBearerDefaults.AuthenticationScheme)
+        .RequireAuthenticatedUser()
+        .Build());
+builder.Services.AddIdentity<ApplicationUser, IdentityRole<long>>()
+    .AddEntityFrameworkStores<DataContext>()
+    .AddUserManager<UserManager<ApplicationUser>>()
+    .AddSignInManager<SignInManager<ApplicationUser>>();
 
-//            ValidIssuer = builder.Configuration["Jwt:ValidIssuer"],
-//            ValidAudience = builder.Configuration["Jwt:ValidAudience"],
-//            IssuerSigningKey = new SymmetricSecurityKey(
-//                Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Secret"]!))
-//        };
-//    });
-//.AddPolicyScheme(Options.DefaultAuthScheme, Options.DefaultAuthScheme, options =>
-//{
-//    options.ForwardDefaultSelector = context =>
-//    {
-//        string authorization = context.Request.Headers[HeaderNames.Authorization];
-//        if (!string.IsNullOrEmpty(authorization) && authorization.StartsWith("Bearer "))
-//            return JwtBearerDefaults.AuthenticationScheme;
-
-//        return IdentityConstants.ApplicationScheme;
-//    };
-//});
-//builder.Services.AddAuthorization(options => options.DefaultPolicy =
-//    new AuthorizationPolicyBuilder
-//            (JwtBearerDefaults.AuthenticationScheme)
-//        .RequireAuthenticatedUser()
-//        .Build());
-//builder.Services.AddIdentity<ApplicationUser, IdentityRole<long>>()
-//    .AddEntityFrameworkStores<PostgreeContext>()
-//    .AddUserManager<UserManager<ApplicationUser>>()
-//    .AddSignInManager<SignInManager<ApplicationUser>>();
 
 builder.Services.AddScoped<CustomerService>();
 builder.Services.AddScoped<CustomerListService>();
 builder.Services.AddScoped<ICustomerRepository, EFCustomerRepository>();
+//builder.Services.AddScoped<UserManager<ApplicationUser>>();
 
 var connectionStringEF = "host=localhost; port=5432; database=business; username=postgres; password=123;";  //builder.Configuration.GetConnectionString("NpgsqlConnectionString");
 PostgresMigrator.Migrate(connectionStringEF);
@@ -89,12 +82,13 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+// Проверка не протух ли токен
+app.UseMiddleware<TokenExpirationMiddleware>();
 
 app.UseAuthentication();
 app.UseAuthorization();
-//app.MapControllers();
+app.MapControllers();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Authorization}/{action=Authorization}/{id?}");
-
 app.Run();

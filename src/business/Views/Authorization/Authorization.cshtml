@@ -83,7 +83,7 @@
     <div class="modal-content">
         <div id="authorization-form" class="authorization-form-class" style="display:block">
             <!-- Форма авторизации -->
-            <form asp-action="Login" method="post">
+            <form asp-action="Authenticate" asp-controller="Authorization" method="post">
                 <h2>Вход</h2>
                 <input type="email" name="email" placeholder="Почта" required>
                 <input type="password" name="password" placeholder="Пароль" required>
@@ -94,10 +94,14 @@
 
         <div id="registration-form" class="authorization-form-class">
             <!-- Форма регистрации -->
-            <form asp-action="Register" method="post">
+            <form asp-action="Register" asp-controller="Authorization" method="post">
                 <h2>Регистрация</h2>
+                <input type="text" name="lastName" placeholder="Фамилия" required>
+                <input type="text" name="firstName" placeholder="Имя" required>
+                <input type="text" name="middleName" placeholder="Отчество" required>
                 <input type="email" name="email" placeholder="Почта" required>
                 <input type="password" name="password" placeholder="Пароль" required>
+                <input type="password" name="passwordConfirm" placeholder="Подтвердите пароль" required>
                 <button type="submit">Зарегестрироваться</button>
                 <p><a href="#" id="login-link">Назад к входу</a></p>
             </form>
