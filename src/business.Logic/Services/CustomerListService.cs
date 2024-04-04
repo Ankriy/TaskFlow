@@ -11,9 +11,9 @@ namespace business.Logic.Services
             _clientRepository = clientRepository;
         }
         
-        public CustomerList GetClientList(int skip, int take)
+        public CustomerList GetClientList(int skip, int take, int userId)
         {
-            var count = _clientRepository.Count();
+            var count = _clientRepository.Count(userId);
             var result = new CustomerList
             {
                 Skip = skip,
@@ -27,7 +27,7 @@ namespace business.Logic.Services
             }
 
             result.Customers = _clientRepository
-                .Get("", skip, take)
+                .Get("", skip, take, userId)
                 .Select(x => new Customer()
             {
                 Id = x.Id,

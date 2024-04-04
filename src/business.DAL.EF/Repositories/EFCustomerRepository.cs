@@ -13,17 +13,17 @@ namespace business.DAL.EF.Repositories
         }
         public int Count()
         {
-            return _context.Client.Count();
+            return _context.Customer.Count();
         }
 
         public int Count(int userid)
         {
-            throw new NotImplementedException();
+            return _context.Customer.Where(x => x.UserId == userid).Count();
         }
 
         public Customer Create(Customer item)
         {
-            _context.Client.Add(item);
+            _context.Customer.Add(item);
             _context.SaveChanges();
             return item;
         }
@@ -35,7 +35,7 @@ namespace business.DAL.EF.Repositories
 
         public ICollection<Customer> Get(string search, int skip, int take)
         {
-            IQueryable<Customer> query = _context.Client;
+            IQueryable<Customer> query = _context.Customer;
             if (!string.IsNullOrEmpty(search))
                 query = query.Where(x => x.Name.StartsWith(search) || x.Surname.StartsWith(search));
 
@@ -47,15 +47,32 @@ namespace business.DAL.EF.Repositories
 
             return users;
         }
+        public ICollection<Customer> Get(string search, int skip, int take, int userid)
+        {
+            IQueryable<Customer> query = _context.Customer;
+            if (!string.IsNullOrEmpty(search))
+                query = query.Where(x => x.Name.StartsWith(search) || x.Surname.StartsWith(search));
+
+            var users = query
+                .OrderBy(p => p.Id)
+                .Where(x => x.UserId == userid)
+                .Skip(skip)
+                .Take(take)
+                .ToList();
+
+            return users;
+        }
 
         public Customer? Get(int id)
         {
-            return _context.Client.FirstOrDefault(x => x.Id == id);
+            return _context.Customer.FirstOrDefault(x => x.Id == id);
         }
+
+        
 
         public void Update(Customer item)
         {
-            _context.Client.Update(item);
+            _context.Customer.Update(item);
             _context.SaveChanges();
         }
         

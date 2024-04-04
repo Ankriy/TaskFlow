@@ -55,7 +55,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole<long>>()
 builder.Services.AddScoped<CustomerService>();
 builder.Services.AddScoped<CustomerListService>();
 builder.Services.AddScoped<ICustomerRepository, EFCustomerRepository>();
-//builder.Services.AddScoped<UserManager<ApplicationUser>>();
+builder.Services.AddScoped<CurrentUserService>();
 
 var connectionStringEF = "host=localhost; port=5432; database=business; username=postgres; password=123;";  //builder.Configuration.GetConnectionString("NpgsqlConnectionString");
 PostgresMigrator.Migrate(connectionStringEF);

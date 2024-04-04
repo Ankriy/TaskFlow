@@ -1,6 +1,6 @@
 using business.Application.Web.Data.Entities;
 using business.Application.Web.Extensions;
-using business.Logic.Domain.Models.User;
+using business.Logic.Domain.Models.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using System.IdentityModel.Tokens.Jwt;
@@ -11,11 +11,16 @@ public class CurrentUserService : ICurrentUserService
 {
     private readonly IConfiguration _configuration;
     private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly UserManager<ApplicationUser> _userManager;
 
-    private User _User;
-    public CurrentUserService(IHttpContextAccessor httpContextAccessor)
+    private ApplicationUser _User;
+    public CurrentUserService(IHttpContextAccessor httpContextAccessor,
+        UserManager<ApplicationUser> userManager,
+        IConfiguration configuration)
     {
         _httpContextAccessor = httpContextAccessor;
+        _configuration = configuration;
+        _userManager = userManager;
     }
 
     public string CreateToken(ApplicationUser user, List<IdentityRole<long>> roles)
@@ -27,26 +32,41 @@ public class CurrentUserService : ICurrentUserService
         
         return tokenHandler.WriteToken(token);
     }
-    public User GetUser()
+    public ApplicationUser? GetUser()
     {
         if (_User == null)
             SetUser();
 
         return _User;
     }
-    private void SetUser()
+    //private void SetUser()
+    //{
+    //    _User = null;
+    //    if (_httpContextAccessor.HttpContext == null)
+    //        return;
+
+    //    var claim = _httpContextAccessor.HttpContext.User.Claims
+    //        .FirstOrDefault(x => x.Type == "Id");
+
+    //    realUserId = 0;
+    //        _User = _userManager.FindByIdAsync(realUserId.ToString());
+    //    //SetRolesFromHttpContext();
+    //}
+    private async void SetUser()
     {
         _User = null;
         if (_httpContextAccessor.HttpContext == null)
             return;
 
-        var claim = _httpContextAccessor.HttpContext.User.Claims
-            .FirstOrDefault(x => x.Type == "Id");
+        var accessToken = _httpContextAccessor.HttpContext.Request.Cookies[".AspNetCore.Application.Id"];
+        
+        var principal = _configuration.GetPrincipalFromExpiredToken(accessToken);
 
-        if (!int.TryParse(claim?.Value, out int realUserId))
+        if (principal == null)
+        {
             return;
-
-        _User = _userRepository.GetByID(realUserId);
-        SetRolesFromHttpContext();
+        }
+        var username = principal.Identity!.Name;
+        _User = _userManager.FindByNameAsync(username!).Result!;
     }
 }

@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace business.Controllers
 {
@@ -105,7 +106,8 @@ namespace business.Controllers
             HttpContext.Response.Cookies.Append(".AspNetCore.Application.IdRefreshToken", user.RefreshToken);
             HttpContext.Response.Cookies.Append(".AspNetCore.Application.IdRefreshTokenExpiryTime", user.RefreshTokenExpiryTime.ToString());
             
-            return RedirectToAction("Dashboard", "Dashboard", response);
+            
+            return RedirectToAction("Dashboard", "Dashboard"/*, response*/);
             //return Ok(response);
         }
 
@@ -136,6 +138,7 @@ namespace business.Controllers
             if (findUser == null) throw new Exception($"User {request.Email} not found");
 
             await _userManager.AddToRoleAsync(findUser, RoleConsts.Member);
+
 
             return await Authenticate(new AuthRequest
             {

@@ -25,7 +25,9 @@ namespace business.Application.Web.Middleware
             UserManager<ApplicationUser> _userManager,
             IHttpContextAccessor httpContextAccessor, DataContext _dataContext )
         {
-            if (context.Request.Path.Value == "/" || context.Request.Path.Value == "/authenticate")
+            if (context.Request.Path.Value == "/" || 
+                context.Request.Path.Value == "/authenticate" || 
+                context.Request.Path.Value == "/register")
             {
                 await _next(context);
                 return;

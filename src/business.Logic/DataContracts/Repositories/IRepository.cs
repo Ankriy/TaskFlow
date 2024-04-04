@@ -13,6 +13,6 @@ namespace business.Logic.DataContracts.Repositories
         public void Update(T item);
         public void Delete(int id);
         int Count();
-        int Count(int clientid);
+        int Count(int userid);
     }
 }

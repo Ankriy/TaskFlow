@@ -1,7 +1,7 @@
 ﻿using business.Logic.DataContracts.Repositories;
 using business.Logic.DataContracts.Repositories.Customers;
 using business.Logic.Domain.Models.Customer;
-using business.Logic.Domain.Models.User;
+using business.Logic.Domain.Models.Users;
 
 namespace business.DAL.EF.Repositories
 {
@@ -14,7 +14,7 @@ namespace business.DAL.EF.Repositories
         }
         public int Count()
         {
-            return _context.Client.Count();
+            return _context.Customer.Count();
         }
 
         public int Count(int userid)

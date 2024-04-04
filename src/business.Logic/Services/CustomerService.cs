@@ -10,9 +10,9 @@ namespace business.Logic.Services
         {
             _clientRepository = clientRepository;
         }
-        public int GetAllCount()
+        public int GetAllCount(int userid)
         {
-            return _clientRepository.Count();
+            return _clientRepository.Count(userid);
         }
         
         public int AddClient(Customer client)
@@ -20,6 +20,7 @@ namespace business.Logic.Services
             var newClient = new Customer()
             {
                 Id = client.Id,
+                UserId = client.UserId,
                 Name = client.Name,
                 Surname = client.Surname,
                 Middlename = client.Middlename,
@@ -36,8 +37,11 @@ namespace business.Logic.Services
             return new Customer()
             {
                 Id = id,
+                UserId = client.UserId,
                 Name = client.Name,
                 Surname = client.Surname,
+                Middlename = client.Middlename,
+                Phone = client.Phone,
                 Email = client.Email
             };
         }
@@ -46,8 +50,11 @@ namespace business.Logic.Services
             var client = new Customer()
             {
                 Id = clientUpdate.Id,
+                UserId = clientUpdate.UserId,
                 Name = clientUpdate.Name,
                 Surname = clientUpdate.Surname,
+                Middlename = clientUpdate.Middlename,
+                Phone = clientUpdate.Phone,
                 Email = clientUpdate.Email
             };
             _clientRepository.Update(client);
