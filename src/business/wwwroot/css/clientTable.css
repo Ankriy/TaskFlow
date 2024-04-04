@@ -88,6 +88,7 @@ button, .btn {
 /*Диалоговое окно*/
 .dialog {
     display: none;
+    font-family: Arial, sans-serif;
     position: fixed;
     top: 50%;
     left: 50%;

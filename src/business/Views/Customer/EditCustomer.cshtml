@@ -1,13 +1,127 @@
-﻿<!-- Диалоговое окно -->
-<div id="dialog" class="dialog">
-    <span id="close" class="close">×</span>
-    <!-- Форма для добавления пользователя -->
-    <form id="addUserForm" method="post" action="/Customer/AddCustomer">
-        <input type="text" name="name" placeholder="Имя" required><br>
-        <input type="text" name="surname" placeholder="Фамилия" required><br>
-        <input type="text" name="middlename" placeholder="Отчество" required><br>
-        <input type="tel" name="phone" placeholder="Телефон" required><br>
-        <input type="email" name="email" placeholder="Почта" required><br>
-        <button type="submit">Добавить</button>
-    </form>
+﻿<style>
+    #editDialog {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        max-width: 600px;
+        margin: 20px;
+        padding: 0px 0px 0px 20px;
+    }
+
+    h2 {
+        text-align: center;
+    }
+
+    #edit-client input {
+        margin-bottom: 10px;
+        width: calc(50% - 10px);
+        padding: 8px;
+        margin-right: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    #edit-client button {
+        padding: 8px 16px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+        #edit-client button:hover {
+            background-color: #0056b3;
+        }
+
+    /*Кнопка "Добавить поле" и выпадающий список*/
+    #edit-field-container {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    #edit-field {
+        border: 1px dashed #ccc;
+        width: calc(50% - 10px);
+        padding: 8px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    #dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+        min-width: 120px;
+    }
+
+        #dropdown-content a {
+            color: #333;
+            padding: 8px 16px;
+            display: block;
+            text-decoration: none;
+        }
+
+            #dropdown-content a:hover {
+                background-color: #f1f1f1;
+            }
+
+    #add-field-container:hover #dropdown-content {
+        display: block;
+    }
+</style>
+
+<div id="editDialog" class="dialog">
+    <div class="container">
+        <span id="editClose" class="close">×</span>
+        <h2>Информация о клиенте</h2>
+        <div id="edit-client">
+            <input type="text" id="client-name" placeholder="Фамилия">
+            <input type="text" id="client-email" placeholder="Имя">
+            <input type="text" id="client-email" placeholder="Отчество">
+            <input type="text" id="client-email" placeholder="Почта">
+            <input type="text" id="client-email" placeholder="Телефон">
+            <button onclick="addClient()">Сохранить</button>
+        </div>
+        <div id="edit-field-container">
+            <div id="edit-field" onclick="showDropdown()">+</div>
+            <div id="dropdown-content">
+                <a href="#" onclick="addField('Phone')">Phone</a>
+                <a href="#" onclick="addField('Address')">Address</a>
+                <a href="#" onclick="addField('Company')">Company</a>
+            </div>
+        </div>
+    </div>
+    <script>
+        function addClient() {
+            const name = document.getElementById('client-name').value;
+            const email = document.getElementById('client-email').value;
+
+            // Add logic to store or display client data as needed
+
+            // Clear input fields
+            document.getElementById('client-name').value = '';
+            document.getElementById('client-email').value = '';
+        }
+
+        function showDropdown() {
+            document.getElementById('dropdown-content').style.display = 'block';
+        }
+
+        function addField(fieldType) {
+            // Add logic to create a new field of the selected type
+            const newField = document.createElement('input');
+            newField.setAttribute('type', 'text');
+            newField.setAttribute('placeholder', fieldType);
+            document.getElementById('edit-client').appendChild(newField);
+
+            // Hide dropdown after adding a field
+            document.getElementById('dropdown-content').style.display = 'none';
+        }
+    </script>
 </div>

@@ -70,5 +70,30 @@ namespace business.Controllers
             _customerService.AddClient(customer);
             return RedirectToAction("TableCustomers");
         }
+        [HttpGet]
+        public IActionResult EditCustomer([FromQuery(Name = "page")] int page, [FromQuery(Name = "page-size")] int size)
+        {
+            var currentUser = _currentUserService.GetUser();
+            if (currentUser == null)
+                return BadRequest("Bad credentials");
+
+            if (size == 0)
+                size = 10;
+
+            var skip = page * size;
+            var customerList = _customerListService.GetClientList(skip, size, (int)currentUser.Id);
+            var model = new CustomerListViewModel(customerList, page, size);
+            return View(model);
+        }
+        [HttpPost]
+        public IActionResult EditCustomer(Customer customer)
+        {
+            var currentUser = _currentUserService.GetUser();
+            if (currentUser == null)
+                return BadRequest("Bad credentials");
+            customer.UserId = (int)currentUser.Id;
+            _customerService.AddClient(customer);
+            return RedirectToAction("TableCustomers");
+        }
     }
 }

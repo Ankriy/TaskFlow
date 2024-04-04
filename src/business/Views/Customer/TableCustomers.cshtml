@@ -3,6 +3,7 @@
     <h2>Таблица клиентов</h2>
     <input type="text" id="searchInput" placeholder="Поиск...">
     <button id="addUserBtn" type="button">Добавить пользователя</button>
+    <button id="editUserBtn" type="button">Редактировать пользователя</button>
     @*Таблица клиентов*@
     <table>
         <thead>
@@ -63,7 +64,17 @@
     closeButton.addEventListener('click', () => {
         dialog.style.display = 'none';
     });
+
+    const editUserBtn = document.getElementById('editUserBtn');
+    const editDialog = document.getElementById('editDialog');
+    const editCloseButton = document.getElementById('editClose');
+
+    editUserBtn.addEventListener('click', () => {
+        editDialog.style.display = 'block';
+    });
+    editCloseButton.addEventListener('click', () => {
+        editDialog.style.display = 'none';
+    });
     
-    
-    
+
 </script>
