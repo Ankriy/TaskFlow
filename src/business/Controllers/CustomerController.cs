@@ -3,6 +3,7 @@ using business.Application.Web.Services.Identity;
 using business.Logic.Domain.Models.Customer;
 using business.Logic.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Reflection;
 
 namespace business.Controllers
 {
@@ -26,7 +27,7 @@ namespace business.Controllers
         }
 
         [HttpGet]
-        public IActionResult TableCustomers([FromQuery(Name = "page")] int page, [FromQuery(Name = "page-size")] int size)
+        public IActionResult TableCustomers([FromQuery(Name = "page")] int page, [FromQuery(Name = "page-size")] int size, int id)
         {
             var currentUser = _currentUserService.GetUser();
             if(currentUser == null)
@@ -37,6 +38,14 @@ namespace business.Controllers
             var skip = page * size;
             var customerList = _customerListService.GetClientList(skip, size,(int)currentUser.Id);
             var model = new CustomerListViewModel(customerList, page, size);
+            if(id > 0)
+            {
+                var data = _customerService.GetClient(id);
+                var editCustomer = new EditCustomerViewModel(data);
+
+                model.CustomerForEdit = editCustomer;
+                
+            }
             return View(model);
         }
         [HttpPost]
@@ -71,29 +80,20 @@ namespace business.Controllers
             return RedirectToAction("TableCustomers");
         }
         [HttpGet]
-        public IActionResult EditCustomer([FromQuery(Name = "page")] int page, [FromQuery(Name = "page-size")] int size)
+        public IActionResult EditCustomer(int id, CustomerListViewModel model)
         {
-            var currentUser = _currentUserService.GetUser();
-            if (currentUser == null)
-                return BadRequest("Bad credentials");
-
-            if (size == 0)
-                size = 10;
-
-            var skip = page * size;
-            var customerList = _customerListService.GetClientList(skip, size, (int)currentUser.Id);
-            var model = new CustomerListViewModel(customerList, page, size);
-            return View(model);
+            var data = _customerService.GetClient(id);
+            var editCustomer = new EditCustomerViewModel(data);
+            model.CustomerForEdit = editCustomer;
+            return View("TableCustomers", model);
+            //return View(model);
         }
         [HttpPost]
-        public IActionResult EditCustomer(Customer customer)
+        public IActionResult EditCustomer(int clientId,int f)
         {
-            var currentUser = _currentUserService.GetUser();
-            if (currentUser == null)
-                return BadRequest("Bad credentials");
-            customer.UserId = (int)currentUser.Id;
-            _customerService.AddClient(customer);
+            return PartialView("EditCustomer");
             return RedirectToAction("TableCustomers");
         }
+        
     }
 }

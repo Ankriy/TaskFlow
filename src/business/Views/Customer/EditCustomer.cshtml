@@ -3,6 +3,7 @@
         font-family: Arial, sans-serif;
         margin: 0;
         padding: 0;
+        display: block;
     }
 
     .container {
@@ -75,28 +76,46 @@
         display: block;
     }
 </style>
-
+@model business.Application.Web.Models.Customers.EditCustomerViewModel
 <div id="editDialog" class="dialog">
     <div class="container">
         <span id="editClose" class="close">×</span>
         <h2>Информация о клиенте</h2>
         <div id="edit-client">
-            <input type="text" id="client-name" placeholder="Фамилия">
-            <input type="text" id="client-email" placeholder="Имя">
-            <input type="text" id="client-email" placeholder="Отчество">
-            <input type="text" id="client-email" placeholder="Почта">
-            <input type="text" id="client-email" placeholder="Телефон">
+            @foreach (var ppl in Model.GetType()
+            .GetProperties()
+            .Where(prop => prop.CanRead)
+            .Select(prop => new { Name = prop.Name, Value = prop.GetValue(Model)})
+            .ToArray())
+            {
+                if(ppl.Name != "Id" && ppl.Value != null)
+                {
+                    <input type="text" id="@ppl.Name" placeholder="@ppl.Name" value="@ppl.Value">
+                }
+            }
+            
             <button onclick="addClient()">Сохранить</button>
+            
         </div>
         <div id="edit-field-container">
             <div id="edit-field" onclick="showDropdown()">+</div>
             <div id="dropdown-content">
-                <a href="#" onclick="addField('Phone')">Phone</a>
-                <a href="#" onclick="addField('Address')">Address</a>
-                <a href="#" onclick="addField('Company')">Company</a>
+                @foreach (var ppl in Model.GetType()
+                .GetProperties()
+                .Where(prop => prop.CanRead)
+                .Select(prop => new { Name = prop.Name, Value = prop.GetValue(Model)})
+                .ToArray())
+                {
+                    if (ppl.Name != "Id" && ppl.Value == null)
+                    {
+                        <a href="#" id="@ppl.Name" onclick="addField('@ppl.Name')">@ppl.Name</a>
+                    }
+                }
             </div>
         </div>
     </div>
+
+
     <script>
         function addClient() {
             const name = document.getElementById('client-name').value;
@@ -119,6 +138,11 @@
             newField.setAttribute('type', 'text');
             newField.setAttribute('placeholder', fieldType);
             document.getElementById('edit-client').appendChild(newField);
+
+            var elementToRemove = document.getElementById(fieldType);
+            if (elementToRemove) {
+                elementToRemove.remove();
+            }
 
             // Hide dropdown after adding a field
             document.getElementById('dropdown-content').style.display = 'none';
