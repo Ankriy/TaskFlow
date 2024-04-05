@@ -1,9 +1,11 @@
 ﻿@model business.Application.Web.Models.Customers.CustomerListViewModel
+@* @using business.Application.Web.Models.Customers
+@model Tuple<CustomerListViewModel,EditCustomerViewModel> *@
+
 <form id="myForm" method="post">
     <h2>Таблица клиентов</h2>
     <input type="text" id="searchInput" placeholder="Поиск...">
     <button id="addUserBtn" type="button">Добавить пользователя</button>
-    <button id="editUserBtn" type="button">Редактировать пользователя</button>
     @*Таблица клиентов*@
     <table>
         <thead>
@@ -19,13 +21,18 @@
         <tbody>
             @foreach (var ppl in Model.Customers)
             {
-                <tr>
+                <tr id="@Model">
                     <td>@ppl.Middlename</td>
                     <td>@ppl.Name</td>
                     <td>@ppl.Surname</td>
                     <td>@ppl.Phone</td>
                     <td>@ppl.Email</td>
-                    <td>...</td>
+                    <td>
+                        <a asp-controller="Customer"
+                           asp-action="TableCustomers"
+                           asp-route-id="@ppl.Id">...</a>
+                    </td>
+                    
                 </tr>
             }
         </tbody>
@@ -50,8 +57,14 @@
     
 </form>
 
-<partial name="AddCustomer" />
-<partial name="EditCustomer" />
+<partial name="AddCustomer"/>
+@if(@Model.CustomerForEdit != null){
+    <partial name="EditCustomer" model="@Model.CustomerForEdit" />
+}
+else
+{
+    <div>@Model.TotalCount</div>
+}
 
 <script>
     const addUserBtn = document.getElementById('addUserBtn');
@@ -69,12 +82,11 @@
     const editDialog = document.getElementById('editDialog');
     const editCloseButton = document.getElementById('editClose');
 
-    editUserBtn.addEventListener('click', () => {
-        editDialog.style.display = 'block';
-    });
+    // editUserBtn.addEventListener('click', () => {
+    //     editDialog.style.display = 'block';
+    // });
     editCloseButton.addEventListener('click', () => {
         editDialog.style.display = 'none';
     });
     
-
 </script>
