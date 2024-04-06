@@ -12,7 +12,7 @@ namespace business.DAL.EF
         }
 
 
-        public DbSet<Customer> Customer => Set<Customer>();
+        public DbSet<Customer> Customers { get; set; }
         public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

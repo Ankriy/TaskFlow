@@ -81,7 +81,11 @@
     <div class="container">
         <span id="editClose" class="close">×</span>
         <h2>Информация о клиенте</h2>
-        <div id="edit-client">
+        <form  method="post" action="/Customer/EditCustomer">
+            <div id ="edit-client">
+
+            
+            <input type="text" name="Id" placeholder="@Model.Id" value="@Model.Id" hidden>
             @foreach (var ppl in Model.GetType()
             .GetProperties()
             .Where(prop => prop.CanRead)
@@ -90,44 +94,45 @@
             {
                 if(ppl.Name != "Id" && ppl.Value != null)
                 {
-                    <input type="text" id="@ppl.Name" placeholder="@ppl.Name" value="@ppl.Value">
+                    <input type="text" name="@ppl.Name" placeholder="@ppl.Name" value="@ppl.Value">
                 }
             }
-            
-            <button onclick="addClient()">Сохранить</button>
-            
-        </div>
-        <div id="edit-field-container">
-            <div id="edit-field" onclick="showDropdown()">+</div>
-            <div id="dropdown-content">
-                @foreach (var ppl in Model.GetType()
-                .GetProperties()
-                .Where(prop => prop.CanRead)
-                .Select(prop => new { Name = prop.Name, Value = prop.GetValue(Model)})
-                .ToArray())
-                {
-                    if (ppl.Name != "Id" && ppl.Value == null)
-                    {
-                        <a href="#" id="@ppl.Name" onclick="addField('@ppl.Name')">@ppl.Name</a>
-                    }
-                }
             </div>
-        </div>
+
+            <div id="edit-field-container">
+                <div id="edit-field" onclick="showDropdown()">+</div>
+                <div id="dropdown-content">
+                    @foreach (var ppl in Model.GetType()
+                    .GetProperties()
+                    .Where(prop => prop.CanRead)
+                    .Select(prop => new { Name = prop.Name, Value = prop.GetValue(Model) })
+                    .ToArray())
+                    {
+                        if (ppl.Name != "Id" && ppl.Value == null)
+                        {
+                            <a href="#" id="@ppl.Name" onclick="addField('@ppl.Name')">@ppl.Name</a>
+                        }
+                    }
+                </div>
+            </div>
+
+            <div>
+                <button type="submit">Сохранить</button>
+                <button asp-controller="Customer"
+                        asp-action="DeleteCustomer"
+                        asp-route-id="@Model.Id"
+                        style="background-color:red">
+                    Удалить
+                </button>
+            </div>
+        </form>
+        
+        
+        
     </div>
 
 
     <script>
-        function addClient() {
-            const name = document.getElementById('client-name').value;
-            const email = document.getElementById('client-email').value;
-
-            // Add logic to store or display client data as needed
-
-            // Clear input fields
-            document.getElementById('client-name').value = '';
-            document.getElementById('client-email').value = '';
-        }
-
         function showDropdown() {
             document.getElementById('dropdown-content').style.display = 'block';
         }

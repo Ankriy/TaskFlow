@@ -15,7 +15,7 @@ namespace business.Logic.Services
             return _clientRepository.Count(userid);
         }
         
-        public int AddClient(Customer client)
+        public int AddCustomer(Customer client)
         {
             var newClient = new Customer()
             {
@@ -30,7 +30,7 @@ namespace business.Logic.Services
             _clientRepository.Create(newClient);
             return newClient.Id;
         }
-        public Customer GetClient(int id)
+        public Customer GetCustomer(int id)
         {
             
             var client = _clientRepository.Get(id);
@@ -45,7 +45,7 @@ namespace business.Logic.Services
                 Email = client.Email
             };
         }
-        public object EditClient(Customer clientUpdate)
+        public object EditCustomer(Customer clientUpdate)
         {
             var client = new Customer()
             {
@@ -59,6 +59,10 @@ namespace business.Logic.Services
             };
             _clientRepository.Update(client);
             return clientUpdate.Id;
+        }
+        public void DeleteCustomer(int idCustomer)
+        {
+            _clientRepository.Delete(idCustomer);
         }
     }
 }

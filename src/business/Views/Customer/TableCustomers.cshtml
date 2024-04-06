@@ -14,7 +14,6 @@
                 <th>Имя</th>
                 <th>Отчество</th>
                 <th>Телефон</th>
-                <th>Почта</th>
                 <th></th>
             </tr>
         </thead>
@@ -26,11 +25,10 @@
                     <td>@ppl.Name</td>
                     <td>@ppl.Surname</td>
                     <td>@ppl.Phone</td>
-                    <td>@ppl.Email</td>
                     <td>
-                        <a asp-controller="Customer"
+                        <button asp-controller="Customer"
                            asp-action="TableCustomers"
-                           asp-route-id="@ppl.Id">...</a>
+                           asp-route-id="@ppl.Id">...</button>
                     </td>
                     
                 </tr>
@@ -61,10 +59,6 @@
 @if(@Model.CustomerForEdit != null){
     <partial name="EditCustomer" model="@Model.CustomerForEdit" />
 }
-else
-{
-    <div>@Model.TotalCount</div>
-}
 
 <script>
     const addUserBtn = document.getElementById('addUserBtn');
@@ -78,7 +72,7 @@ else
         dialog.style.display = 'none';
     });
 
-    const editUserBtn = document.getElementById('editUserBtn');
+    // const editUserBtn = document.getElementById('editUserBtn');
     const editDialog = document.getElementById('editDialog');
     const editCloseButton = document.getElementById('editClose');
 

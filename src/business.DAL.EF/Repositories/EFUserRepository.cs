@@ -14,7 +14,7 @@ namespace business.DAL.EF.Repositories
         }
         public int Count()
         {
-            return _context.Customer.Count();
+            return _context.Customers.Count();
         }
 
         public int Count(int userid)
