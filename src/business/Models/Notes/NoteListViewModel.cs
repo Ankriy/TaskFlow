@@ -2,6 +2,7 @@
 
 using business.Logic.Domain.Models.Customer;
 using business.Logic.Domain.Models.Notes;
+using business.Logic.Domain.Models.NoteTags;
 
 namespace business.Application.Web.Models.Notes
 {

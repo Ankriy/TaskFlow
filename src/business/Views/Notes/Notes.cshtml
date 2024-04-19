@@ -36,7 +36,7 @@
 
 <div class="wrapper">
     <div class="tags">
-        @foreach (var note in Model.Notes.Select(note => note.Tag).Distinct())
+        @foreach (var note in Model.Notes.Select(note => note.TagName).Distinct())
         {
             <div class="tag">@note</div>
         }
@@ -46,9 +46,9 @@
     <div class="flexDiv">
         @foreach (var note in Model.Notes)
         {
-            <div class="card" data-tags="@note.Tag">
+            <div class="card" data-tags="@note.TagName">
                 <span class="editable" contenteditable="true">@note.Text</span>
-                <div class="subtag">@note.Tag</div>
+                <div class="subtag">@note.TagName</div>
             </div>
         }
         <div class="new-card" onclick="addNewCard()">

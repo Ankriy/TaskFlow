@@ -39,7 +39,8 @@ namespace business.Logic.Services
                 {
                     Id = x.Id,
                     Text = x.Text,
-                    Tag = x.Tag,
+                    TagId = x.TagId,
+                    NoteTags = x.NoteTags,
                     Color = x.Color
                 }).ToList();
             return result;

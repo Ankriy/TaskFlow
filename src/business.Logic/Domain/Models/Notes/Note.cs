@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using business.Logic.Domain.Models.Users;
+using business.Logic.Domain.Models.NoteTags;
 
 namespace business.Logic.Domain.Models.Notes
 {
@@ -15,7 +16,8 @@ namespace business.Logic.Domain.Models.Notes
         [NotMapped]
         public User? User { get; set; }
         public string Text { get; set; }
-        public string Tag { get; set; }
+        public int TagId { get; set; }
+        public NoteTag? NoteTags { get; set; }
         public string Color { get; set; }
 
     }

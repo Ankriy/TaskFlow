@@ -3,6 +3,7 @@ using business.Logic.DataContracts.Repositories.Customers;
 using business.Logic.DataContracts.Repositories.Notes;
 using business.Logic.Domain.Models.Customer;
 using business.Logic.Domain.Models.Notes;
+using Microsoft.EntityFrameworkCore;
 
 namespace business.DAL.EF.Repositories
 {
@@ -49,6 +50,7 @@ namespace business.DAL.EF.Repositories
             var users = query
                 .OrderBy(p => p.Id)
                 .Where(x => x.UserId == userid)
+                .Include(p => p.NoteTags)
                 .ToList();
 
             return users;
