@@ -11,7 +11,7 @@ namespace business.Logic.Services
             _clientRepository = clientRepository;
         }
         
-        public CustomerList GetClientList(int skip, int take, int userId)
+        public CustomerList GetCustomerList(int skip, int take, int userId)
         {
             var count = _clientRepository.Count(userId);
             var result = new CustomerList

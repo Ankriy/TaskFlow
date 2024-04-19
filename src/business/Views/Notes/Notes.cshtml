@@ -3,45 +3,210 @@
 }
 @model business.Application.Web.Models.Notes.NoteListViewModel
 
-<div id="wrapper">
+
+
+@* <div id="wrapper">
     <!-- блок с карточками -->
     <div class="flexDiv">
-        <!-- теги для фильтра -->
-        <!-- тег — это чекбокс -->
-        <input type="checkbox" id="work-box" checked />
-        <!-- подписываем его -->
-        <label for="work-box">
-            <!-- и указываем название и классы -->
-            <div class="tag work pos-abs">Работа</div>
-        </label>
-        <!-- делаем то же самое для двух остальных тегов -->
-        <input type="checkbox" id="personal-box" checked />
-        <label for="personal-box">
-            <div class="tag personal pos-abs">Личное</div>
-        </label>
-
-        <input type="checkbox" id="read-box" checked />
-        <label for="read-box">
-            <div class="tag read pos-abs">Почитать</div>
-        </label>
-
-        <!-- карточки -->
-        <div>
-        </div>
-        <div class="note">
-            «Ясно, понятно» / Максим Ильяхов
-            <div class="tag read">Почитать</div>
-        </div>
-        <div class="note">
-            Добавить сортировку карточек
-            <div class="tag work">Работа</div>
-        </div>
-        <div class="note">
-            Купить шампунь
-            <div class="tag personal">Личное</div>
-        </div>
+        @if(@Model != null)
+        {
+            <!-- теги для фильтра -->
+            @foreach (var note in Model.Notes)
+            {
+                <input type="checkbox" id="@note.Tag-box" checked />
+                <!-- подписываем его -->
+                <label for="@note.Tag-box">
+                    <!-- и указываем название и классы -->
+                    <div class="tag @note.Tag pos-abs">@note.Name</div>
+                </label>
+            }
+            <!-- карточки -->
+            @foreach (var note in Model.Notes)
+            {
+                <div class="note">
+                    @note.Text
+                    <div class="tag @note.Tag">@note.Name</div>
+                </div>
+            }
+        }
 
 
     </div>
+</div> *@
+
+<div class="wrapper">
+    <div class="tags">
+        @foreach (var note in Model.Notes.Select(note => note.Tag).Distinct())
+        {
+            <div class="tag">@note</div>
+        }
+        <div class="new-tag" onclick="addNewTag()">+</div>
+    </div>
+
+    <div class="flexDiv">
+        @foreach (var note in Model.Notes)
+        {
+            <div class="card" data-tags="@note.Tag">
+                <span class="editable" contenteditable="true">@note.Text</span>
+                <div class="subtag">@note.Tag</div>
+            </div>
+        }
+        <div class="new-card" onclick="addNewCard()">
+            <div style="margin-top: 45%;">
+                +
+            </div>
+        </div>
+
+    </div>
+
 </div>
+
+<script>
+    //Скрыть карточки с тегом по нажатию
+    function closeCardsByClickTag() {
+        const tags = document.querySelectorAll('.tag');
+        tags.forEach(tag => {
+            tag.addEventListener('click', () => {
+                const cards = document.querySelectorAll('.card');
+                cards.forEach(card => {
+                    if (card.dataset.tags.includes(tag.innerText)) {
+                        card.classList.toggle('hidden');
+                    }
+                });
+            });
+        });
+    }
+
+    //Посмотреть зачем нужен этот элемент кода
+    const editables = document.querySelectorAll('.editable');
+    editables.forEach(editable => {
+        editable.addEventListener('dblclick', () => {
+            editable.contentEditable = 'true';
+            editable.focus();
+        });
+
+        editable.addEventListener('blur', () => {
+            editable.contentEditable = 'false';
+            const updatedText = editable.innerText;
+            // Здесь можно отправить updatedText на контроллер для обновления заметки
+        });
+    });
+    //Теги ----------------- сомнительно
+    /*
+    //Свойства тегов
+    //При потере фокуса удаляется текст
+    document.querySelector('.t').addEventListener('blur', function () {
+        if (this.textContent.trim() === "") {
+            this.classList.remove('editable');
+        } else {
+            // Add logic to save new tag and update UI
+            this.classList.remove('editable');
+        }
+    });
+    document.querySelector('.t').addEventListener('click', function () {
+        this.textContent = "";
+        this.classList.add('editable');
+        this.focus();
+    });
+    // ограничение на новую строку и 15 символов
+    document.querySelector('.t').addEventListener('keydown', function (event) {
+        if (event.key === '\n') {
+            event.preventDefault();
+        }
+        if (this.textContent.length > 15) {
+            this.textContent = this.textContent.slice(0, 15);
+        }
+        if (this.textContent.length >= 16) {
+            event.preventDefault();
+        }
+    });*/
+
+    function addNewCard() {
+        var newCard = document.createElement("div");
+        newCard.classList.add("card");
+        newCard.setAttribute('data-tags', "Новый тег");
+
+        var newCardContent = document.createElement("span");
+        newCardContent.classList.add("editable");
+        newCardContent.setAttribute("contenteditable", "true");
+        newCardContent.textContent = "Новая задача";
+
+
+        var newCardSubtag = document.createElement("div");
+        newCardSubtag.classList.add("subtag");
+        newCardSubtag.textContent = "Новый тег";
+
+        newCard.appendChild(newCardContent);
+        newCard.appendChild(newCardSubtag);
+
+        document.querySelector(".flexDiv").insertBefore(newCard, document.querySelector(".new-card"));
+        updateToggleCards();
+        updateToggleCards();
+        editSubTagText();
+
+    }
+    function addNewTag() {
+        var newTag = document.createElement("div");
+        newTag.classList.add("tag");
+        newTag.textContent = "Новый тег";
+        document.querySelector(".tags").insertBefore(newTag, document.querySelector(".new-tag"));
+
+        updateToggleCards();
+
+        editTagText();
+    }
+    function updateToggleCards() {
+        closeCardsByClickTag();
+    }
+
+    function editTagText() {
+        document.querySelectorAll('.tag').forEach(tag => {
+            let oldName = tag.textContent;
+            tag.addEventListener('dblclick', () => {
+                tag.setAttribute('contenteditable', 'true');
+                tag.focus();
+                oldName = tag.textContent;
+            });
+
+            tag.addEventListener('blur', () => {
+                tag.removeAttribute('contenteditable');
+                const newSubtagValue = tag.textContent.trim();
+                const associatedSubTags = document.querySelectorAll(`.card[data-tags="${oldName}"] .subtag`);
+                if (associatedSubTags) {
+                    associatedSubTags.forEach(subtag => {
+                        subtag.textContent = newSubtagValue;
+                    })
+                }
+                const associatedCards = document.querySelectorAll(`.card[data-tags="${oldName}"]`);
+                associatedCards.forEach(card => {
+                    card.setAttribute('data-tags', newSubtagValue);
+
+                });
+            });
+
+        });
+    }
+    function editSubTagText() {
+        document.querySelectorAll('.subtag').forEach(tag => {
+            const oldName = tag.textContent;
+            tag.addEventListener('dblclick', () => {
+                tag.setAttribute('contenteditable', 'true');
+                tag.focus();
+            });
+            tag.addEventListener('blur', () => {
+                tag.removeAttribute('contenteditable');
+                const newSubtagValue = tag.textContent.trim();
+
+                const associatedCards = tag.parentElement;
+                associatedCards.setAttribute('data-tags', newSubtagValue);
+            });
+
+        });
+    }
+
+    closeCardsByClickTag();
+
+    editTagText();
+    editSubTagText();
+</script>
 

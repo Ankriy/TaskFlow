@@ -1,24 +1,25 @@
 ﻿
 
 using business.Logic.Domain.Models.Customer;
+using business.Logic.Domain.Models.Notes;
 
 namespace business.Application.Web.Models.Notes
 {
     public class NoteListViewModel
     {
-        public List<NoteShortViewModel> Customers { get; set; }
+        public List<NoteShortViewModel> Notes { get; set; }
 
         public NoteListViewModel()
         {
-            Customers = new List<NoteShortViewModel>();
+            Notes = new List<NoteShortViewModel>();
         }
 
-        public NoteListViewModel(CustomerList list)
+        public NoteListViewModel(NoteList list)
         {
-            Customers = new List<NoteShortViewModel>();
-            foreach (Customer customer in list.Customers)
+            Notes = new List<NoteShortViewModel>();
+            foreach (Note note in list.Notes)
             {
-                Customers.Add(new NoteShortViewModel(customer));
+                Notes.Add(new NoteShortViewModel(note));
             }
         }
     }

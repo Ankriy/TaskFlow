@@ -1,4 +1,5 @@
 ﻿using business.Logic.Domain.Models.Customer;
+using business.Logic.Domain.Models.Notes;
 using Microsoft.AspNetCore.Mvc;
 using System.Xml.Linq;
 
@@ -8,20 +9,17 @@ namespace business.Application.Web.Models.Notes
     {
         [FromRoute(Name = "id")]
         public int Id { get; set; }
-        public string Name { get; set; }
         public string Text { get; set; }
         public string Tag { get; set; }
         public string Color { get; set; }
         public NoteShortViewModel() { }
 
-        public NoteShortViewModel(Customer user)
+        public NoteShortViewModel(Note note)
         {
-            Id = user.Id;
-            Name = user.Name;
-            Text = user.Surname;
-            Middlename = user.Middlename;
-            Email = user.Email;
-            Phone = user.Phone;
+            Id = note.Id;
+            Text = note.Text;
+            Tag = note.Tag;
+            Color = note.Color;
         }
     }
 }

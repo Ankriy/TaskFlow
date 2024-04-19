@@ -16,12 +16,12 @@ namespace business.Controllers
 
         public CustomerController(
             ILogger<CustomerController> logger, 
-            CustomerListService clientService,
+            CustomerListService customerListService,
             CustomerService customerService,
             CurrentUserService currentUserService)
         {
             _logger = logger;
-            _customerListService = clientService;
+            _customerListService = customerListService;
             _customerService = customerService;
             _currentUserService = currentUserService;
         }
@@ -36,7 +36,7 @@ namespace business.Controllers
             if (size == 0)
                 size = 10;
             var skip = page * size;
-            var customerList = _customerListService.GetClientList(skip, size,(int)currentUser.Id);
+            var customerList = _customerListService.GetCustomerList(skip, size,(int)currentUser.Id);
             var model = new CustomerListViewModel(customerList, page, size);
             if(id > 0)
             {
