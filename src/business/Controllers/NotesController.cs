@@ -34,7 +34,8 @@ namespace business.Controllers
             if (currentUser == null)
                 return BadRequest("Bad credentials");
             var customerList = _noteService.GetNoteList((int)currentUser.Id);
-            var model = new NoteListViewModel(customerList);
+            var tags = _noteService.GetTags();
+            var model = new NoteListViewModel(customerList, tags);
             
             return View(model);
         }

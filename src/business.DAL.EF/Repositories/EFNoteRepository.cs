@@ -3,6 +3,7 @@ using business.Logic.DataContracts.Repositories.Customers;
 using business.Logic.DataContracts.Repositories.Notes;
 using business.Logic.Domain.Models.Customer;
 using business.Logic.Domain.Models.Notes;
+using business.Logic.Domain.Models.NoteTags;
 using Microsoft.EntityFrameworkCore;
 
 namespace business.DAL.EF.Repositories
@@ -69,5 +70,10 @@ namespace business.DAL.EF.Repositories
             _context.SaveChanges();
         }
 
+        public ICollection<NoteTag> GetTags(int userid)
+        {
+            return _context.NoteTags
+                .ToList();
+        }
     }
 }

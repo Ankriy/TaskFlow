@@ -36,9 +36,9 @@
 
 <div class="wrapper">
     <div class="tags">
-        @foreach (var note in Model.Notes.Select(note => note.TagName).Distinct())
+        @foreach (var note in Model.Tags)
         {
-            <div class="tag">@note</div>
+            <div class="tag">@note.Name</div>
         }
         <div class="new-tag" onclick="addNewTag()">+</div>
     </div>
