@@ -59,6 +59,7 @@ builder.Services.AddScoped<ICustomerRepository, EFCustomerRepository>();
 builder.Services.AddScoped<CurrentUserService>();
 builder.Services.AddScoped<NoteService>();
 builder.Services.AddScoped<INoteRepository,EFNoteRepository>();
+builder.Services.AddScoped<ITagRepository, EFTagRepository>();
 
 var connectionStringEF = "host=localhost; port=5432; database=business; username=postgres; password=123;";  //builder.Configuration.GetConnectionString("NpgsqlConnectionString");
 PostgresMigrator.Migrate(connectionStringEF);

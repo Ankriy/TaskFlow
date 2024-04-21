@@ -9,9 +9,12 @@ namespace business.Logic.Services
     public class NoteService
     {
         private INoteRepository _noteRepository;
-        public NoteService(INoteRepository noteRepository)
+        private ITagRepository _tagRepository;
+        public NoteService(INoteRepository noteRepository,
+            ITagRepository tagRepository)
         {
             _noteRepository = noteRepository;
+            _tagRepository = tagRepository;
         }
         public int GetAllCount(int userid)
         {
@@ -55,9 +58,22 @@ namespace business.Logic.Services
         {
             _noteRepository.Delete(idCustomer);
         }
-        public List<NoteTag>  GetTags()
+        public List<NoteTag>  GetTags(int UserId)
         {
-            return _noteRepository.GetTags(1).ToList();
+            return _tagRepository.GetTags(UserId).ToList();
+        }
+        public int AddTag(NoteTag tag)
+        {
+            var Tag = _tagRepository.Create(tag);
+            return Tag.Id;
+        }
+        public void EditTag(NoteTag tag)
+        {
+            _tagRepository.Update(tag);
+        }
+        public void DeleteTag(int tagid)
+        {
+            _tagRepository.Delete(tagid);
         }
     }
 }

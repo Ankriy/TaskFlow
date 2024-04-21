@@ -70,10 +70,6 @@ namespace business.DAL.EF.Repositories
             _context.SaveChanges();
         }
 
-        public ICollection<NoteTag> GetTags(int userid)
-        {
-            return _context.NoteTags
-                .ToList();
-        }
+        
     }
 }

@@ -27,16 +27,24 @@ namespace business.DAL.EF
                 .WithMany()
                 .IsRequired()
                 .HasForeignKey(c => c.UserId);
+            // связь Notes - Users
             modelBuilder.Entity<Note>()
                 .HasOne(c => c.User)
                 .WithMany()
                 .IsRequired()
                 .HasForeignKey(c => c.UserId);
+            // связь Notes - NoteTags
             modelBuilder.Entity<Note>()
                 .HasOne(c => c.NoteTags)
                 .WithMany()
                 .IsRequired()
                 .HasForeignKey(c => c.TagId);
+            // связь NoteTags - Users
+            modelBuilder.Entity<NoteTag>()
+                .HasOne(c => c.User)
+                .WithMany()
+                .IsRequired()
+                .HasForeignKey(c => c.UserId);
         }
     }
 }

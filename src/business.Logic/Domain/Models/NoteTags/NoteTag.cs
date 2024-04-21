@@ -12,6 +12,9 @@ namespace business.Logic.Domain.Models.NoteTags
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public int UserId { get; set; }
+        [NotMapped]
+        public User? User { get; set; }
 
     }
 }

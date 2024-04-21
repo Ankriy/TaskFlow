@@ -9,8 +9,8 @@ using business.Logic.Domain.Models.NoteTags;
 
 namespace business.Logic.DataContracts.Repositories.Notes
 {
-    public interface INoteRepository : IRepository<Note>
+    public interface ITagRepository : IRepository<NoteTag>
     {
-        ICollection<Note> GetByUserId(int userid);
+        ICollection<NoteTag> GetTags(int userid);
     }
 }

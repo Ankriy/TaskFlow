@@ -10,6 +10,7 @@ namespace business.Application.Web.Models.Notes
         [FromRoute(Name = "id")]
         public int Id { get; set; }
         public string Text { get; set; }
+        public int? TagId { get; set; }
         public string? TagName { get; set; }
         public string Color { get; set; }
         public NoteShortViewModel() { }
@@ -18,6 +19,7 @@ namespace business.Application.Web.Models.Notes
         {
             Id = note.Id;
             Text = note.Text;
+            TagId = note.TagId;
             TagName = note.NoteTags.Name;
             Color = note.Color;
         }

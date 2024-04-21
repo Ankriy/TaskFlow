@@ -18,7 +18,7 @@ namespace business.Logic.Domain.Models.Notes
         public string Text { get; set; }
         public int TagId { get; set; }
         public NoteTag? NoteTags { get; set; }
-        public string Color { get; set; }
+        public string? Color { get; set; }
 
     }
 }

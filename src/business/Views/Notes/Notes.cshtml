@@ -3,42 +3,11 @@
 }
 @model business.Application.Web.Models.Notes.NoteListViewModel
 
-
-
-@* <div id="wrapper">
-    <!-- блок с карточками -->
-    <div class="flexDiv">
-        @if(@Model != null)
-        {
-            <!-- теги для фильтра -->
-            @foreach (var note in Model.Notes)
-            {
-                <input type="checkbox" id="@note.Tag-box" checked />
-                <!-- подписываем его -->
-                <label for="@note.Tag-box">
-                    <!-- и указываем название и классы -->
-                    <div class="tag @note.Tag pos-abs">@note.Name</div>
-                </label>
-            }
-            <!-- карточки -->
-            @foreach (var note in Model.Notes)
-            {
-                <div class="note">
-                    @note.Text
-                    <div class="tag @note.Tag">@note.Name</div>
-                </div>
-            }
-        }
-
-
-    </div>
-</div> *@
-
 <div class="wrapper">
     <div class="tags">
         @foreach (var note in Model.Tags)
         {
-            <div class="tag">@note.Name</div>
+            <div class="tag" asp-route-id="@note.Id">@note.Name</div>
         }
         <div class="new-tag" onclick="addNewTag()">+</div>
     </div>
@@ -47,8 +16,8 @@
         @foreach (var note in Model.Notes)
         {
             <div class="card" data-tags="@note.TagName">
-                <span class="editable" contenteditable="true">@note.Text</span>
-                <div class="subtag">@note.TagName</div>
+                <span class="editable" asp-route-id="@note.Id"><pre>@note.Text</pre></span>
+                <div class="subtag" asp-route-subtagid="@note.TagId">@note.TagName</div>
             </div>
         }
         <div class="new-card" onclick="addNewCard()">
@@ -77,20 +46,48 @@
         });
     }
 
-    //Посмотреть зачем нужен этот элемент кода
-    const editables = document.querySelectorAll('.editable');
-    editables.forEach(editable => {
-        editable.addEventListener('dblclick', () => {
-            editable.contentEditable = 'true';
-            editable.focus();
-        });
+    function closeCardsByClickTag() {
+        document.querySelectorAll('.editable').forEach(editable => {
+            let oldName = editable.textContent;
+            editable.addEventListener('dblclick', () => {
+                editable.contentEditable = 'true';
+                editable.focus();
+                oldName = editable.textContent;
+            });
 
-        editable.addEventListener('blur', () => {
-            editable.contentEditable = 'false';
-            const updatedText = editable.innerText;
-            // Здесь можно отправить updatedText на контроллер для обновления заметки
+            editable.addEventListener('blur', () => {
+                editable.contentEditable = 'false';
+                const updatedText = editable.textContent;
+                if (oldName === updatedText) {
+                    return;
+                }
+                alert(oldName + " " + updatedText);
+                const cardId = editable.getAttribute('asp-route-id');
+                // Ищем ближайший родительский элемент с классом card
+                const cardElement = editable.closest('.card');
+                // Ищем элемент с классом subtag внутри найденного cardElement
+                const subtagElement = cardElement.querySelector('.subtag');
+                
+                const tagId = subtagElement.getAttribute('asp-route-subtagid');
+                //jQuery Update Note
+                $.ajax({
+                    type: "POST",
+                    url: "/Notes/EditNote",
+                    data: { Id: cardId,
+                        Text: updatedText,
+                        TagId: tagId
+                    },
+                    success: function (response) {
+                        console.log("Тег успешно добавлен на сервер");
+                    },
+                    error: function (error) {
+                        console.error("Произошла ошибка при добавлении тега на сервер");
+                    }
+                });
+                // Здесь можно отправить updatedText на контроллер для обновления заметки
+            });
         });
-    });
+    }
     //Теги ----------------- сомнительно
     /*
     //Свойства тегов
@@ -144,6 +141,19 @@
         updateToggleCards();
         editSubTagText();
 
+        //jQuery Add Note
+        $.ajax({
+            type: "POST",
+            url: "/Notes/AddNewNote", 
+            data: { Text: "Новая задача" }, 
+            success: function (response) {
+                console.log("Тег успешно добавлен на сервер");
+            },
+            error: function (error) {
+                console.error("Произошла ошибка при добавлении тега на сервер");
+            }
+        });
+
     }
     function addNewTag() {
         var newTag = document.createElement("div");
@@ -154,6 +164,20 @@
         updateToggleCards();
 
         editTagText();
+
+        //jQuery Add Tag
+        $.ajax({
+            type: "POST",
+            url: "/Notes/AddNewTag", 
+            data: { Name: "Новый тег" }, 
+            success: function (response) {
+                console.log("Тег успешно добавлен на сервер");
+            },
+            error: function (error) {
+                console.error("Произошла ошибка при добавлении тега на сервер");
+            }
+        });
+
     }
     function updateToggleCards() {
         closeCardsByClickTag();
@@ -171,6 +195,29 @@
             tag.addEventListener('blur', () => {
                 tag.removeAttribute('contenteditable');
                 const newSubtagValue = tag.textContent.trim();
+                if (newSubtagValue === "") {
+                    const tagId = tag.getAttribute('asp-route-id');
+                    tag.remove();
+                    //jQuery Delete Tag
+                    $.ajax({
+                        type: "POST",
+                        url: "/Notes/DeleteTag",
+                        data: {
+                            Id: tagId
+                        }, 
+                        success: function (response) {
+                            console.log("Тег успешно удалён");
+                        },
+                        error: function (error) {
+                            console.error("Произошла ошибка при удалении тега");
+                        }
+                    });
+                    return;
+                }
+                tag.textContent = newSubtagValue;
+                if (newSubtagValue === oldName) {
+                    return;
+                }
                 const associatedSubTags = document.querySelectorAll(`.card[data-tags="${oldName}"] .subtag`);
                 if (associatedSubTags) {
                     associatedSubTags.forEach(subtag => {
@@ -181,6 +228,20 @@
                 associatedCards.forEach(card => {
                     card.setAttribute('data-tags', newSubtagValue);
 
+                });
+                const tagId = tag.getAttribute('asp-route-id');
+                //jQuery Update Tag
+                $.ajax({
+                    type: "POST",
+                    url: "/Notes/EditTag", 
+                    data: { Id: tagId,
+                            Name: newSubtagValue}, 
+                    success: function (response) {
+                        console.log("Тег успешно обновлен");
+                    },
+                    error: function (error) {
+                        console.error("Произошла ошибка при обновлении тега");
+                    }
                 });
             });
 
