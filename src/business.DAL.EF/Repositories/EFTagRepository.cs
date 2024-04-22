@@ -4,6 +4,7 @@ using business.Logic.DataContracts.Repositories.Notes;
 using business.Logic.Domain.Models.Customer;
 using business.Logic.Domain.Models.Notes;
 using business.Logic.Domain.Models.NoteTags;
+using business.Logic.Domain.Models.Users;
 using Microsoft.EntityFrameworkCore;
 
 namespace business.DAL.EF.Repositories
@@ -47,6 +48,15 @@ namespace business.DAL.EF.Repositories
         public NoteTag Get(int id)
         {
             throw new NotImplementedException();
+        }
+
+        public NoteTag GetByTextAndUserId(string text, int userId)
+        {
+            IQueryable<NoteTag> query = _context.NoteTags;
+            var Tabs = query
+                .Where(x => x.UserId == userId && x.Name == text)
+                .FirstOrDefault();
+            return Tabs;
         }
 
         public ICollection<NoteTag> GetTags(int userid)

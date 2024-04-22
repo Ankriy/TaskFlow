@@ -99,12 +99,17 @@ namespace business.Controllers
                 Token = accessToken,
                 RefreshToken = user.RefreshToken
             };
-
+            var option = new CookieOptions
+            {
+                Secure = true,
+                HttpOnly = true,
+                SameSite = SameSiteMode.Strict
+            };
             // Добавляем заголовки к ответу
-            HttpContext.Response.Cookies.Append(".AspNetCore.Application.Id", accessToken);
-            HttpContext.Response.Cookies.Append(".AspNetCore.Application.IdExpiryTime", accessTokenExpiryTime.ToString());
-            HttpContext.Response.Cookies.Append(".AspNetCore.Application.IdRefreshToken", user.RefreshToken);
-            HttpContext.Response.Cookies.Append(".AspNetCore.Application.IdRefreshTokenExpiryTime", user.RefreshTokenExpiryTime.ToString());
+            HttpContext.Response.Cookies.Append(".AspNetCore.Application.Id", accessToken, option);
+            HttpContext.Response.Cookies.Append(".AspNetCore.Application.IdExpiryTime", accessTokenExpiryTime.ToString(), option);
+            HttpContext.Response.Cookies.Append(".AspNetCore.Application.IdRefreshToken", user.RefreshToken, option);
+            HttpContext.Response.Cookies.Append(".AspNetCore.Application.IdRefreshTokenExpiryTime", user.RefreshTokenExpiryTime.ToString(), option);
             
             
             return RedirectToAction("Dashboard", "Dashboard"/*, response*/);

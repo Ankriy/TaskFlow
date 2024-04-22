@@ -51,7 +51,7 @@ namespace business.Controllers
                 note.TagId = 1;
             }
             _noteService.AddNote(note);
-            return Json(new { success = true });
+            return Json(new { success = true, noteId = note.Id, subTagId = note.TagId });
         }
         [HttpPost]
         public IActionResult EditNote(Note note )
@@ -60,20 +60,22 @@ namespace business.Controllers
             if (currentUser == null)
                 return BadRequest("Bad credentials");
             note.UserId = (int)currentUser.Id;
+            if (note.TagId == 0)
+            {
+                note.TagId = 1;
+            }
             _noteService.EditNote(note);
             return Json(new { success = true });
         }
-
-
-
-
-
-
-
-
-
-
-
+        [HttpPost]
+        public IActionResult DeleteNote(Note note)
+        {
+            var currentUser = _currentUserService.GetUser();
+            if (currentUser == null)
+                return BadRequest("Bad credentials");
+            _noteService.DeleteNote(note.Id);
+            return Json(new { success = true });
+        }
 
         [HttpPost]
         public IActionResult AddNewTag(NoteTag tag)
@@ -83,7 +85,7 @@ namespace business.Controllers
                 return BadRequest("Bad credentials");
             tag.UserId = (int)currentUser.Id;
             _noteService.AddTag(tag);
-            return Json(new { success = true });
+            return Json(new { success = true, tagId = tag.Id });
         }
         [HttpPost]
         public IActionResult EditTag(NoteTag tag)
@@ -103,6 +105,23 @@ namespace business.Controllers
                 return BadRequest("Bad credentials");
             _noteService.DeleteTag(tag.Id);
             return Json(new { success = true });
+        }
+        [HttpPost]
+        public IActionResult EditSubTag(int noteId, string NameSubTag)
+        {
+            var currentUser = _currentUserService.GetUser();
+            if (currentUser == null)
+                return BadRequest("Bad credentials");
+            var note = _noteService.GetNote(noteId);
+            if (note == null)
+                return Json(new { success = false });
+            var tag = _noteService.SearchTagByTextAndUserId(NameSubTag, (int)currentUser.Id);
+            if (tag == null || tag.Id == 0)
+                return Json(new { success = false });
+            note.TagId = tag.Id;
+
+            _noteService.EditNote(note);
+            return Json(new { success = true, subTagId = note.TagId });
         }
 
     }

@@ -16,7 +16,7 @@
         @foreach (var note in Model.Notes)
         {
             <div class="card" data-tags="@note.TagName">
-                <span class="editable" asp-route-id="@note.Id"><pre style="height: auto">@note.Text</pre></span>
+                <span class="editable" asp-route-id="@note.Id"><pre class="pre">@note.Text</pre></span>
                 <div class="subtag" asp-route-subtagid="@note.TagId">@note.TagName</div>
             </div>
         }
@@ -68,6 +68,25 @@
                 const subtagElement = cardElement.querySelector('.subtag');
                 
                 const tagId = subtagElement.getAttribute('asp-route-subtagid');
+                if (updatedText.trim() === "") {
+                    const Card = editable.parentElement;
+                    Card.remove();
+                    //jQuery Delete Note
+                    $.ajax({
+                        type: "POST",
+                        url: "/Notes/DeleteNote",
+                        data: {
+                            Id: cardId
+                        },
+                        success: function (response) {
+                            console.log("Тег успешно добавлен на сервер");
+                        },
+                        error: function (error) {
+                            console.error("Произошла ошибка при добавлении тега на сервер");
+                        }
+                    });
+                    return;
+                }
                 //jQuery Update Note
                 $.ajax({
                     type: "POST",
@@ -122,23 +141,19 @@
         newCard.classList.add("card");
         newCard.setAttribute('data-tags', "Новый тег");
 
+        var newPre = document.createElement("pre");
+        newPre.classList.add("pre");
+        newPre.textContent = "Новая задача";
+
         var newCardContent = document.createElement("span");
         newCardContent.classList.add("editable");
         newCardContent.setAttribute("contenteditable", "true");
-        newCardContent.textContent = "Новая задача";
 
+        newCardContent.appendChild(newPre);
 
         var newCardSubtag = document.createElement("div");
         newCardSubtag.classList.add("subtag");
         newCardSubtag.textContent = "Новый тег";
-
-        newCard.appendChild(newCardContent);
-        newCard.appendChild(newCardSubtag);
-
-        document.querySelector(".flexDiv").insertBefore(newCard, document.querySelector(".new-card"));
-        updateToggleCards();
-        updateToggleCards();
-        editSubTagText();
 
         //jQuery Add Note
         $.ajax({
@@ -146,7 +161,14 @@
             url: "/Notes/AddNewNote", 
             data: { Text: "Новая задача" }, 
             success: function (response) {
-                console.log("Тег успешно добавлен на сервер");
+                newCardContent.setAttribute('asp-route-id', response.noteId);
+                newCardSubtag.setAttribute('asp-route-subtagid', response.subTagId);
+                newCard.appendChild(newCardContent);
+                newCard.appendChild(newCardSubtag);
+                document.querySelector(".flexDiv").insertBefore(newCard, document.querySelector(".new-card"));
+                updateToggleCards();
+                updateToggleCards();
+                editSubTagText();
             },
             error: function (error) {
                 console.error("Произошла ошибка при добавлении тега на сервер");
@@ -158,19 +180,16 @@
         var newTag = document.createElement("div");
         newTag.classList.add("tag");
         newTag.textContent = "Новый тег";
-        document.querySelector(".tags").insertBefore(newTag, document.querySelector(".new-tag"));
-
-        updateToggleCards();
-
-        editTagText();
-
         //jQuery Add Tag
         $.ajax({
             type: "POST",
             url: "/Notes/AddNewTag", 
             data: { Name: "Новый тег" }, 
             success: function (response) {
-                console.log("Тег успешно добавлен на сервер");
+                newTag.setAttribute('asp-route-id', response.tagId);
+                document.querySelector(".tags").insertBefore(newTag, document.querySelector(".new-tag"));
+                updateToggleCards();
+                editTagText();
             },
             error: function (error) {
                 console.error("Произошла ошибка при добавлении тега на сервер");
@@ -181,7 +200,7 @@
     function updateToggleCards() {
         closeCardsByClickTag();
     }
-
+    
     function editTagText() {
         document.querySelectorAll('.tag').forEach(tag => {
             let oldName = tag.textContent;
@@ -194,7 +213,7 @@
             tag.addEventListener('blur', () => {
                 tag.removeAttribute('contenteditable');
                 const newSubtagValue = tag.textContent.trim();
-                if (newSubtagValue === "") {
+                if (newSubtagValue.trim() === "") {
                     const tagId = tag.getAttribute('asp-route-id');
                     tag.remove();
                     //jQuery Delete Tag
@@ -248,17 +267,49 @@
     }
     function editSubTagText() {
         document.querySelectorAll('.subtag').forEach(tag => {
-            const oldName = tag.textContent;
+            let oldName = tag.textContent.trim();
             tag.addEventListener('dblclick', () => {
                 tag.setAttribute('contenteditable', 'true');
                 tag.focus();
+                oldName = tag.textContent.trim();
             });
+            // 
             tag.addEventListener('blur', () => {
                 tag.removeAttribute('contenteditable');
                 const newSubtagValue = tag.textContent.trim();
-
+                if (newSubtagValue === "") {
+                    tag.textContent = oldName;
+                    return;
+                }
+                if (oldName === newSubtagValue) {
+                    return;
+                }
                 const associatedCards = tag.parentElement;
+                const editable = associatedCards.querySelector('.editable');
+                const cardId = editable.getAttribute('asp-route-id');
                 associatedCards.setAttribute('data-tags', newSubtagValue);
+                //jQuery Update SubTag
+                $.ajax({
+                    type: "POST",
+                    url: "/Notes/EditSubTag",
+                    data: {
+                        noteId: cardId,
+                        NameSubTag: newSubtagValue
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            const subtag = associatedCards.querySelector('.subtag');
+                            subtag.setAttribute('asp-route-subtagid', response.subTagId);
+                            console.log("Тег успешно обновлен");
+                        }else{
+                            tag.textContent = oldName;
+                            alert("нет тега с таким названием: " + newSubtagValue)
+                        }
+                    },
+                    error: function (error) {
+                        console.error("Произошла ошибка при обновлении тега");
+                    }
+                });
             });
 
         });

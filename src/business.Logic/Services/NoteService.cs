@@ -54,9 +54,9 @@ namespace business.Logic.Services
             _noteRepository.Update(note);
             return note.Id;
         }
-        public void DeleteNote(int idCustomer)
+        public void DeleteNote(int idNote)
         {
-            _noteRepository.Delete(idCustomer);
+            _noteRepository.Delete(idNote);
         }
         public List<NoteTag>  GetTags(int UserId)
         {
@@ -74,6 +74,10 @@ namespace business.Logic.Services
         public void DeleteTag(int tagid)
         {
             _tagRepository.Delete(tagid);
+        }
+        public NoteTag SearchTagByTextAndUserId(string text, int userId)
+        {
+            return _tagRepository.GetByTextAndUserId(text, userId);
         }
     }
 }
