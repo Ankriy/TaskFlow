@@ -16,7 +16,7 @@
         @foreach (var note in Model.Notes)
         {
             <div class="card" data-tags="@note.TagName">
-                <span class="editable" asp-route-id="@note.Id"><pre>@note.Text</pre></span>
+                <span class="editable" asp-route-id="@note.Id"><pre style="height: auto">@note.Text</pre></span>
                 <div class="subtag" asp-route-subtagid="@note.TagId">@note.TagName</div>
             </div>
         }
@@ -61,7 +61,6 @@
                 if (oldName === updatedText) {
                     return;
                 }
-                alert(oldName + " " + updatedText);
                 const cardId = editable.getAttribute('asp-route-id');
                 // Ищем ближайший родительский элемент с классом card
                 const cardElement = editable.closest('.card');
