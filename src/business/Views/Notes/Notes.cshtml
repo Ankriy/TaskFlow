@@ -31,6 +31,66 @@
 </div>
 
 <script>
+    function TagsDragAndDrop() {
+        const tagsContainer = document.querySelector(".tags");
+        let draggedTag = null;
+
+        tagsContainer.addEventListener("dragstart", (event) => {
+            draggedTag = event.target;
+            const transparentImage = new Image();
+            transparentImage.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+            event.dataTransfer.setDragImage(transparentImage, 0, 0);
+        });
+
+        tagsContainer.addEventListener("dragover", (event) => {
+            event.preventDefault();
+            const targetTag = event.target.closest(".tag");
+            if (!targetTag || targetTag === draggedTag) return;
+
+            const targetRect = targetTag.getBoundingClientRect();
+            const draggedRect = draggedTag.getBoundingClientRect();
+
+            const isAbove = draggedRect.top + draggedRect.height / 2 < targetRect.top + targetRect.height / 2;
+
+            if (isAbove) {
+                tagsContainer.insertBefore(draggedTag, targetTag);
+            } else {
+                tagsContainer.insertBefore(draggedTag, targetTag.nextSibling);
+            }
+        });
+
+        tagsContainer.addEventListener("drop", (event) => {
+            event.preventDefault();
+            draggedTag.style.opacity = 1;
+            const targetTag = event.target.closest(".tag");
+            if (targetTag && targetTag !== draggedTag) {
+                const temp = targetTag.nextSibling;
+                tagsContainer.insertBefore(draggedTag, temp);
+            }
+            const tagIds = Array.from(tagsContainer.querySelectorAll('.tag')).map(tag => tag.getAttribute('asp-route-id'));
+            //jQuery Reorder Tag
+            $.ajax({
+                type: "POST",
+                url: "/Notes/ReorderTag",
+                data: {
+                    tagIds: tagIds
+                },
+                success: function (response) {
+                    console.log("Тег успешно добавлен на сервер");
+                },
+                error: function (error) {
+                    console.error("Произошла ошибка при добавлении тега на сервер");
+                }
+            });
+            draggedTag = null;
+        });
+        MakeTagsDraggable();
+
+    }
+    function MakeTagsDraggable() {
+        const tags = document.querySelectorAll(".tag");
+        tags.forEach(tag => tag.setAttribute("draggable", true));
+    }
     //Скрыть карточки с тегом по нажатию
     function closeCardsByClickTag() {
         const tags = document.querySelectorAll('.tag');
@@ -46,7 +106,7 @@
         });
     }
 
-    function closeCardsByClickTag() {
+    function bindUpdateAndDeleteCard() {
         document.querySelectorAll('.editable').forEach(editable => {
             let oldName = editable.textContent;
             editable.addEventListener('dblclick', () => {
@@ -169,6 +229,7 @@
                 updateToggleCards();
                 updateToggleCards();
                 editSubTagText();
+                bindUpdateAndDeleteCard();
             },
             error: function (error) {
                 console.error("Произошла ошибка при добавлении тега на сервер");
@@ -190,6 +251,7 @@
                 document.querySelector(".tags").insertBefore(newTag, document.querySelector(".new-tag"));
                 updateToggleCards();
                 editTagText();
+                MakeTagsDraggable();
             },
             error: function (error) {
                 console.error("Произошла ошибка при добавлении тега на сервер");
@@ -215,7 +277,7 @@
                 const newSubtagValue = tag.textContent.trim();
                 if (newSubtagValue.trim() === "") {
                     const tagId = tag.getAttribute('asp-route-id');
-                    tag.remove();
+                    
                     //jQuery Delete Tag
                     $.ajax({
                         type: "POST",
@@ -224,10 +286,11 @@
                             Id: tagId
                         }, 
                         success: function (response) {
-                            console.log("Тег успешно удалён");
+                            tag.remove();
                         },
                         error: function (error) {
-                            console.error("Произошла ошибка при удалении тега");
+                            tag.textContent = oldName;
+                            alert("Невозможно удалить назначенный тег");
                         }
                     });
                     return;
@@ -300,7 +363,6 @@
                         if (response.success) {
                             const subtag = associatedCards.querySelector('.subtag');
                             subtag.setAttribute('asp-route-subtagid', response.subTagId);
-                            console.log("Тег успешно обновлен");
                         }else{
                             tag.textContent = oldName;
                             alert("нет тега с таким названием: " + newSubtagValue)
@@ -319,5 +381,7 @@
 
     editTagText();
     editSubTagText();
+    bindUpdateAndDeleteCard();
+    TagsDragAndDrop();
 </script>
 

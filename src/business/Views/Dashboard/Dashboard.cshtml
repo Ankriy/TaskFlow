@@ -4,11 +4,175 @@
 
     
 <div class="dashboard-container">
-    <canvas class="chart-container" id="profit-chart"></canvas>
-    <canvas class="chart-container" id="expenses-chart"></canvas>
-    <canvas class="chart-container" id="income-chart"></canvas>
-    <canvas class="chart-container" id="orders-chart"></canvas>
+    <div class="chart-container">
+        <canvas id="profit"></canvas>
+        <div class="resize-handle"></div>
+    </div>
+    <div class="chart-container">
+        <canvas id="expenses"></canvas>
+        <div class="resize-handle"></div>
+    </div>
+    <div class="chart-container">
+        <canvas id="income"></canvas>
+        <div class="resize-handle"></div>
+    </div>
+    <div class="chart-container">
+        <canvas id="orders"></canvas>
+        <div class="resize-handle"></div>
+    </div>
+    <!-- Add more chart containers as needed -->
 </div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+
+    function addCart() {
+
+        const chartContainers = document.querySelectorAll('.chart-container');
+        chartContainers.forEach(container => {
+            const resizeHandle = container.querySelector('.resize-handle');
+            let isResizing = false;
+            let initialX, initialY, initialWidth, initialHeight;
+            
+
+            const canvas = container.querySelector('canvas');
+            const canvasid = canvas.id;
+            fetch(`/Dashboard/${canvasid}`)
+                .then(response => response.json())
+                .then(data => {
+
+                    const chart = new Chart(canvas, {
+                        type: 'line',
+                        data: {
+                            labels: ['January', 'February', 'March', 'April', 'May'],
+                            datasets: [{
+                                label: 'Profit',
+                                data: data,
+                                borderColor: 'rgba(255, 99, 132, 1)',
+                                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                });
+            resizeHandle.addEventListener('mousedown', (e) => {
+                isResizing = true;
+                initialX = e.clientX;
+                initialY = e.clientY;
+                initialWidth = container.offsetWidth;
+                initialHeight = container.offsetHeight;
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (isResizing) {
+                    const deltaX = e.clientX - initialX;
+                    const deltaY = e.clientY - initialY;
+                    container.style.width = initialWidth + deltaX + 'px';
+                    container.style.height = initialHeight + deltaY + 'px';
+                    chart.resize();
+                }
+            });
+
+            document.addEventListener('mouseup', () => {
+                isResizing = false;
+            });
+        });
+    }
+    addCart();
+
+    // new Chart(document.getElementById('profit-chart'), {
+    //     type: 'line',
+    //     data: {
+    //         labels: ['January', 'February', 'March', 'April', 'May'],
+    //         datasets: [{
+    //             label: 'Profit',
+    //             data: [10, 12, 9, 15, 13],
+    //             borderColor: 'rgba(255, 99, 132, 1)',
+    //             backgroundColor: 'rgba(255, 99, 132, 0.2)',
+    //             borderWidth: 1
+    //         }]
+    //     },
+    //     options: {
+    //         scales: {
+    //             ResizeObserverSize: true,
+    //             y: {
+    //                 beginAtZero: true
+    //             }
+    //         }
+    //     }
+    // });
+
+    // new Chart(document.getElementById('expenses-chart'), {
+    //     type: 'line',
+    //     data: {
+    //         labels: ['January', 'February', 'March', 'April', 'May'],
+    //         datasets: [{
+    //             label: 'Expenses',
+    //             data: [15, 20, 30, 45, 60],
+    //             borderColor: 'rgba(54, 162, 235, 1)',
+    //             backgroundColor: 'rgba(54, 162, 235, 0.2)',
+    //             borderWidth: 1
+    //         }]
+    //     },
+    //     options: {
+    //         scales: {
+    //             y: {
+    //                 beginAtZero: true
+    //             }
+    //         }
+    //     }
+    // });
+
+    // new Chart(document.getElementById('income-chart'), {
+    //     type: 'line',
+    //     data: {
+    //         labels: ['January', 'February', 'March', 'April', 'May'],
+    //         datasets: [{
+    //             label: 'Income',
+    //             data: [10, 7, 5, 15, 20],
+    //             borderColor: 'rgba(255, 206, 86, 1)',
+    //             backgroundColor: 'rgba(255, 206, 86, 0.2)',
+    //             borderWidth: 1
+    //         }]
+    //     },
+    //     options: {
+    //         scales: {
+    //             y: {
+    //                 beginAtZero: true
+    //             }
+    //         }
+    //     }
+    // });
+
+    // new Chart(document.getElementById('orders-chart'), {
+    //     type: 'line',
+    //     data: {
+    //         labels: ['January', 'February', 'March', 'April', 'May'],
+    //         datasets: [{
+    //             label: 'Orders',
+    //             data: [5, 10, 15, 20, 25],
+    //             borderColor: 'rgba(75, 192, 192, 1)',
+    //             backgroundColor: 'rgba(75, 192, 192, 0.2)',
+    //             borderWidth: 1
+    //         }]
+    //     },
+    //     options: {
+    //         scales: {
+    //             y: {
+    //                 beginAtZero: true
+    //             }
+    //         }
+    //     }
+    // });
+</script>
 
 
 

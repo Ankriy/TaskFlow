@@ -62,6 +62,10 @@ namespace business.Logic.Services
         {
             return _tagRepository.GetTags(UserId).ToList();
         }
+        public NoteTag GetTag(int tagId)
+        {
+            return _tagRepository.Get(tagId);
+        }
         public int AddTag(NoteTag tag)
         {
             var Tag = _tagRepository.Create(tag);

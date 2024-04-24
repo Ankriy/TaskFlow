@@ -47,7 +47,8 @@ namespace business.DAL.EF.Repositories
 
         public NoteTag Get(int id)
         {
-            throw new NotImplementedException();
+            var tag = _context.NoteTags.FirstOrDefault(x => x.Id == id);
+            return tag;
         }
 
         public NoteTag GetByTextAndUserId(string text, int userId)
@@ -64,6 +65,7 @@ namespace business.DAL.EF.Repositories
             IQueryable<NoteTag> query = _context.NoteTags;
             var Tabs = query
                 .Where(x => x.UserId == userid)
+                .OrderBy(x => x.Order)
                 .ToList();
             return Tabs;
         }

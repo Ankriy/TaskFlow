@@ -113,16 +113,35 @@ namespace business.Controllers
             if (currentUser == null)
                 return BadRequest("Bad credentials");
             var note = _noteService.GetNote(noteId);
-            if (note == null)
-                return Json(new { success = false });
             var tag = _noteService.SearchTagByTextAndUserId(NameSubTag, (int)currentUser.Id);
-            if (tag == null || tag.Id == 0)
+            if (tag == null || tag.Id == 0 || note == null)
                 return Json(new { success = false });
             note.TagId = tag.Id;
 
             _noteService.EditNote(note);
             return Json(new { success = true, subTagId = note.TagId });
         }
+        [HttpPost]
+        public IActionResult ReorderTag(List<int> tagIds)
+        {
+            var currentUser = _currentUserService.GetUser();
+            if (currentUser == null)
+                return BadRequest("Bad credentials");
 
+            var tags = _noteService.GetTags((int)currentUser.Id);
+
+            // Update the order of each tag based on the provided tagIds list
+            for (int i = 0; i < tagIds.Count; i++)
+            {
+                var tagId = tagIds[i];
+                var tag = tags.FirstOrDefault(t => t.Id == tagId);
+                if (tag != null)
+                {
+                    tag.Order = i + 1; // Set the order based on the index in the list + 1
+                    _noteService.EditTag(tag);
+                }
+            }
+            return Json(new { success = true });
+        }
     }
 }
