@@ -7,6 +7,7 @@ using business.DAL.EF;
 using business.DAL.EF.Repositories;
 using business.Logic.DataContracts.Repositories.Customers;
 using business.Logic.DataContracts.Repositories.Notes;
+using business.Logic.DataContracts.Repositories.Orders;
 using business.Logic.Services;
 using business.PostgresMigrate;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -60,6 +61,9 @@ builder.Services.AddScoped<CurrentUserService>();
 builder.Services.AddScoped<NoteService>();
 builder.Services.AddScoped<INoteRepository,EFNoteRepository>();
 builder.Services.AddScoped<ITagRepository, EFTagRepository>();
+builder.Services.AddScoped<DashboardService>();
+builder.Services.AddScoped<OrderService>();
+builder.Services.AddScoped<IOrderRepository, EFOrderRepository>();
 
 var connectionStringEF = "host=localhost; port=5432; database=business; username=postgres; password=123;";  //builder.Configuration.GetConnectionString("NpgsqlConnectionString");
 PostgresMigrator.Migrate(connectionStringEF);

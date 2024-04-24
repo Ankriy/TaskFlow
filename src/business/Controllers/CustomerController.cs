@@ -49,7 +49,7 @@ namespace business.Controllers
             return View(model);
         }
         [HttpPost]
-        public IActionResult TableCustomers(string name1, string name2, int selectedOption)
+        public IActionResult TableCustomers()
         {
             return RedirectToAction("TableCustomers");
         }

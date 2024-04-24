@@ -1,36 +1,86 @@
-﻿@{
-    ViewData["Title"] = "Name32434";
-}
+﻿@model business.Application.Web.Models.Orders.OrderListViewModel
 
-<h2>Таблица заказов</h2>
-<table>
-    <thead>
-        <tr>
-            <th>ФИО</th>
-            <th>Телефон</th>
-            <th>Дата рождения</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>Иванов Иван Иванович</td>
-            <td>+7 (123) 456-78-90</td>
-            <td>01.01.1990</td>
-            <td>...</td>
-        </tr>
-    </tbody>
-</table>
+<form id="myForm" method="post">
+    <h2>Таблица клиентов</h2>
+    <input type="text" id="searchInput" placeholder="Поиск...">
+    <button id="addUserBtn" type="button">Добавить пользователя</button>
+    @*Таблица клиентов*@
+    <table>
+        <thead>
+            <tr>
+                <th>Фамилия</th>
+                <th>Имя</th>
+                <th>Отчество</th>
+                <th>Телефон</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var ppl in Model.Orders)
+            {
+                <tr id="@Model">
+                    <td>@ppl.PaymentMethodId</td>
+                    <td>@ppl.OrderStatusId</td>
+                    <td>@ppl.DeliveryCost</td>
+                    <td>@ppl.Description</td>
+                    <td>
+                        <button asp-controller="Order"
+                                asp-action="TableOrders"
+                                asp-route-id="@ppl.Id">
+                            ...
+                        </button>
+                    </td>
 
-<div style="text-align: center;">
-    <button>Предыдущая</button>
-    <button>Следующая</button>
-</div>
+                </tr>
+            }
+        </tbody>
+    </table>
+    @*Кнопки перелистывания страниц таблицы*@
+    <div style="text-align: center;">
+        <a href="/Order/TableOrders/?page=@(Model.Page - 1)&page-size=@(Model.PageSize)" class="btn @(Model.CanBack == false ? "disable" : "")">Предыдущая</a>
+        <a href="/Order/TableOrders/?page=@(Model.Page + 1)&page-size=@(Model.PageSize)" class="btn @(Model.CanForward == false ? "disable" : "")">Следующая</a>
+    </div>
+    @*Выпадающий список*@
+    <div class="dropdown">
+        <img src="~/img/DropDownImg.svg" alt="Кол-во записей">
+        <div class="dropdown-content">
+            <a href="/Order/TableOrders/?page=@(Model.Page)&page-size=2">2</a>
+            <a href="/Order/TableOrders/?page=@(Model.Page)&page-size=5">5</a>
+            <a href="/Order/TableOrders/?page=@(Model.Page)&page-size=10">10</a>
+            <a href="/Order/TableOrders/?page=@(Model.Page)&page-size=20">20</a>
+        </div>
+    </div>
 
-<div style="text-align: right;">
-    <select>
-        <option>10 записей</option>
-        <option>20 записей</option>
-        <option>50 записей</option>
-    </select>
-</div>
+
+
+</form>
+
+@* <partial name="AddCustomer" />*@
+@if (@Model.OrderForEdit != null)
+{
+    <partial name="EditOrder" model="@Model.OrderForEdit" />
+} 
+
+<script>
+    const addUserBtn = document.getElementById('addUserBtn');
+    const dialog = document.getElementById('dialog');
+    const closeButton = document.getElementById('close');
+
+    addUserBtn.addEventListener('click', () => {
+        dialog.style.display = 'block';
+    });
+    closeButton.addEventListener('click', () => {
+        dialog.style.display = 'none';
+    });
+
+    // const editUserBtn = document.getElementById('editUserBtn');
+    const editDialog = document.getElementById('editDialog');
+    // editUserBtn.addEventListener('click', () => {
+    //     editDialog.style.display = 'block';
+    // });
+    const editCloseButton = document.getElementById('editClose');
+    editCloseButton.addEventListener('click', () => {
+        editDialog.style.display = 'none';
+    });
+
+</script>

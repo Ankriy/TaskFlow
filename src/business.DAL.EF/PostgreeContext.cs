@@ -3,6 +3,7 @@ using business.Logic.Domain.Models.Customer;
 using business.Logic.Domain.Models.Users;
 using business.Logic.Domain.Models.Notes;
 using business.Logic.Domain.Models.NoteTags;
+using business.Logic.Domain.Models.Orders;
 
 namespace business.DAL.EF
 {
@@ -18,6 +19,7 @@ namespace business.DAL.EF
         public DbSet<User> Users { get; set; }
         public DbSet<Note> Notes { get; set; }
         public DbSet<NoteTag> NoteTags { get; set; }
+        public DbSet<Order> Orders { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

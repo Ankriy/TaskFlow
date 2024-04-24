@@ -1,0 +1,156 @@
+﻿<style>
+    #editDialog {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        display: block;
+    }
+
+    .container {
+        max-width: 600px;
+        margin: 20px;
+        padding: 0px 0px 0px 20px;
+    }
+
+    h2 {
+        text-align: center;
+    }
+
+    #edit-client input {
+        margin-bottom: 10px;
+        width: calc(50% - 10px);
+        padding: 8px;
+        margin-right: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    #edit-client button {
+        padding: 8px 16px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+        #edit-client button:hover {
+            background-color: #0056b3;
+        }
+
+    /*Кнопка "Добавить поле" и выпадающий список*/
+    #edit-field-container {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    #edit-field {
+        border: 1px dashed #ccc;
+        width: calc(50% - 10px);
+        padding: 8px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    #dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+        min-width: 120px;
+    }
+
+        #dropdown-content a {
+            color: #333;
+            padding: 8px 16px;
+            display: block;
+            text-decoration: none;
+        }
+
+            #dropdown-content a:hover {
+                background-color: #f1f1f1;
+            }
+
+    #add-field-container:hover #dropdown-content {
+        display: block;
+    }
+</style>
+@model business.Application.Web.Models.Orders.EditOrderViewModel
+<div id="editDialog" class="dialog">
+    <div class="container">
+        <span id="editClose" class="close">×</span>
+        <h2>Информация о клиенте</h2>
+        <form  method="post" action="/Customer/EditCustomer">
+            <div id ="edit-client">
+
+            
+            <input type="text" name="Id" placeholder="@Model.Id" value="@Model.Id" hidden>
+            @foreach (var ppl in Model.GetType()
+            .GetProperties()
+            .Where(prop => prop.CanRead)
+            .Select(prop => new { Name = prop.Name, Value = prop.GetValue(Model)})
+            .ToArray())
+            {
+                if(ppl.Name != "Id" && ppl.Value != null)
+                {
+                    <input type="text" name="@ppl.Name" placeholder="@ppl.Name" value="@ppl.Value">
+                }
+            }
+            </div>
+
+            <div id="edit-field-container">
+                <div id="edit-field" onclick="showDropdown()">+</div>
+                <div id="dropdown-content">
+                    @foreach (var ppl in Model.GetType()
+                    .GetProperties()
+                    .Where(prop => prop.CanRead)
+                    .Select(prop => new { Name = prop.Name, Value = prop.GetValue(Model) })
+                    .ToArray())
+                    {
+                        if (ppl.Name != "Id" && ppl.Value == null)
+                        {
+                            <a href="#" id="@ppl.Name" onclick="addField('@ppl.Name')">@ppl.Name</a>
+                        }
+                    }
+                </div>
+            </div>
+
+            <div>
+                <button type="submit">Сохранить</button>
+                <button asp-controller="Customer"
+                        asp-action="DeleteCustomer"
+                        asp-route-id="@Model.Id"
+                        style="background-color:red">
+                    Удалить
+                </button>
+            </div>
+        </form>
+        
+        
+        
+    </div>
+
+
+    <script>
+        function showDropdown() {
+            document.getElementById('dropdown-content').style.display = 'block';
+        }
+
+        function addField(fieldType) {
+            // Add logic to create a new field of the selected type
+            const newField = document.createElement('input');
+            newField.setAttribute('type', 'text');
+            newField.setAttribute('placeholder', fieldType);
+            document.getElementById('edit-client').appendChild(newField);
+
+            var elementToRemove = document.getElementById(fieldType);
+            if (elementToRemove) {
+                elementToRemove.remove();
+            }
+
+            // Hide dropdown after adding a field
+            document.getElementById('dropdown-content').style.display = 'none';
+        }
+    </script>
+</div>
