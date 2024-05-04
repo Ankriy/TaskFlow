@@ -20,4 +20,8 @@
     <ProjectReference Include="..\business.PostgresMigrate\business.PostgresMigrate.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\profilePhotos\" />
+  </ItemGroup>
+
 </Project>

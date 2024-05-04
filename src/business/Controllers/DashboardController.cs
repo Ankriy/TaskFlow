@@ -23,10 +23,7 @@ namespace business.Controllers
         [HttpGet]
         public IActionResult Dashboard([FromQuery(Name = "page")] int page, [FromQuery(Name = "page-size")] int size)
         {
-            
             return View();
-
-
         }
         [HttpPost]
         public IActionResult Dashboard()

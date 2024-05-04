@@ -17,6 +17,7 @@
     .logo {
         max-width: 150px;
         height: auto;
+        cursor: pointer;
     }
 
         .logo:hover {
@@ -95,7 +96,7 @@
         <img src="~/img/logo.png" alt="Logo">
     </div>
     <div class="profile">
-        <span class="profile-name">Никнейм</span>
+        <span class="profile-name"></span>
         <img class="profile-image" src="~/img/profile.svg" alt="Profile">
     </div>
     <div class="profileDialog">
@@ -132,5 +133,28 @@
         if (!profileDialog.contains(event.target) && !profileImage.contains(event.target)) {
             closeDialog();
         }
+    });
+
+
+    const profileName = document.querySelector('.profile-name');
+    const img = document.querySelector('.profile-image');
+    $(document).ready(function () {
+        var options = {
+            url: "/Settings/HeaderBarData",
+            type: "get",
+            async: false
+        };
+
+        $.ajax(options).done(function (data) {
+            profileName.textContent = data.username;
+            if (data.imageUrl != null) {
+                img.src = data.imageUrl;
+            }
+        });
+    });
+
+    const logo = document.querySelector('.logo');
+    logo.addEventListener('click', () => {
+        window.location.href = '/Dashboard/Dashboard';
     });
 </script>

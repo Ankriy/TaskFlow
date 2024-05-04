@@ -166,14 +166,13 @@
             <form method="post" action="/Settings/Settings">
                 <div class="settings-content-wrapper">
                     <div class="settings-user-photo settings-sub-section">
-
-                        <input type="file" id="fileInput" style="display: none;">
-                        <input name="Id" value="@Model.Id" style="display: none;">
+                        <input name="Photo" type="file" id="fileInput" style="display: none;">
                         <img class="settings-profile-sub-image" src="~/img/camera.svg" alt="camera" id="addPhoto">
-                        <img class="settings-profile-image" src="~/img/profile.svg" alt="User Icon" id="userPhoto">
+                        <img class="settings-profile-image" src="@(@Model.Photo ?? "/img/profile.svg")" alt="User Icon" id="userPhoto">
                         <img class="settings-profile-sub-image" src="~/img/delete.svg" alt="delete" id="deletePhoto">
                     </div>
                     <div class="settings-sub-section">
+                        <input id="IdUser" name="Id" value="@Model.Id" style="display: none;">
                         <label for="fullName">Фамилия, имя и отчетсво</label>
                         <input name="Lastname" type="text" placeholder="Фамилия" value="@Model.Lastname">
                         <input name="Firstname" type="text" placeholder="Имя" value="@Model.Firstname">
@@ -248,43 +247,59 @@
     const userPhoto = document.getElementById('userPhoto');
     const deletePhotoBtn = document.getElementById('deletePhoto');
     const fileInput = document.getElementById('fileInput');
-
+    
     // Обработчик для добавления фото
     addPhotoBtn.addEventListener('click', function () {
         fileInput.click();
     });
 
-    fileInput.addEventListener('change', function () {
-        const file = fileInput.files[0];
+    fileInput.addEventListener('change', (event) => {
+        event.preventDefault();
+
+        const idUser = document.getElementById('IdUser').value;
+
+        const file = event.target.files[0];
         const reader = new FileReader();
 
-        reader.onload = function (e) {
-            const arrayBuffer = e.target.result;
-            const byteArray = new Uint8Array(arrayBuffer);
+        const formData = new FormData();
+        formData.append('photo', file);
+        formData.append('Id', idUser);
+        fetch('/Settings/UploadPhoto', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                const img = document.querySelector('.profile-image');
+                img.src = data.imageUrl;
+            });
 
-            // Now you have the image data as a byte array (byteArray)
-
-            // Example: Send byteArray to the controller using Fetch API
-            fetch('/Settings/Settings', {
-                method: 'POST',
-                body: byteArray
-            })
-                .then(response => {
-                    // Handle the response from the controller
-                })
-                .catch(error => {
-                    // Handle errors
-                });
-
-            // You can also use other methods to send the data to the server,
-            // such as FormData or XMLHttpRequest
+        reader.onload = (e) => {
+            userPhoto.src = e.target.result; 
         };
 
-        reader.readAsArrayBuffer(file); // Read as ArrayBuffer to get byte data
+        reader.readAsDataURL(file);
+        //reader.readAsArrayBuffer(file); 
     });
 
     // Обработчик для удаления фото
     deletePhotoBtn.addEventListener('click', function () {
-        userPhoto.src = '~/img/profile.svg';
+        
+
+        const reader = new FileReader();
+
+        const idUser = document.getElementById('IdUser').value;
+        const formData = new FormData();
+        formData.append('Id', idUser);
+        fetch('/Settings/DeletePhoto', {
+            method: 'POST',
+            body: formData
+        })
+            .then(data => {
+                const img = document.querySelector('.profile-image');
+                userPhoto.src = '/img/profile.svg';
+                img.src = '/img/profile.svg';
+            });
+
     });
 </script>

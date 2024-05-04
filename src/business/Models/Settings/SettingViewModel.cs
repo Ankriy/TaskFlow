@@ -15,7 +15,7 @@ namespace business.Application.Web.Models.Settings
         public string? Lastname { get; set; }
         public string? Firstname { get; set; }
         public string? Middlename { get; set; }
-        public byte[]? Photo { get; set; }
+        public string? Photo { get; set; }
         public SettingViewModel() { }
 
         public SettingViewModel(ApplicationUser user)
