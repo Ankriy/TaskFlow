@@ -23,13 +23,11 @@ public class RegisterRequest
     [Display(Name = "Подтвердить пароль")]
     public string PasswordConfirm { get; set; } = null!;
 
-    [Required]
     [Display(Name = "Имя")]
-    public string FirstName { get; set; } = null!;
+    public string? FirstName { get; set; } = null!;
     
-    [Required]
     [Display(Name = "Фамилия")]
-    public string LastName { get; set; } = null!;
+    public string? LastName { get; set; } = null!;
     
     [Display(Name = "Отчество")]
     public string? MiddleName { get; set; }

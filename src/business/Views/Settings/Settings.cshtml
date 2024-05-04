@@ -1,9 +1,290 @@
-﻿@{
-    ViewData["Title"] = "Name32434";
-}
+﻿<style>
+    .settings-container {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        width: 100%;
+        font-family: sans-serif;
+        justify-content: flex-start;
+        align-items: center;
+    }
 
-<link rel="stylesheet" href="~/index.css">
-<script src="~/index.js"></script>
-<body>
-    <div>gtrgt2342342343232434444444444444</div>
-</body>
+    .settings-nav {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        margin-bottom: 10px;
+        display: flex;
+    }
+
+        .settings-nav li {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+        }
+
+            .settings-nav li.active {
+                border-bottom: 2px solid #007bff;
+                /* Active section indicator */
+            }
+
+    .settings-content {
+        width: 400px;
+        border: 1px solid #ddd;
+        background-color: #f9f9f9;
+        border-radius: 30px 30px 0;
+    }
+
+    .settings-content-wrapper {
+        height: 70%;
+        max-height: 70vh;
+        overflow-y: auto;
+    }
+
+        .settings-content-wrapper::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .settings-content-wrapper::-webkit-scrollbar-thumb {
+            background-color: #e1e1e1;
+            border-radius: 10px;
+        }
+
+        .settings-content-wrapper::-webkit-scrollbar-track {
+            background-color: #f1f1f1;
+        }
+
+        .settings-content-wrapper::-webkit-scrollbar-thumb:hover {
+            background-color: #a2a2a2;
+        }
+
+    .settings-section {
+        display: none;
+    }
+
+        .settings-section.active {
+            display: block;
+        }
+
+    .settings-sub-section {
+        background-color: white;
+        border-radius: 30px;
+        margin-bottom: 10px;
+        padding: 30px;
+    }
+
+    h2 {
+        font-size: 18px;
+        color: #333;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .settings-profile-image {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    .settings-profile-sub-image {
+        width: 30px;
+        height: 30px;
+        cursor: pointer;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    .settings-user-photo {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .settings-content input {
+        margin-bottom: 10px;
+        width: calc(100% - 30px);
+        padding: 8px;
+        height: 28px;
+        border: 1px solid #ccc;
+        border-radius: 15px;
+        font-size: 15px;
+    }
+
+    .settings-content button {
+        margin-bottom: 10px;
+        width: calc(100% - 10px);
+        padding: 8px;
+        height: 45px;
+        border: 1px solid #ccc;
+        border-radius: 15px;
+        font-size: 15px;
+        background-color: #333;
+        color: white;
+    }
+
+        .settings-content button:hover {
+            background-color: #2d2d2d;
+        }
+
+        .settings-content button:active {
+            background-color: #212121;
+        }
+
+    .settings-title-sub-section {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: -50px;
+        padding-top: 10px;
+        font-size: 20px;
+        font-weight: 700;
+        height: 80px;
+    }
+
+    .settings-scroll-line {
+        height: 1px;
+        background-color: rgb(221, 221, 221);
+    }
+</style>
+@model business.Application.Web.Models.Settings.SettingViewModel
+<div class="settings-container">
+    <ul class="settings-nav">
+        <li data-section="personal" class="active">Персональные данные</li>
+        <li data-section="interface">Стили</li>
+    </ul>
+    <div class="settings-content">
+        <div class="settings-section active" id="personal">
+            <div class="settings-sub-section settings-title-sub-section">
+                <p>Ваши данные</p>
+                <p>X</p>
+            </div>
+            <div class="settings-scroll-line"></div>
+            <form method="post" action="/Settings/Settings">
+                <div class="settings-content-wrapper">
+                    <div class="settings-user-photo settings-sub-section">
+
+                        <input type="file" id="fileInput" style="display: none;">
+                        <input name="Id" value="@Model.Id" style="display: none;">
+                        <img class="settings-profile-sub-image" src="~/img/camera.svg" alt="camera" id="addPhoto">
+                        <img class="settings-profile-image" src="~/img/profile.svg" alt="User Icon" id="userPhoto">
+                        <img class="settings-profile-sub-image" src="~/img/delete.svg" alt="delete" id="deletePhoto">
+                    </div>
+                    <div class="settings-sub-section">
+                        <label for="fullName">Фамилия, имя и отчетсво</label>
+                        <input name="Lastname" type="text" placeholder="Фамилия" value="@Model.Lastname">
+                        <input name="Firstname" type="text" placeholder="Имя" value="@Model.Firstname">
+                        <input name="Middlename" type="text" placeholder="Отчество" value="@Model.Middlename">
+                    </div>
+
+                    <div class="settings-sub-section">
+                        <label for="email">Почта</label>
+                        <input name="Email" type="email" id="email" placeholder="Почта" value="@Model.Email">
+                    </div>
+
+                    <div class="settings-sub-section" style="margin-bottom: 0;">
+                        <label for="login">Логин и пароль</label>
+                        <input name="UserName" type="text" id="login" placeholder="Логин" value="@Model.Login">
+                        <input name="currentPassword" type="password" placeholder="Старый пароль">
+                        <input name="newPassword" type="password" placeholder="Новый пароль">
+                        <button>Сохранить</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="settings-section" id="interface">
+            <div class="settings-sub-section settings-title-sub-section">
+                <p>Ваши стили</p>
+                <p>X</p>
+            </div>
+            <div class="settings-sub-section" style="margin-bottom: 0;">
+                <h2>Цвет и шрифт</h2>
+                <label for="fontSize">Размер текста:</label>
+                <input type="range" id="fontSize" min="10" max="30">
+
+                <label for="fontStyle">Стиль текста:</label>
+                <select id="fontStyle">
+                    <option value="normal">Обычный</option>
+                    <option value="italic">Курсив</option>
+                    <option value="bold">Жирный</option>
+                </select>
+
+                <label for="interfaceColor">Цвет интерфейса:</label>
+                <input type="color" id="interfaceColor">
+
+                <label for="fontFamily">Шрифт:</label>
+                <select id="fontFamily" onchange="changeFontFamily()">
+                    <option value="Arial, sans-serif">Arial</option>
+                    <option value="Georgia, serif">Georgia</option>
+                    <option value="Verdana, sans-serif">Verdana</option>
+                    <!-- Add more font options as needed -->
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    const navLinks = document.querySelectorAll('.settings-nav li');
+    const sections = document.querySelectorAll('.settings-content .settings-section');
+
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            const sectionId = link.dataset.section;
+            // Remove active class from all nav links and sections
+            navLinks.forEach(l => l.classList.remove('active'));
+            sections.forEach(s => s.classList.remove('active'));
+
+            // Add active class to clicked nav link and corresponding section
+            link.classList.add('active');
+            document.getElementById(sectionId).classList.add('active');
+        });
+    });
+
+    const addPhotoBtn = document.getElementById('addPhoto');
+    const userPhoto = document.getElementById('userPhoto');
+    const deletePhotoBtn = document.getElementById('deletePhoto');
+    const fileInput = document.getElementById('fileInput');
+
+    // Обработчик для добавления фото
+    addPhotoBtn.addEventListener('click', function () {
+        fileInput.click();
+    });
+
+    fileInput.addEventListener('change', function () {
+        const file = fileInput.files[0];
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+            const arrayBuffer = e.target.result;
+            const byteArray = new Uint8Array(arrayBuffer);
+
+            // Now you have the image data as a byte array (byteArray)
+
+            // Example: Send byteArray to the controller using Fetch API
+            fetch('/Settings/Settings', {
+                method: 'POST',
+                body: byteArray
+            })
+                .then(response => {
+                    // Handle the response from the controller
+                })
+                .catch(error => {
+                    // Handle errors
+                });
+
+            // You can also use other methods to send the data to the server,
+            // such as FormData or XMLHttpRequest
+        };
+
+        reader.readAsArrayBuffer(file); // Read as ArrayBuffer to get byte data
+    });
+
+    // Обработчик для удаления фото
+    deletePhotoBtn.addEventListener('click', function () {
+        userPhoto.src = '~/img/profile.svg';
+    });
+</script>

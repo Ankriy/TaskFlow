@@ -43,9 +43,9 @@ namespace business.Controllers
 
 
         [HttpGet]
-        public IActionResult Authorization([FromQuery(Name = "page")] int page, [FromQuery(Name = "page-size")] int size)
+        public IActionResult Authorization(bool value = true)
         {
-            return View();
+            return View(value);
 
 
         }
@@ -68,17 +68,21 @@ namespace business.Controllers
 
             if (managedUser == null)
             {
-                return BadRequest("Bad credentials");
+                managedUser = await _userManager.FindByNameAsync(request.Email);
+                if (managedUser == null)
+                {
+                    return RedirectToAction("Authorization", new { value = false });
+                }
             }
 
             var isPasswordValid = await _userManager.CheckPasswordAsync(managedUser, request.Password);
 
             if (!isPasswordValid)
             {
-                return BadRequest("Bad credentials");
+                return RedirectToAction("Authorization", new { value = false });
             }
 
-            var user = _context.Users.FirstOrDefault(u => u.Email == request.Email);
+            var user = _context.Users.FirstOrDefault(u => u.Email == request.Email || u.UserName == request.Email);
             if (user is null)
                 return Unauthorized();
 
@@ -120,12 +124,8 @@ namespace business.Controllers
         public async Task<ActionResult<AuthResponse>> Register([FromForm] RegisterRequest request)
         {
             if (!ModelState.IsValid) return BadRequest(request);
-
             var user = new ApplicationUser
             {
-                FirstName = request.FirstName,
-                LastName = request.LastName,
-                MiddleName = request.MiddleName,
                 Email = request.Email,
                 UserName = request.Email
             };
