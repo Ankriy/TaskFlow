@@ -77,6 +77,23 @@
         left: 50%;
         transform: translate(-50%,-50%);
     }
+
+    .password-group {
+        position: relative; 
+    }
+    #error-message {
+        position: absolute; 
+        left: 110%;
+        top: 0;
+        background-color: #f8d7da; 
+        border: 1px solid #f5c6cb;
+        padding: 8px;
+        border-radius: 4px;
+        z-index: 1;
+        width: 250px;
+        display: none;
+        color: red;
+    }
 </style>
 @model bool
 <div id="loginModal" class="modal">
@@ -101,11 +118,15 @@
              <form asp-action="Register" asp-controller="Authorization" method="post">
                 <h2>Регистрация</h2>
                 <input id="register-email" type="email" name="email" placeholder="Почта" required>
-                <input id="register-password" type="password" name="password" placeholder="Пароль" required>
+                <div class="password-group">
+                    <input id="register-password" type="password" name="password" placeholder="Пароль" required>
+                    <div id="error-message"></div>
+                </div>
                 <input id="register-passwordConfirm" type="password" name="passwordConfirm" placeholder="Подтвердите пароль" required>
-                <div id="error-message" style="display: none;"></div>
-                <button onclick="validateForm()">Зарегестрироваться</button>
                 
+                <button id="validateRegisterForm">Зарегестрироваться</button>
+
+                <button id="btnregister" type="submit" style="display:none"></button>
                 <p><a href="#" id="login-link">Назад к входу</a></p>
              </form>
         </div>
@@ -122,6 +143,10 @@
     </div>
 </div>
 <script>
+    document.getElementById("validateRegisterForm").addEventListener("click", function (event) {
+        event.preventDefault(); 
+        validateForm();
+    });
     document.addEventListener('DOMContentLoaded', function () {
         const loginForm = document.querySelector('#authorization-form');
         const registerForm = document.querySelector('#registration-form');
@@ -157,31 +182,34 @@
         const passwordConfirm = document.getElementById("register-passwordConfirm").value;
         const errorMessage = document.getElementById("error-message");
         let success = true;
-        alert("1");
-        // Check if passwords match
+        errorMessage.textContent = "";
         if (password !== passwordConfirm) {
             errorMessage.textContent = "Пароли не совпадают!";
             errorMessage.style.display = 'block';
             success = false;
-            alert("2");
         }
-
-        // Check password complexity
         const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@@$!%*?&])[A-Za-z\d@@$!%*?&]{8,}$/;
         if (!passwordRegex.test(password)) {
-            errorMessage.textContent = "Пароль должен содержать минимум 8 символов, 1 заглавную букву, 1 цифру и 1 специальный символ!";
+            //errorMessage.textContent = "Пароль должен содержать минимум 8 символов, 1 заглавную букву, 1 цифру и 1 специальный символ!";
+            errorMessage.innerHTML = `
+                Пароль должен содержать:
+                <ul>
+                    <li>минимум 8 символов</li>
+                    <li>1 заглавную букву</li>
+                    <li>1 цифру</li>
+                    <li>1 специальный символ</li>
+                </ul>
+            `;
             errorMessage.style.display = 'block';
             success = false;
-            alert("3");
         }
+        
         if(success){
-            alert("4");
+            errorMessage.textContent = "";
+            errorMessage.style.display = 'none';
             document.getElementById("btnregister").click();
         }
-        // All validation passed
-        errorMessage.textContent = "";
-        alert("5");
-        alert("6");
+        
     }
 </script>
 
