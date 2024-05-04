@@ -3,17 +3,11 @@ using business.Application.Web.Data.Entities;
 using business.Application.Web.Extensions;
 using business.Application.Web.Models.Identity;
 using business.Application.Web.Services.Identity;
-using business.Logic.Domain.Models.Authorization;
-using business.Logic.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json.Linq;
-using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 
 namespace business.Controllers
 {

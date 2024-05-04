@@ -1,15 +1,9 @@
-﻿using business.Application.Web.Models.Customers;
-using business.Application.Web.Models.Notes;
+﻿using business.Application.Web.Models.Notes;
 using business.Application.Web.Services.Identity;
-using business.Logic.Domain.Models.Customer;
 using business.Logic.Domain.Models.Notes;
 using business.Logic.Domain.Models.NoteTags;
 using business.Logic.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Diagnostics;
-using System.Drawing;
-using System.Reflection;
 
 namespace business.Controllers
 {

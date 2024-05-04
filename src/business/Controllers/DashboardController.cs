@@ -1,9 +1,5 @@
 ﻿using business.Logic.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Diagnostics;
-using System.Drawing;
-using System.Reflection;
 
 namespace business.Controllers
 {
