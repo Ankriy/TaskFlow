@@ -15,8 +15,8 @@ namespace business.Controllers
         {
             _logger = logger;
         }
-
-        public IActionResult Tab()
+        [HttpGet]
+        public IActionResult Home()
         {
             return View();
         }
