@@ -1,6 +1,6 @@
 ﻿
 
-using business.Logic.Domain.Models.Customer;
+using business.Logic.Domain.Models.Customers;
 
 namespace business.Application.Web.Models.Customers
 {

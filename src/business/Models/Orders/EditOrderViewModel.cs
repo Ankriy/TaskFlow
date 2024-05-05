@@ -1,4 +1,4 @@
-﻿using business.Logic.Domain.Models.Customer;
+﻿using business.Logic.Domain.Models.Customers;
 using business.Logic.Domain.Models.Orders;
 using business.Logic.Domain.Models.Users;
 using Microsoft.AspNetCore.Mvc;
@@ -11,16 +11,16 @@ namespace business.Application.Web.Models.Orders
     {
         [FromRoute(Name = "id")]
         public int Id { get; set; }
-        public int UserId { get; set; }
-        public int CustomerId { get; set; }
+        public AspNetUsers? User { get; set; }
+        public Customer? Customer { get; set; }
         public DateTime OrderDate { get; set; }
-        public int OrderStatusId { get; set; }
-        public int PaymentMethodId { get; set; }
+        public OrderStatus? OrderStatus { get; set; }
+        public OrderPaymentMethod? PaymentMethod { get; set; }
         public int DeliveryCost { get; set; }
         public int TotalCost { get; set; }
         public string Description { get; set; }
-        public string CancellationReason { get; set; }
-        public DateTime CancellationDate { get; set; }
+        public string? CancellationReason { get; set; }
+        public DateTime? CancellationDate { get; set; }
         public EditOrderViewModel() { }
 
         public EditOrderViewModel(Order order)
@@ -28,14 +28,14 @@ namespace business.Application.Web.Models.Orders
             Id = order.Id;
             CancellationDate = order.CancellationDate;
             CancellationReason = order.CancellationReason;
-            CustomerId = order.CustomerId;
+            Customer = order.Customer;
             DeliveryCost = order.DeliveryCost;
             Description = order.Description;
             OrderDate = order.OrderDate;
-            OrderStatusId = order.OrderStatusId;
-            PaymentMethodId = order.PaymentMethodId;
+            OrderStatus = order.OrderStatus;
+            PaymentMethod = order.PaymentMethod;
             TotalCost = order.TotalCost;
-            UserId = order.UserId;
+            User = order.User;
         }
     }
 }

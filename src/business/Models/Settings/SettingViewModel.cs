@@ -1,5 +1,5 @@
 ﻿using business.Application.Web.Data.Entities;
-using business.Logic.Domain.Models.Customer;
+using business.Logic.Domain.Models.Customers;
 using business.Logic.Domain.Models.Users;
 using Microsoft.AspNetCore.Mvc;
 using System.Xml.Linq;

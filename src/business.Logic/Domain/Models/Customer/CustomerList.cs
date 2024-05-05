@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace business.Logic.Domain.Models.Customer
+namespace business.Logic.Domain.Models.Customers
 {
     public class CustomerList
     {

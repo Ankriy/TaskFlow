@@ -1,17 +1,17 @@
 ﻿@model business.Application.Web.Models.Orders.OrderListViewModel
 
 <form id="myForm" method="post">
-    <h2>Таблица клиентов</h2>
+    <h2>Таблица заказов</h2>
     <input type="text" id="searchInput" placeholder="Поиск...">
-    <button id="addUserBtn" type="button">Добавить пользователя</button>
+    <button id="addUserBtn" type="button">Добавить заказ</button>
     @*Таблица клиентов*@
     <table>
         <thead>
             <tr>
-                <th>Фамилия</th>
-                <th>Имя</th>
-                <th>Отчество</th>
-                <th>Телефон</th>
+                <th>Клиент</th>
+                <th>Стоимость</th>
+                <th>Статус заказа</th>
+                <th>Дата заказа</th>
                 <th></th>
             </tr>
         </thead>
@@ -19,10 +19,10 @@
             @foreach (var ppl in Model.Orders)
             {
                 <tr id="@Model">
-                    <td>@ppl.PaymentMethodId</td>
-                    <td>@ppl.OrderStatusId</td>
-                    <td>@ppl.DeliveryCost</td>
-                    <td>@ppl.Description</td>
+                    <td>@ppl.Customer.Surname @ppl.Customer.Name @ppl.Customer.Middlename</td>
+                    <td>@ppl.TotalCost</td>
+                    <td>@ppl.OrderStatus.Status</td>
+                    <td>@ppl.OrderDate</td>
                     <td>
                         <button asp-controller="Order"
                                 asp-action="TableOrders"

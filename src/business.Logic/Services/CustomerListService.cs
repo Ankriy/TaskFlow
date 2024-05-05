@@ -1,5 +1,5 @@
 ﻿using business.Logic.DataContracts.Repositories.Customers;
-using business.Logic.Domain.Models.Customer;
+using business.Logic.Domain.Models.Customers;
 
 namespace business.Logic.Services
 {

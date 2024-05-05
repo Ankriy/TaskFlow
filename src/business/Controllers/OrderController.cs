@@ -34,7 +34,7 @@ namespace business.Controllers
             var model = new OrderListViewModel(orderList, page, size);
             if (id > 0)
             {
-                var data = _orderService.GetOrder(id);
+                var data = orderList.Orders.Find(x => x.Id == id);
                 var editCustomer = new EditOrderViewModel(data);
 
                 model.OrderForEdit = editCustomer;

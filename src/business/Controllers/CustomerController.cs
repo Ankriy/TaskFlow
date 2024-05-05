@@ -1,6 +1,6 @@
 ﻿using business.Application.Web.Models.Customers;
 using business.Application.Web.Services.Identity;
-using business.Logic.Domain.Models.Customer;
+using business.Logic.Domain.Models.Customers;
 using business.Logic.Services;
 using Microsoft.AspNetCore.Mvc;
 

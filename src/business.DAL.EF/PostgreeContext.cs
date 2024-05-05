@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using business.Logic.Domain.Models.Customer;
+using business.Logic.Domain.Models.Customers;
 using business.Logic.Domain.Models.Users;
 using business.Logic.Domain.Models.Notes;
 using business.Logic.Domain.Models.NoteTags;
@@ -47,6 +47,26 @@ namespace business.DAL.EF
                 .WithMany()
                 .IsRequired()
                 .HasForeignKey(c => c.UserId);
+            modelBuilder.Entity<Order>()
+                .HasOne(c => c.User)
+                .WithMany()
+                .IsRequired()
+                .HasForeignKey(c => c.UserId);
+            modelBuilder.Entity<Order>()
+                .HasOne(o => o.PaymentMethod)  // One Order has one PaymentMethod
+                .WithMany()     // One PaymentMethod can have many Orders
+                .IsRequired()
+                .HasForeignKey(o => o.PaymentMethodId);
+            modelBuilder.Entity<Order>()
+                .HasOne(o => o.OrderStatus)  // One Order has one PaymentMethod
+                .WithMany()     // One PaymentMethod can have many Orders
+                .IsRequired()
+                .HasForeignKey(o => o.OrderStatusId);
+            modelBuilder.Entity<Order>()
+                .HasOne(o => o.Customer)  // One Order has one PaymentMethod
+                .WithMany()     // One PaymentMethod can have many Orders
+                .IsRequired()
+                .HasForeignKey(o => o.CustomerId);
         }
     }
 }

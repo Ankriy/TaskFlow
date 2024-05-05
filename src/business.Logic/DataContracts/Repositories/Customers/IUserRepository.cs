@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using business.Logic.Domain.Models.Customer;
+using business.Logic.Domain.Models.Customers;
 using business.Logic.Domain.Models.Users;
 
 namespace business.Logic.DataContracts.Repositories.Customers

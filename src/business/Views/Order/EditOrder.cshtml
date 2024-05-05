@@ -86,17 +86,7 @@
 
             
             <input type="text" name="Id" placeholder="@Model.Id" value="@Model.Id" hidden>
-            @foreach (var ppl in Model.GetType()
-            .GetProperties()
-            .Where(prop => prop.CanRead)
-            .Select(prop => new { Name = prop.Name, Value = prop.GetValue(Model)})
-            .ToArray())
-            {
-                if(ppl.Name != "Id" && ppl.Value != null)
-                {
-                    <input type="text" name="@ppl.Name" placeholder="@ppl.Name" value="@ppl.Value">
-                }
-            }
+               
             </div>
 
             <div id="edit-field-container">

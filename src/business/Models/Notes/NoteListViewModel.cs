@@ -1,6 +1,6 @@
 ﻿
 
-using business.Logic.Domain.Models.Customer;
+using business.Logic.Domain.Models.Customers;
 using business.Logic.Domain.Models.Notes;
 using business.Logic.Domain.Models.NoteTags;
 

@@ -2,7 +2,7 @@
 using business.Logic.DataContracts.Repositories.Customers;
 using business.Logic.DataContracts.Repositories.Notes;
 using business.Logic.DataContracts.Repositories.Orders;
-using business.Logic.Domain.Models.Customer;
+using business.Logic.Domain.Models.Customers;
 using business.Logic.Domain.Models.Notes;
 using business.Logic.Domain.Models.NoteTags;
 using business.Logic.Domain.Models.Orders;
@@ -59,6 +59,10 @@ namespace business.DAL.EF.Repositories
 
             var users = query
                 .OrderBy(p => p.Id)
+                .Include(o => o.PaymentMethod)
+                .Include(o => o.OrderStatus)
+                .Include(o => o.Customer)
+                .Include(o => o.User)
                 .Where(x => x.UserId == userid)
                 .Skip(skip)
                 .Take(take)

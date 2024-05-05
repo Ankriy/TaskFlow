@@ -1,4 +1,4 @@
-﻿using business.Logic.Domain.Models.Customer;
+﻿using business.Logic.Domain.Models.Customers;
 using business.Logic.Domain.Models.Notes;
 using Microsoft.AspNetCore.Mvc;
 using System.Xml.Linq;

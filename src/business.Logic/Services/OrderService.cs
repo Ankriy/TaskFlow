@@ -1,7 +1,7 @@
 ﻿using business.Logic.DataContracts.Repositories.Customers;
 using business.Logic.DataContracts.Repositories.Notes;
 using business.Logic.DataContracts.Repositories.Orders;
-using business.Logic.Domain.Models.Customer;
+using business.Logic.Domain.Models.Customers;
 using business.Logic.Domain.Models.Notes;
 using business.Logic.Domain.Models.NoteTags;
 using business.Logic.Domain.Models.Orders;
@@ -49,13 +49,17 @@ namespace business.Logic.Services
                     CancellationDate = x.CancellationDate,
                     CancellationReason = x.CancellationReason,
                     CustomerId = x.CustomerId,
+                    Customer = x.Customer,
                     DeliveryCost = x.DeliveryCost,
                     Description = x.Description,
                     OrderDate = x.OrderDate,
                     OrderStatusId = x.OrderStatusId,
+                    OrderStatus = x.OrderStatus,
                     PaymentMethodId = x.PaymentMethodId,
+                    PaymentMethod = x.PaymentMethod,
                     TotalCost = x.TotalCost,
-                    UserId = x.UserId
+                    UserId = x.UserId,
+                    User = x.User
                 }).ToList();
             return result;
         }
