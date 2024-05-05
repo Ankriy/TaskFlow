@@ -16,7 +16,7 @@ namespace business.DAL.EF
 
 
         public DbSet<Customer> Customers { get; set; }
-        public DbSet<User> Users { get; set; }
+        public DbSet<AspNetUsers> AspNetUsers { get; set; }
         public DbSet<Note> Notes { get; set; }
         public DbSet<NoteTag> NoteTags { get; set; }
         public DbSet<Order> Orders { get; set; }

@@ -13,7 +13,7 @@ namespace business.Logic.Domain.Models.Customers
         public int Id { get; set; }
         public int UserId { get; set; }
         [NotMapped]
-        public User? User { get; set; }
+        public AspNetUsers? User { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
         public string Middlename { get; set; }

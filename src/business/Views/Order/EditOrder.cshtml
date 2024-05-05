@@ -80,13 +80,24 @@
 <div id="editDialog" class="dialog">
     <div class="container">
         <span id="editClose1" class="close">×</span>
-        <h2>Информация о клиенте</h2>
+        <h2>Информация о заказе</h2>
         <form  method="post" action="/Customer/EditCustomer">
             <div id ="edit-client">
 
             
-            <input type="text" name="Id" placeholder="@Model.Id" value="@Model.Id" hidden>
-               
+                <input type="number" name="Id" placeholder="@Model.Id" value="@Model.Id" hidden>
+                <input type="text" name="Id" placeholder="ФИО" value="@Model.Customer.Surname @Model.Customer.Name @Model.Customer.Middlename">
+                <input type="text" name="Method" placeholder="Метод оплаты" value="@Model.PaymentMethod.Method">
+                <input type="number" name="DeliveryCost" placeholder="Стоимость доставки" value="@Model.DeliveryCost">
+                <input type="text" name="Description" placeholder="Описание" value="@Model.Description">
+                <input type="date" name="OrderDate" placeholder="Дата заказа" value="@Model.OrderDate.ToString("yyyy-MM-dd")">
+                <input type="text" name="Status" placeholder="Статус заказа" value="@Model.OrderStatus.Status">
+                <input type="number" name="TotalCost" placeholder="Общая стоимость" value="@Model.TotalCost">
+                @if (@Model.CancellationDate != null)
+                {
+                    <input type="date" name="CancellationDate" placeholder="Дата отмены" value="@Model.CancellationDate">
+                    <input type="text" name="CancellationReason" placeholder="Причина отмены" value="@Model.CancellationReason">
+                }
             </div>
 
             <div id="edit-field-container">

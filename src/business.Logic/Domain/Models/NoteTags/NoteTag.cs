@@ -14,7 +14,7 @@ namespace business.Logic.Domain.Models.NoteTags
         public string Name { get; set; }
         public int UserId { get; set; }
         [NotMapped]
-        public User? User { get; set; }
+        public AspNetUsers? User { get; set; }
         public int Order { get; set; }
 
     }
