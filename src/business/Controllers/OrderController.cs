@@ -5,7 +5,10 @@ using business.Logic.Domain.Models.Orders;
 using business.Logic.Domain.Models.Orders.Enums;
 using business.Logic.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.Drawing;
 using System.Xml.Linq;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -55,8 +58,10 @@ namespace business.Controllers
                 model.OrderForEdit.OrderStatus = new OrderStatus();
                 model.OrderForEdit.PaymentMethod = new OrderPaymentMethod();
                 model.OrderForEdit.Customer = new Customer();
+                ViewData["Name"] = "Добавить заказ";
                 return View(model);
             }
+            ViewData["Name"] = "Информация о заказе";
             return View(model);
 
 
@@ -87,14 +92,36 @@ namespace business.Controllers
             var currentUser = _currentUserService.GetUser();
             if (currentUser == null)
                 return BadRequest("Bad credentials");
-            if(!order.OrderStatus.Status.IsNullOrEmpty())
-                order.OrderStatusId = OrderStatusHelper.GetIdFromName(order.OrderStatus.Status.Replace(" ", ""));
-            if (!order.PaymentMethod.Method.IsNullOrEmpty())
-                order.PaymentMethodId = PaymentMethodHelper.GetIdFromName(order.PaymentMethod.Method);
-            if(order.CustomerId == 0)
-
             order.UserId = (int)currentUser.Id;
+            if (!order.OrderStatus.Status.IsNullOrEmpty())
+            {
+                order.OrderStatusId = OrderStatusHelper.GetIdFromName(order.OrderStatus.Status.Replace(" ", ""));
+                order.OrderStatus.Id = OrderStatusHelper.GetIdFromName(order.OrderStatus.Status.Replace(" ", ""));
+            }
+            else
+            {
+                order.OrderStatusId = (int)OrderStatusType.Новый;
+                order.OrderStatus.Id = (int)OrderStatusType.Новый;
+                order.OrderStatus.Status = OrderStatusType.Новый.ToString();
+            }
+                
+            if (!order.PaymentMethod.Method.IsNullOrEmpty())
+            {
+                order.PaymentMethodId = PaymentMethodHelper.GetIdFromName(order.PaymentMethod.Method);
+                order.PaymentMethod.Id = PaymentMethodHelper.GetIdFromName(order.PaymentMethod.Method);
+            }
+            else
+            {
+                order.PaymentMethodId = (int)PaymentMethodType.Неуказано;
+                order.PaymentMethod.Id = (int)PaymentMethodType.Неуказано;
+                order.PaymentMethod.Method = PaymentMethodType.Неуказано.ToString();
+                order.OrderDate = DateTime.Today;
+
+            }
+                
+
             _orderService.EditOrder(order);
+
             return RedirectToAction("TableOrders");
         }
         [HttpPost]
@@ -106,5 +133,6 @@ namespace business.Controllers
             _orderService.DeleteOrder(id);
             return RedirectToAction("TableOrders");
         }
+        
     }
 }

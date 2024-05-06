@@ -1,8 +1,12 @@
 ﻿@model business.Application.Web.Models.Orders.OrderListViewModel
-
+<style>
+    .headerTableTitle {
+        text-align: center;
+    }
+</style>
 <form id="myForm" method="post">
-    <h2>Таблица заказов</h2>
-    <input type="text" id="searchInput" placeholder="Поиск...">
+    <h2 class="headerTableTitle">Таблица заказов</h2>
+    <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Поиск...">
     <button asp-controller="Order"
             asp-action="TableOrders"
             asp-route-id="-1">
@@ -26,7 +30,7 @@
                     <td>@ppl.Customer.Surname @ppl.Customer.Name @ppl.Customer.Middlename</td>
                     <td>@ppl.TotalCost</td>
                     <td>@ppl.OrderStatus.Status</td>
-                    <td>@ppl.OrderDate</td>
+                    <td>@(ppl.OrderDate.HasValue ? ppl.OrderDate.Value.ToString("dd-MM-yyyy") : "")</td>
                     <td>
                         <button asp-controller="Order"
                                 asp-action="TableOrders"
@@ -54,38 +58,33 @@
             <a href="/Order/TableOrders/?page=@(Model.Page)&page-size=20">20</a>
         </div>
     </div>
-
-
-
+    
 </form>
-
-@* <partial name="AddCustomer" />*@
 @if (@Model.OrderForEdit != null)
 {
     <partial name="EditOrder" model="@Model.OrderForEdit" />
 } 
 
 <script>
-    //const addUserBtn = document.getElementById('addUserBtn');
-    const dialog = document.getElementById('dialog');
-    const closeButton = document.getElementById('close');
+    function searchTable() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("searchInput");
+        filter = input.value.toUpperCase();
+        table = document.querySelector("table");
+        tr = table.getElementsByTagName("tr");
 
-    // addUserBtn.addEventListener('click', () => {
-    //     dialog.style.display = 'block';
-    // });
-    // closeButton.addEventListener('click', () => {
-    //     dialog.style.display = 'none';
-    // });
-
-    // const editUserBtn = document.getElementById('editUserBtn');
-    const editDialog = document.getElementById('editDialog');
-    // editUserBtn.addEventListener('click', () => {
-    //     editDialog.style.display = 'block';
-    // });
-    const editCloseButton = document.getElementById('editClose1');
-    editCloseButton.addEventListener('click', () => {
-        editDialog.style.display = 'none';
-        //window.location.href = window.location.pathname
-    });
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0]; // Измените индекс, если нужно искать по другой колонке
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+    
 
 </script>

@@ -100,7 +100,7 @@
 @model business.Application.Web.Models.Orders.EditOrderViewModel
 <div id="editDialog" class="dialog">
     <span id="editClose1" class="close">×</span>
-    <h2>Информация о заказе</h2>
+    <h2>@(ViewData["Name"])</h2>
     <form class="container" method="post" action="/Order/EditOrder">
         <div class="edit-order">
             <input type="number" name="Id" placeholder="@Model.Id" value="@Model.Id" hidden>
@@ -119,7 +119,7 @@
             <div class="input-group">
                 <label>ФИО</label>
                 <div class="editorderdropdown">
-                    <input type="text" placeholder="ФИО" value="@Model.Customer!.Surname @Model.Customer.Name @Model.Customer.Middlename" readonly>
+                    <input type="text" placeholder="ФИО" value="@Model.Customer!.Surname @Model.Customer.Name @Model.Customer.Middlename" required>
                     <input id="ordercustomerid" type="text" name="CustomerId" placeholder="ФИО" value="@(@Model.Customer.Id != 0 ? @Model.Customer.Id : null)" hidden>
                     <div class="editorderdropdown-content">
                         <input type="text" id="search-box-1" placeholder="Search...">
@@ -164,18 +164,30 @@
         </div>
 
         <div class="edit-order-btn">
-            <button type="submit">Сохранить</button>
-            <button asp-controller="Order"
-                    asp-action="DeleteOrder"
-                    asp-route-id="@Model.Id"
-                    style="background-color:red">
-                Удалить
-            </button>
+           
+            @if (ViewData["Name"] != "Добавить заказ")
+            {
+                <button type="submit">Сохранить</button>
+                <button asp-controller="Order"
+                        asp-action="DeleteOrder"
+                        asp-route-id="@Model.Id"
+                        style="background-color:red">
+                    Удалить
+                </button>
+            }else{
+                <button type="submit" style="width:99.5%">Сохранить</button>
+            }
+            
         </div>
     </form>
 
 
     <script>
+        const editCloseButton = document.getElementById('editClose1');
+        editCloseButton.addEventListener('click', () => {
+            window.location.href = window.location.href.replace(/\/-?\d+/, '');
+        });
+
         document.querySelector(".editorderliketextarea").addEventListener("input", function () {
             let lines = this.value.split("\n");
             if (lines.length > 6) {

@@ -37,7 +37,7 @@ namespace business.Controllers
         public IActionResult profit()
         {
             var data = new List<int> { 10, 12, 9, 15, 13 };
-            return Json(data);
+            return Json(new {ff = data});
         }
         [HttpGet]
         public IActionResult expenses()

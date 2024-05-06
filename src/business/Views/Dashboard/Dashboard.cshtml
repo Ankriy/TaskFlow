@@ -2,8 +2,15 @@
     ViewData["Title"] = "Name32434";
 }
 
-    
 <div class="dashboard-container">
+    <div class="date-filter">
+        <label for="startDate">Start Date:</label>
+        <input type="date" id="startDate">
+
+        <label for="endDate">End Date:</label>
+        <input type="date" id="endDate">
+    </div>
+
     <div class="chart-container">
         <canvas id="profit"></canvas>
         <div class="resize-handle"></div>
@@ -38,31 +45,79 @@
 
             const canvas = container.querySelector('canvas');
             const canvasid = canvas.id;
-            fetch(`/Dashboard/${canvasid}`)
+            // fetch(`/Dashboard/${canvasid}`)
+            //     .then(response => response.json())
+            //     .then(data => {
+
+            //         const chart = new Chart(canvas, {
+            //             type: 'line',
+            //             data: {
+            //                 labels: ['January', 'February', 'March', 'April', 'May'],
+            //                 datasets: [{
+            //                     label: 'Profit',
+            //                     data: data,
+            //                     borderColor: 'rgba(255, 99, 132, 1)',
+            //                     backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            //                     borderWidth: 1
+            //                 }]
+            //             },
+            //             options: {
+            //                 scales: {
+            //                     y: {
+            //                         beginAtZero: true
+            //                     }
+            //                 }
+            //             }
+            //         });
+            //     });
+            fetch(`/Dashboard/${ canvasid }`)
                 .then(response => response.json())
                 .then(data => {
+                    const canvas = document.getElementById('canvas');
+                    const startDateInput = document.getElementById('startDate');
+                    const endDateInput = document.getElementById('endDate');
 
-                    const chart = new Chart(canvas, {
-                        type: 'line',
-                        data: {
-                            labels: ['January', 'February', 'March', 'April', 'May'],
-                            datasets: [{
-                                label: 'Profit',
-                                data: data,
-                                borderColor: 'rgba(255, 99, 132, 1)',
-                                backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                                borderWidth: 1
-                            }]
-                        },
-                        options: {
-                            scales: {
-                                y: {
-                                    beginAtZero: true
+                    const updateChart = () => {
+                        const startDate = new Date(startDateInput.value);
+                        const endDate = new Date(endDateInput.value);
+
+                        const filteredData = data.filter(item => {
+                            const itemDate = new Date(item.date); // Предположим, что у вас есть поле 'date' в объекте данных
+                            return itemDate >= startDate && itemDate <= endDate;
+                        });
+
+                        const labels = filteredData.map(item => item.label);
+                        const values = filteredData.map(item => item.value);
+
+                        const chart = new Chart(canvas, {
+                            type: 'line',
+                            data: {
+                                labels: labels,
+                                datasets: [{
+                                    label: 'Profit',
+                                    data: values,
+                                    borderColor: 'rgba(255, 99, 132, 1)',
+                                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                                    borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                scales: {
+                                    y: {
+                                        beginAtZero: true
+                                    }
                                 }
                             }
-                        }
-                    });
+                        });
+                    };
+
+                    startDateInput.addEventListener('change', updateChart);
+                    endDateInput.addEventListener('change', updateChart);
+
+                    updateChart(); // Вызов функции сразу после загрузки данных
                 });
+
+
             resizeHandle.addEventListener('mousedown', (e) => {
                 isResizing = true;
                 initialX = e.clientX;

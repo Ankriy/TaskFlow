@@ -8,6 +8,7 @@ using business.Logic.Domain.Models.Users;
 using business.Logic.Domain.Models.Customers;
 using business.Logic.Domain.Models.NoteTags;
 using System.Data.SqlTypes;
+using System.ComponentModel.DataAnnotations;
 
 namespace business.Logic.Domain.Models.Orders
 {
@@ -17,12 +18,16 @@ namespace business.Logic.Domain.Models.Orders
         public int UserId { get; set; }
         [NotMapped]
         public AspNetUsers? User { get; set; }
-        public int? CustomerId { get; set; }
+        public int CustomerId { get; set; }
         public Customer? Customer { get; set; }
         public DateTime? OrderDate { get; set; }
-        public int? OrderStatusId { get; set; }
+        [Required]
+        public int OrderStatusId { get; set; }
+        [ForeignKey("OrderStatusId")]
         public OrderStatus? OrderStatus { get; set; }
-        public int? PaymentMethodId { get; set; }
+        [Required]
+        public int PaymentMethodId { get; set; }
+        [ForeignKey("PaymentMethodId")]
         public OrderPaymentMethod? PaymentMethod { get; set; }
         public int? DeliveryCost { get; set; }
         public int? TotalCost { get; set; }
