@@ -3,7 +3,11 @@
 <form id="myForm" method="post">
     <h2>Таблица заказов</h2>
     <input type="text" id="searchInput" placeholder="Поиск...">
-    <button id="addUserBtn" type="button">Добавить заказ</button>
+    <button asp-controller="Order"
+            asp-action="TableOrders"
+            asp-route-id="-1">
+    Добавить заказ
+    </button>
     @*Таблица клиентов*@
     <table>
         <thead>
@@ -62,13 +66,13 @@
 } 
 
 <script>
-    const addUserBtn = document.getElementById('addUserBtn');
+    //const addUserBtn = document.getElementById('addUserBtn');
     const dialog = document.getElementById('dialog');
     const closeButton = document.getElementById('close');
 
-    addUserBtn.addEventListener('click', () => {
-        dialog.style.display = 'block';
-    });
+    // addUserBtn.addEventListener('click', () => {
+    //     dialog.style.display = 'block';
+    // });
     // closeButton.addEventListener('click', () => {
     //     dialog.style.display = 'none';
     // });

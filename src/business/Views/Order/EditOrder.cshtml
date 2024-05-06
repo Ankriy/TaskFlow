@@ -4,154 +4,247 @@
         margin: 0;
         padding: 0;
         display: block;
+        width: 500px;
+        max-height: 500px;
     }
 
     .container {
-        max-width: 600px;
         margin: 20px;
-        padding: 0px 0px 0px 20px;
     }
 
     h2 {
         text-align: center;
     }
 
-    #edit-client input {
-        margin-bottom: 10px;
-        width: calc(50% - 10px);
-        padding: 8px;
-        margin-right: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
+    .edit-order {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
     }
 
-    #edit-client button {
+        .edit-order input {
+            width: 100%;
+            padding: 8px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+    .edit-order-btn{
+        display:block;
+    }
+    .edit-order-btn button {
         padding: 8px 16px;
         background-color: #007bff;
         color: #fff;
         border: none;
         border-radius: 5px;
         cursor: pointer;
+        margin-top: 20px;
+        width: 49.5%;
     }
 
-        #edit-client button:hover {
+        .edit-order-btn button:hover {
             background-color: #0056b3;
         }
 
-    /*Кнопка "Добавить поле" и выпадающий список*/
-    #edit-field-container {
-        text-align: center;
-        margin-bottom: 20px;
+    .edit-order label {
+        display: block;
+        margin-bottom: 5px;
+        margin-left: 5px;
     }
 
-    #edit-field {
-        border: 1px dashed #ccc;
-        width: calc(50% - 10px);
-        padding: 8px;
-        border-radius: 5px;
-        cursor: pointer;
+    .edit-order input, .edit-order label {
+        box-sizing: border-box;
     }
 
-    #dropdown-content {
+
+
+    .editorderdropdown-content {
         display: none;
         position: absolute;
-        background-color: #f9f9f9;
+        background-color: #f1f1f1;
+        min-width: 160px;
         box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
         z-index: 1;
-        min-width: 120px;
     }
 
-        #dropdown-content a {
-            color: #333;
-            padding: 8px 16px;
-            display: block;
+        .editorderdropdown-content a {
+            color: black;
+            padding: 12px 16px;
             text-decoration: none;
+            display: block;
         }
 
-            #dropdown-content a:hover {
-                background-color: #f1f1f1;
+            .editorderdropdown-content a:hover {
+                background-color: #ddd;
             }
 
-    #add-field-container:hover #dropdown-content {
+    .input-group {
         display: block;
+    }
+
+    .editorderliketextarea {
+        font-family: Arial, sans-serif;
+        width: 96%;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        resize: none;
+        scrollbar-width: none;
+        height: 100px;
+        overflow: hidden;
+        padding: 8px;
     }
 </style>
 @model business.Application.Web.Models.Orders.EditOrderViewModel
 <div id="editDialog" class="dialog">
-    <div class="container">
-        <span id="editClose1" class="close">×</span>
-        <h2>Информация о заказе</h2>
-        <form  method="post" action="/Customer/EditCustomer">
-            <div id ="edit-client">
-
-            
-                <input type="number" name="Id" placeholder="@Model.Id" value="@Model.Id" hidden>
-                <input type="text" name="Id" placeholder="ФИО" value="@Model.Customer.Surname @Model.Customer.Name @Model.Customer.Middlename">
-                <input type="text" name="Method" placeholder="Метод оплаты" value="@Model.PaymentMethod.Method">
-                <input type="number" name="DeliveryCost" placeholder="Стоимость доставки" value="@Model.DeliveryCost">
-                <input type="text" name="Description" placeholder="Описание" value="@Model.Description">
-                <input type="date" name="OrderDate" placeholder="Дата заказа" value="@Model.OrderDate.ToString("yyyy-MM-dd")">
-                <input type="text" name="Status" placeholder="Статус заказа" value="@Model.OrderStatus.Status">
-                <input type="number" name="TotalCost" placeholder="Общая стоимость" value="@Model.TotalCost">
-                @if (@Model.CancellationDate != null)
-                {
-                    <input type="date" name="CancellationDate" placeholder="Дата отмены" value="@Model.CancellationDate">
-                    <input type="text" name="CancellationReason" placeholder="Причина отмены" value="@Model.CancellationReason">
-                }
+    <span id="editClose1" class="close">×</span>
+    <h2>Информация о заказе</h2>
+    <form class="container" method="post" action="/Order/EditOrder">
+        <div class="edit-order">
+            <input type="number" name="Id" placeholder="@Model.Id" value="@Model.Id" hidden>
+            <div class="input-group">
+                <label for="field1">Стоимость доставки</label>
+                <input id="field1" type="number" name="DeliveryCost" placeholder="Стоимость доставки" value="@Model.DeliveryCost">
             </div>
-
-            <div id="edit-field-container">
-                <div id="edit-field" onclick="showDropdown()">+</div>
-                <div id="dropdown-content">
-                    @foreach (var ppl in Model.GetType()
-                    .GetProperties()
-                    .Where(prop => prop.CanRead)
-                    .Select(prop => new { Name = prop.Name, Value = prop.GetValue(Model) })
-                    .ToArray())
-                    {
-                        if (ppl.Name != "Id" && ppl.Value == null)
-                        {
-                            <a href="#" id="@ppl.Name" onclick="addField('@ppl.Name')">@ppl.Name</a>
-                        }
-                    }
+            <div class="input-group">
+                <label>Дата заказа</label>
+                <input type="date" name="OrderDate" placeholder="Дата заказа" value="@(Model.OrderDate.HasValue ? Model.OrderDate.Value.ToString("yyyy-MM-dd") : "")">
+            </div>
+            <div class="input-group">
+                <label>Общая стоимость</label>
+                <input type="number" name="TotalCost" placeholder="Общая стоимость" value="@Model.TotalCost">
+            </div>
+            <div class="input-group">
+                <label>ФИО</label>
+                <div class="editorderdropdown">
+                    <input type="text" placeholder="ФИО" value="@Model.Customer!.Surname @Model.Customer.Name @Model.Customer.Middlename" readonly>
+                    <input id="ordercustomerid" type="text" name="CustomerId" placeholder="ФИО" value="@(@Model.Customer.Id != 0 ? @Model.Customer.Id : null)" hidden>
+                    <div class="editorderdropdown-content">
+                        <input type="text" id="search-box-1" placeholder="Search...">
+                        <div id="options-container-1"></div>
+                    </div>
                 </div>
             </div>
-
-            <div>
-                <button type="submit">Сохранить</button>
-                <button asp-controller="Customer"
-                        asp-action="DeleteCustomer"
-                        asp-route-id="@Model.Id"
-                        style="background-color:red">
-                    Удалить
-                </button>
+            <div class="input-group">
+                <label>Метод оплаты</label>
+                <div class="editorderdropdown">
+                    <input type="text" name="PaymentMethod.Method" placeholder="Метод оплаты" value="@Model.PaymentMethod.Method" readonly>
+                    <div class="editorderdropdown-content">
+                        <a>Наличные</a>
+                        <a>Карта</a>
+                        <a>Перевод</a>
+                    </div>
+                </div>
             </div>
-        </form>
-        
-        
-        
-    </div>
+            <div class="input-group">
+                <label>Статус заказа</label>
+                <div class="editorderdropdown">
+                    <input type="text" name="OrderStatus.Status" placeholder="Статус заказа" value="@Model.OrderStatus.Status" readonly>
+                    <div class="editorderdropdown-content">
+                        <a>Новый</a>
+                        <a>В обработке</a>
+                        <a>Отправлен</a>
+                        <a>Доставлен</a>
+                        <a>Завершён</a>
+                        <a>Отменён</a>
+                    </div>
+                </div>
+            </div>
+            @if (@Model.CancellationDate != null)
+            {
+                <input type="date" name="CancellationDate" placeholder="Дата отмены" value="@Model.CancellationDate">
+                <input type="text" name="CancellationReason" placeholder="Причина отмены" value="@Model.CancellationReason">
+            }
+            <div class="input-group" style="width:204%">
+                <label>Описание</label>
+                <textarea rows="6" class="editorderliketextarea" name="Description" placeholder="Описание">@Model.Description</textarea>
+            </div>
+        </div>
+
+        <div class="edit-order-btn">
+            <button type="submit">Сохранить</button>
+            <button asp-controller="Order"
+                    asp-action="DeleteOrder"
+                    asp-route-id="@Model.Id"
+                    style="background-color:red">
+                Удалить
+            </button>
+        </div>
+    </form>
 
 
     <script>
-        function showDropdown() {
-            document.getElementById('dropdown-content').style.display = 'block';
-        }
-
-        function addField(fieldType) {
-            // Add logic to create a new field of the selected type
-            const newField = document.createElement('input');
-            newField.setAttribute('type', 'text');
-            newField.setAttribute('placeholder', fieldType);
-            document.getElementById('edit-client').appendChild(newField);
-
-            var elementToRemove = document.getElementById(fieldType);
-            if (elementToRemove) {
-                elementToRemove.remove();
+        document.querySelector(".editorderliketextarea").addEventListener("input", function () {
+            let lines = this.value.split("\n");
+            if (lines.length > 6) {
+                this.value = lines.slice(0, 6).join("\n");
             }
+        });
 
-            // Hide dropdown after adding a field
-            document.getElementById('dropdown-content').style.display = 'none';
-        }
+        const dropdowns = document.querySelectorAll(".editorderdropdown");
+        dropdowns.forEach(dropdown => {
+            const dropdownContent = dropdown.querySelector(".editorderdropdown-content");
+            const inputField = dropdown.querySelector("input");
+            inputField.addEventListener("click", () => {
+                dropdownContent.style.display = "block"; // Show content on click
+                const searchBox = document.getElementById("search-box-1");
+                searchBox.focus();
+            });
+            dropdown.addEventListener("mouseleave", () => {
+                dropdownContent.style.display = "none";
+                if (dropdownContent.querySelector('#options-container-1')) {
+                    const optionsContainer = document.getElementById("options-container-1");
+                    while (optionsContainer.firstChild) {
+                        optionsContainer.removeChild(optionsContainer.firstChild);
+                    }
+                    const searchBox = document.getElementById("search-box-1");
+                    searchBox.value = '';
+                }
+            });
+            dropdownContent.addEventListener("click", (event) => {
+                const searchBox = document.getElementById("search-box-1"); // Assuming search box ID
+                const customerid = document.getElementById("ordercustomerid");
+                if (event.target !== searchBox) {
+                    const selectedValue = event.target.textContent;
+                    inputField.value = selectedValue;
+
+                    if (dropdownContent.querySelector('#options-container-1')) {
+                        customerid.value = event.target.id;
+                        searchBox.value = '';
+                        const optionsContainer = document.getElementById("options-container-1");
+                        while (optionsContainer.firstChild) {
+                            optionsContainer.removeChild(optionsContainer.firstChild);
+                        }
+                    }
+                    dropdownContent.style.display = "none";
+                    
+                }
+            });
+        });
+        const searchBox = document.getElementById("search-box-1");
+        searchBox.addEventListener("input", function () {
+            const searchTerm = $(this).val().toLowerCase();
+
+            // Replace with your actual data fetching logic
+            $.ajax({
+                url: "/Order/SearchCustomer",
+                data: { search: searchTerm },
+                dataType: "json",
+                success: function (data) {
+                    const optionsContainer = document.getElementById("options-container-1");
+                    while (optionsContainer.firstChild) {
+                        optionsContainer.removeChild(optionsContainer.firstChild);
+                    }
+                    data.forEach(item => {
+                        const option = document.createElement("a");
+                        option.textContent = item.text;
+                        option.id = item.id;
+                        optionsContainer.appendChild(option);
+                    });
+                }
+            });
+        });
     </script>
 </div>
