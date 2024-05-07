@@ -3,6 +3,7 @@ using business.Logic.DataContracts.Repositories.Customers;
 using business.Logic.DataContracts.Repositories.Notes;
 using business.Logic.DataContracts.Repositories.Orders;
 using business.Logic.Domain.Models.Customers;
+using business.Logic.Domain.Models.Filters;
 using business.Logic.Domain.Models.Notes;
 using business.Logic.Domain.Models.NoteTags;
 using business.Logic.Domain.Models.Orders;
@@ -53,9 +54,37 @@ namespace business.DAL.EF.Repositories
             return tag;
         }
 
-        public ICollection<Order> Get(string search, int skip, int take, int userid)
+        public ICollection<Order> Get(string search, int skip, int take, int userid, OrderFilterModel? filter)
         {
             IQueryable<Order> query = _context.Orders;
+
+            if (filter != null)
+            {
+                if (filter.OrderStatus.HasValue)
+                {
+                    query = query.Where(o => o.OrderStatusId == filter.OrderStatus);
+                }
+
+                if (filter.minTotalCost.HasValue)
+                {
+                    query = query.Where(o => o.TotalCost >= filter.minTotalCost);
+                }
+
+                if (filter.maxTotalCost.HasValue)
+                {
+                    query = query.Where(o => o.TotalCost <= filter.maxTotalCost);
+                }
+
+                if (filter.minOrderDate.HasValue)
+                {
+                    query = query.Where(o => o.OrderDate >= filter.minOrderDate);
+                }
+
+                if (filter.maxOrderDate.HasValue)
+                {
+                    query = query.Where(o => o.OrderDate <= filter.maxOrderDate);
+                }
+            }
 
             var users = query
                 .OrderBy(p => p.Id)

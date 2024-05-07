@@ -1,6 +1,7 @@
 ﻿using business.Application.Web.Models.Orders;
 using business.Application.Web.Services.Identity;
 using business.Logic.Domain.Models.Customers;
+using business.Logic.Domain.Models.Filters;
 using business.Logic.Domain.Models.Orders;
 using business.Logic.Domain.Models.Orders.Enums;
 using business.Logic.Services;
@@ -34,7 +35,7 @@ namespace business.Controllers
 
 
         [HttpGet]
-        public IActionResult TableOrders([FromQuery(Name = "page")] int page, [FromQuery(Name = "page-size")] int size, int id)
+        public IActionResult TableOrders([FromQuery(Name = "page")] int page, [FromQuery(Name = "page-size")] int size, int id, OrderFilterModel filter)
         {
             var currentUser = _currentUserService.GetUser();
             if (currentUser == null)
@@ -42,8 +43,8 @@ namespace business.Controllers
             if (size == 0)
                 size = 10;
             var skip = page * size;
-            var orderList = _orderService.GetOrderList(skip, size, (int)currentUser.Id);
-            var model = new OrderListViewModel(orderList, page, size);
+            var orderList = _orderService.GetOrderList(skip, size, (int)currentUser.Id, filter);
+            var model = new OrderListViewModel(orderList, page, size, filter);
             if (id > 0)
             {
                 var data = orderList.Orders.Find(x => x.Id == id);
@@ -116,9 +117,9 @@ namespace business.Controllers
                 order.PaymentMethod.Id = (int)PaymentMethodType.Неуказано;
                 order.PaymentMethod.Method = PaymentMethodType.Неуказано.ToString();
                 order.OrderDate = DateTime.Today;
-
             }
-                
+            if(order.OrderStatusId == (int)OrderStatusType.Отменён)
+                order.CancellationDate = DateTime.Today;
 
             _orderService.EditOrder(order);
 
@@ -133,6 +134,6 @@ namespace business.Controllers
             _orderService.DeleteOrder(id);
             return RedirectToAction("TableOrders");
         }
-        
+
     }
 }

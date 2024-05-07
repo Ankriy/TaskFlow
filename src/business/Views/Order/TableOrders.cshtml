@@ -3,15 +3,126 @@
     .headerTableTitle {
         text-align: center;
     }
+
+    .status-1 {
+        font-weight:900;
+    }
+
+    .status-6 {
+        color: red;
+    }
+
+    .filter-block {
+        background-color: #f2f2f2;
+        border: 1px solid #ccc;
+        border-radius: 10px 10px 0 0;
+        padding: 10px;
+        display: flex;
+        gap: 10px;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .filter-group {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+        .filter-group select,
+        .filter-group input[type="number"],
+        .filter-group input[type="date"] {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        .filter-group input[type="number"] {
+            width: 47px;
+        }
+
+        .filter-group input[type="date"] {
+            width: 90px;
+        }
+
+        .filter-group button {
+            padding: 5px 10px;
+            background-color: #ffbebe;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            /* Added border radius */
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+            .filter-group button:hover {
+                background-color: #ff6d6d;
+            }
+
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    .order-filters {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 </style>
-<form id="myForm" method="post">
+<form id="myForm" method="get">
     <h2 class="headerTableTitle">Таблица заказов</h2>
+    @*Выпадающий список*@
+    <div class="dropdown">
+        <img src="~/img/DropDownImg.svg" alt="Кол-во записей">
+        <div class="dropdown-content">
+            <a href="/Order/TableOrders/?page=@(Model.Page)&page-size=2">2</a>
+            <a href="/Order/TableOrders/?page=@(Model.Page)&page-size=5">5</a>
+            <a href="/Order/TableOrders/?page=@(Model.Page)&page-size=10">10</a>
+            <a href="/Order/TableOrders/?page=@(Model.Page)&page-size=20">20</a>
+        </div>
+    </div>
     <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Поиск...">
     <button asp-controller="Order"
             asp-action="TableOrders"
             asp-route-id="-1">
-    Добавить заказ
+        Добавить заказ
     </button>
+    <div class="order-filters">
+        <div class="filter-block">
+            <div class="filter-group">
+                <select name="filter.OrderStatus" id="statusFilter" >
+                    <option value="">Все</option>
+                    <option value="1" selected="@(Model.orderFilter.OrderStatus == 1 ? "selected" : null)">Новый</option>
+                    <option value="2" selected="@(Model.orderFilter.OrderStatus == 2 ? "selected" : null)">В обработке</option>
+                    <option value="3" selected="@(Model.orderFilter.OrderStatus == 3 ? "selected" : null)">Отправлен</option>
+                    <option value="4" selected="@(Model.orderFilter.OrderStatus == 4 ? "selected" : null)">Доставлен</option>
+                    <option value="5" selected="@(Model.orderFilter.OrderStatus == 5 ? "selected" : null)">Завершён</option>
+                    <option value="6" selected="@(Model.orderFilter.OrderStatus == 6 ? "selected" : null)">Отменён</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <input name="filter.minTotalCost" type="number" id="minPrice" placeholder="Мин" value="@Model.orderFilter.minTotalCost">
+                <input name="filter.maxTotalCost" type="number" id="maxPrice" placeholder="Макс" value="@Model.orderFilter.maxTotalCost">
+
+            </div>
+            <div class="filter-group">
+                <input name="filter.minOrderDate" type="date" id="startDate" value="@(Model.orderFilter.minOrderDate.HasValue ? Model.orderFilter.minOrderDate.Value.ToString("yyyy-MM-dd") : "")">
+                <input name="filter.maxOrderDate" type="date" id="endDate" value="@(Model.orderFilter.maxOrderDate.HasValue ? Model.orderFilter.maxOrderDate.Value.ToString("yyyy-MM-dd") : "")">
+            </div>
+            <div class="filter-group">
+                <button type="submit">Искать</button>
+                <button asp-controller="Order" asp-action="TableOrders" onclick="clearFilter()">
+                    Сбросить
+                </button>
+            </div>
+        </div>
+    </div>
     @*Таблица клиентов*@
     <table>
         <thead>
@@ -29,7 +140,7 @@
                 <tr id="@Model">
                     <td>@ppl.Customer.Surname @ppl.Customer.Name @ppl.Customer.Middlename</td>
                     <td>@ppl.TotalCost</td>
-                    <td>@ppl.OrderStatus.Status</td>
+                    <td class ="status-@ppl.OrderStatus.Id">@ppl.OrderStatus.Status</td>
                     <td>@(ppl.OrderDate.HasValue ? ppl.OrderDate.Value.ToString("dd-MM-yyyy") : "")</td>
                     <td>
                         <button asp-controller="Order"
@@ -48,16 +159,7 @@
         <a href="/Order/TableOrders/?page=@(Model.Page - 1)&page-size=@(Model.PageSize)" class="btn @(Model.CanBack == false ? "disable" : "")">Предыдущая</a>
         <a href="/Order/TableOrders/?page=@(Model.Page + 1)&page-size=@(Model.PageSize)" class="btn @(Model.CanForward == false ? "disable" : "")">Следующая</a>
     </div>
-    @*Выпадающий список*@
-    <div class="dropdown">
-        <img src="~/img/DropDownImg.svg" alt="Кол-во записей">
-        <div class="dropdown-content">
-            <a href="/Order/TableOrders/?page=@(Model.Page)&page-size=2">2</a>
-            <a href="/Order/TableOrders/?page=@(Model.Page)&page-size=5">5</a>
-            <a href="/Order/TableOrders/?page=@(Model.Page)&page-size=10">10</a>
-            <a href="/Order/TableOrders/?page=@(Model.Page)&page-size=20">20</a>
-        </div>
-    </div>
+   
     
 </form>
 @if (@Model.OrderForEdit != null)
@@ -85,6 +187,19 @@
             }
         }
     }
-    
+    function clearFilter() {
+        status = document.getElementById("statusFilter");
+        minPrice = document.getElementById("minPrice");
+        maxPrice = document.getElementById("maxPrice");
+        startDate = document.getElementById("startDate");
+        endDate = document.getElementById("endDate");
+
+        $('#statusFilter').val('');
+        minPrice.value = '';
+        maxPrice.value = '';
+        startDate.value = '';
+        endDate.value = '';
+        
+    }
 
 </script>

@@ -1,6 +1,7 @@
 ﻿
 
 using business.Logic.Domain.Models.Customers;
+using business.Logic.Domain.Models.Filters;
 using business.Logic.Domain.Models.Orders;
 
 namespace business.Application.Web.Models.Orders
@@ -10,6 +11,8 @@ namespace business.Application.Web.Models.Orders
         public List<OrderShortViewModel> Orders { get; set; }
 
         public EditOrderViewModel OrderForEdit { get; set; }
+
+        public OrderFilterModel orderFilter { get; set; }
         public int TotalCount { get; set; }
         public int Page { get; set; }
         public int PageSize { get; set; }
@@ -22,8 +25,9 @@ namespace business.Application.Web.Models.Orders
             Orders = new List<OrderShortViewModel>();
         }
 
-        public OrderListViewModel(OrderList list, int page, int size)
+        public OrderListViewModel(OrderList list, int page, int size, OrderFilterModel filter)
         {
+            orderFilter = filter;
             Orders = new List<OrderShortViewModel>();
             foreach (Order order in list.Orders)
             {

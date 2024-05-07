@@ -5,7 +5,6 @@
         padding: 0;
         display: block;
         width: 500px;
-        max-height: 500px;
     }
 
     .container {
@@ -154,8 +153,14 @@
             </div>
             @if (@Model.CancellationDate != null)
             {
-                <input type="date" name="CancellationDate" placeholder="Дата отмены" value="@Model.CancellationDate">
-                <input type="text" name="CancellationReason" placeholder="Причина отмены" value="@Model.CancellationReason">
+                <div class="input-group">
+                    <label>Дата отмены</label>
+                    <input type="date" name="CancellationDate" placeholder="Дата отмены" value="@(Model.CancellationDate.HasValue ? Model.CancellationDate.Value.ToString("yyyy-MM-dd") : "")">
+                </div>
+                <div class="input-group">
+                    <label>Причина отмены</label>
+                    <input type="text" name="CancellationReason" placeholder="Причина отмены" value="@Model.CancellationReason">
+                </div>
             }
             <div class="input-group" style="width:204%">
                 <label>Описание</label>

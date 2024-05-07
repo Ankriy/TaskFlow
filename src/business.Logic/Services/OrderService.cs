@@ -1,9 +1,5 @@
-﻿using business.Logic.DataContracts.Repositories.Customers;
-using business.Logic.DataContracts.Repositories.Notes;
-using business.Logic.DataContracts.Repositories.Orders;
-using business.Logic.Domain.Models.Customers;
-using business.Logic.Domain.Models.Notes;
-using business.Logic.Domain.Models.NoteTags;
+﻿using business.Logic.DataContracts.Repositories.Orders;
+using business.Logic.Domain.Models.Filters;
 using business.Logic.Domain.Models.Orders;
 
 namespace business.Logic.Services
@@ -26,7 +22,7 @@ namespace business.Logic.Services
             var order = _orderRepository.Get(id);
             return order;
         }
-        public OrderList GetOrderList(int skip, int take, int userId)
+        public OrderList GetOrderList(int skip, int take, int userId, OrderFilterModel? filter)
         {
             var count = _orderRepository.Count(userId);
             var result = new OrderList
@@ -42,7 +38,7 @@ namespace business.Logic.Services
             }
 
             result.Orders = _orderRepository
-                .Get("", skip, take, userId)
+                .Get("", skip, take, userId, filter)
                 .Select(x => new Order()
                 {
                     Id = x.Id,
