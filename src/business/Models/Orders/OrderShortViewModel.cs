@@ -14,7 +14,7 @@ namespace business.Application.Web.Models.Orders
         public DateTime? OrderDate { get; set; }
         public OrderStatus? OrderStatus { get; set; }
         public OrderPaymentMethod? PaymentMethod { get; set; }
-        public int? DeliveryCost { get; set; }
+        public int? CostPrice { get; set; }
         public int? TotalCost { get; set; }
         public string? Description { get; set; }
         public string? CancellationReason { get; set; }
@@ -27,7 +27,7 @@ namespace business.Application.Web.Models.Orders
             CancellationDate = order.CancellationDate;
             CancellationReason = order.CancellationReason;
             Customer = order.Customer;
-            DeliveryCost = order.DeliveryCost;
+            CostPrice = order.CostPrice;
             Description = order.Description;
             OrderDate = order.OrderDate;
             OrderStatus = order.OrderStatus;

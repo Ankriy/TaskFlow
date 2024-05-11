@@ -90,9 +90,9 @@
         border: 1px solid #ccc;
         border-radius: 5px;
         resize: none;
-        scrollbar-width: none;
+        scrollbar-width: thin;
         height: 100px;
-        overflow: hidden;
+        /*overflow: hidden;*/
         padding: 8px;
     }
 </style>
@@ -104,16 +104,16 @@
         <div class="edit-order">
             <input type="number" name="Id" placeholder="@Model.Id" value="@Model.Id" hidden>
             <div class="input-group">
-                <label for="field1">Стоимость доставки</label>
-                <input id="field1" type="number" name="DeliveryCost" placeholder="Стоимость доставки" value="@Model.DeliveryCost">
+                <label for="field1">Себестоимость</label>
+                <input id="field1" type="number" name="CostPrice" placeholder="Себестоимость" value="@Model.CostPrice">
             </div>
             <div class="input-group">
                 <label>Дата заказа</label>
                 <input type="date" name="OrderDate" placeholder="Дата заказа" value="@(Model.OrderDate.HasValue ? Model.OrderDate.Value.ToString("yyyy-MM-dd") : "")">
             </div>
             <div class="input-group">
-                <label>Общая стоимость</label>
-                <input type="number" name="TotalCost" placeholder="Общая стоимость" value="@Model.TotalCost">
+                <label>Цена</label>
+                <input type="number" name="TotalCost" placeholder="Цена" value="@Model.TotalCost">
             </div>
             <div class="input-group">
                 <label>ФИО</label>
@@ -172,15 +172,9 @@
            
             @if (ViewData["Name"] != "Добавить заказ")
             {
-                <button type="submit">Сохранить</button>
-                <button asp-controller="Order"
-                        asp-action="DeleteOrder"
-                        asp-route-id="@Model.Id"
-                        style="background-color:red">
-                    Удалить
-                </button>
-            }else{
                 <button type="submit" style="width:99.5%">Сохранить</button>
+            }else{
+                <button type="submit" style="width:99.5%">Добавить</button>
             }
             
         </div>

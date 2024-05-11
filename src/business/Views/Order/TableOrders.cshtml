@@ -73,6 +73,7 @@
         justify-content: center;
         align-items: center;
     }
+    
 </style>
 <form id="myForm" method="get">
     <h2 class="headerTableTitle">Таблица заказов</h2>
@@ -130,26 +131,21 @@
                 <th>Клиент</th>
                 <th>Стоимость</th>
                 <th>Статус заказа</th>
-                <th>Дата заказа</th>
-                <th></th>
+                <th style="min-width: 80px;">Дата заказа</th>
+                <th style ="width: 450px;">Описание</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var ppl in Model.Orders)
             {
                 <tr id="@Model">
-                    <td>@ppl.Customer.Surname @ppl.Customer.Name @ppl.Customer.Middlename</td>
-                    <td>@ppl.TotalCost</td>
-                    <td class ="status-@ppl.OrderStatus.Id">@ppl.OrderStatus.Status</td>
-                    <td>@(ppl.OrderDate.HasValue ? ppl.OrderDate.Value.ToString("dd-MM-yyyy") : "")</td>
                     <td>
-                        <button asp-controller="Order"
-                                asp-action="TableOrders"
-                                asp-route-id="@ppl.Id">
-                            ...
-                        </button>
+                        <a asp-controller="Order" asp-action="TableOrders" asp-route-id="@ppl.Id"> @ppl.Customer.Surname @ppl.Customer.Name @ppl.Customer.Middlename</a>
                     </td>
-
+                    <td><a asp-controller="Order" asp-action="TableOrders" asp-route-id="@ppl.Id">@ppl.TotalCost</a></td>
+                    <td class ="status-@ppl.OrderStatus.Id"><a asp-controller="Order" asp-action="TableOrders" asp-route-id="@ppl.Id">@ppl.OrderStatus.Status</a></td>
+                    <td><a asp-controller="Order" asp-action="TableOrders" asp-route-id="@ppl.Id">@(ppl.OrderDate.HasValue ? ppl.OrderDate.Value.ToString("dd-MM-yyyy") : "")</a></td>
+                    <td><a asp-controller="Order" asp-action="TableOrders" asp-route-id="@ppl.Id">@(ppl.Description?.Length > 60 ? ppl.Description.Substring(0, 60) + "..." : ppl.Description)</a></td>
                 </tr>
             }
         </tbody>

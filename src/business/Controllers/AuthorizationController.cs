@@ -110,7 +110,7 @@ namespace business.Controllers
             HttpContext.Response.Cookies.Append(".AspNetCore.Application.IdRefreshTokenExpiryTime", user.RefreshTokenExpiryTime.ToString(), option);
 
             
-            return RedirectToAction("Dashboard", "Dashboard"/*, response*/);
+            return RedirectToAction("Home", "Home"/*, response*/);
             //return Ok(response);
         }
 

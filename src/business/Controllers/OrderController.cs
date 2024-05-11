@@ -51,6 +51,8 @@ namespace business.Controllers
                 var editCustomer = new EditOrderViewModel(data);
 
                 model.OrderForEdit = editCustomer;
+                ViewData["Name"] = "Информация о заказе";
+                ViewData["NameAction"] = "Редактировать";
 
             }
             if (id == -1)
@@ -60,9 +62,10 @@ namespace business.Controllers
                 model.OrderForEdit.PaymentMethod = new OrderPaymentMethod();
                 model.OrderForEdit.Customer = new Customer();
                 ViewData["Name"] = "Добавить заказ";
+                ViewData["NameAction"] = "Добавить";
                 return View(model);
             }
-            ViewData["Name"] = "Информация о заказе";
+            
             return View(model);
 
 

@@ -1,9 +1,109 @@
 ﻿@{
     ViewData["Title"] = "Name";
 }
+<style>
+    .home-page {
+        height: 100%;
+        margin: 0;
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
 
-<link rel="stylesheet" href="~/index.css">
-<script src="~/index.js"></script>
-<body>
-    
-</body>
+    .container {
+        padding: 0px 20px;
+    }
+
+    .support {
+        margin: 20px 0;
+    }
+
+        .support button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+            .support button:hover {
+                background-color: #45a049;
+            }
+
+    .release-notes {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 15px;
+        margin: 20px 0;
+    }
+
+        .release-notes h2 {
+            margin-top: 0;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 0;
+            padding-bottom: 20px;
+        }
+
+    .updates-container {
+        max-height: 300px;
+        /* Вы можете настроить это значение в соответствии с вашим дизайном */
+        overflow-y: auto;
+        /* Добавляет прокрутку, если контент превышает max-height */
+    }
+
+    .update {
+        border-bottom: 1px solid #eee;
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+    }
+
+        .update:last-child {
+            border-bottom: none;
+        }
+</style>
+<div class="home-page">
+    <div class="container">
+        <div class="top-element">
+            <h1>Веб-приложение</h1>
+            <p>Проект, демонстрирующий визуализацию данных, организацию и многое другое.</p>
+        </div>
+
+        <div>
+            <section class="release-notes">
+                <h2>Обновления</h2>
+                <div class="updates-container">
+                    <div class="update">
+                        <h3>Обновление 1.2.5 (2024-05-09)</h3>
+                        <p>Добавлена новая функция визуализации данных, улучшен пользовательский интерфейс.</p>
+                    </div>
+                    <div class="update">
+                        <h3>Обновление 1.2.4 (2024-04-25)</h3>
+                        <p>Исправлены ошибки, связанные с загрузкой данных, оптимизированы запросы к серверу.</p>
+                    </div>
+                    <div class="update">
+                        <h3>Обновление 1.2.4 (2024-04-25)</h3>
+                        <p>Исправлены ошибки, связанные с загрузкой данных, оптимизированы запросы к серверу.</p>
+                    </div>
+                    <div class="update">
+                        <h3>Обновление 1.2.4 (2024-04-25)</h3>
+                        <p>Исправлены ошибки, связанные с загрузкой данных, оптимизированы запросы к серверу.</p>
+                    </div>
+                    <div class="update">
+                        <h3>Обновление 1.2.4 (2024-04-25)</h3>
+                        <p>Исправлены ошибки, связанные с загрузкой данных, оптимизированы запросы к серверу.</p>
+                    </div>
+                    <!-- Добавьте дополнительные обновления здесь -->
+                </div>
+            </section>
+
+            <section class="support">
+                <h2>Поддержи этот проект</h2>
+                <p>Проект разрабатывается одним человеком. Ваша помощь существенно ускорит развитие этого продукта.</p>
+                <button onclick="location.href='your-donation-link';">Donate</button>
+            </section>
+        </div>
+    </div>
+</div>

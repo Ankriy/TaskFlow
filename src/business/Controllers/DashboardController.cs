@@ -51,7 +51,7 @@ namespace business.Controllers
             var orders = _orderService
                 .GetOrderList(0, 99999, (int)currentUser.Id, null).Orders
                 .Where(c => (c.OrderDate >= start && c.OrderDate <= end && (c.OrderStatusId == (int)OrderStatusType.Завершён || c.OrderStatusId == (int)OrderStatusType.Доставлен)))
-                    .Select(c => new { value = c.TotalCost - c.DeliveryCost, label = c.OrderDate, date = c.OrderDate });
+                    .Select(c => new { value = c.TotalCost - c.CostPrice, label = c.OrderDate, date = c.OrderDate });
             var data = new List<int> { 10, 12, 9, 15, 13 };
             return Json(new {ff = data});
         }

@@ -29,7 +29,7 @@ namespace business.Logic.Domain.Models.Orders
         public int PaymentMethodId { get; set; }
         [ForeignKey("PaymentMethodId")]
         public OrderPaymentMethod? PaymentMethod { get; set; }
-        public int? DeliveryCost { get; set; }
+        public int? CostPrice { get; set; }
         public int? TotalCost { get; set; }
         public string? Description { get; set; }
         public string? CancellationReason { get; set; }

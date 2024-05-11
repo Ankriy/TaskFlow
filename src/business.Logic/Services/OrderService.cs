@@ -46,7 +46,7 @@ namespace business.Logic.Services
                     CancellationReason = x.CancellationReason,
                     CustomerId = x.CustomerId,
                     Customer = x.Customer,
-                    DeliveryCost = x.DeliveryCost,
+                    CostPrice = x.CostPrice,
                     Description = x.Description,
                     OrderDate = x.OrderDate,
                     OrderStatusId = x.OrderStatusId,

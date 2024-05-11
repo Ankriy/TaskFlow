@@ -10,27 +10,20 @@
     <table>
         <thead>
             <tr>
-                <th>Фамилия</th>
-                <th>Имя</th>
-                <th>Отчество</th>
+                <th>ФИО</th>
                 <th>Телефон</th>
-                <th></th>
+                <th>Почта</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var ppl in Model.Customers)
             {
                 <tr id="@Model">
-                    <td>@ppl.Middlename</td>
-                    <td>@ppl.Name</td>
-                    <td>@ppl.Surname</td>
-                    <td>@ppl.Phone</td>
                     <td>
-                        <button asp-controller="Customer"
-                           asp-action="TableCustomers"
-                           asp-route-id="@ppl.Id">...</button>
+                        <a asp-controller ="Customer" asp-action="TableCustomers" asp-route-id="@ppl.Id">@ppl.Middlename @ppl.Name @ppl.Surname</a>
                     </td>
-                    
+                    <td><a asp-controller ="Customer" asp-action="TableCustomers" asp-route-id="@ppl.Id">@ppl.Phone</a></td>
+                    <td><a asp-controller ="Customer" asp-action="TableCustomers" asp-route-id="@ppl.Id">@ppl.Email</a></td>
                 </tr>
             }
         </tbody>
