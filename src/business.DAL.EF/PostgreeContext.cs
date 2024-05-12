@@ -4,6 +4,7 @@ using business.Logic.Domain.Models.Users;
 using business.Logic.Domain.Models.Notes;
 using business.Logic.Domain.Models.NoteTags;
 using business.Logic.Domain.Models.Orders;
+using business.Logic.Domain.Models.FeedBack;
 
 namespace business.DAL.EF
 {
@@ -20,6 +21,7 @@ namespace business.DAL.EF
         public DbSet<Note> Notes { get; set; }
         public DbSet<NoteTag> NoteTags { get; set; }
         public DbSet<Order> Orders { get; set; }
+        public DbSet<FeedBack> FeedBacks { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -67,6 +69,12 @@ namespace business.DAL.EF
                 .WithMany()     // One PaymentMethod can have many Orders
                 .IsRequired()
                 .HasForeignKey(o => o.CustomerId);
+            // связь FeedBack - Users
+            modelBuilder.Entity<FeedBack>()
+                .HasOne(c => c.User)
+                .WithMany()
+                .IsRequired()
+                .HasForeignKey(c => c.UserId);
         }
     }
 }

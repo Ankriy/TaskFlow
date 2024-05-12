@@ -63,6 +63,30 @@
         .update:last-child {
             border-bottom: none;
         }
+
+        .feedback textarea {
+            width: 100%;
+            height: 120px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            resize: vertical;
+            margin-bottom: 10px;
+        }
+
+        .feedback button {
+            background-color: #008CBA;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+            .feedback button:hover {
+                background-color: #0077a3;
+            }
 </style>
 <div class="home-page">
     <div class="container">
@@ -102,8 +126,35 @@
             <section class="support">
                 <h2>Поддержи этот проект</h2>
                 <p>Проект разрабатывается одним человеком. Ваша помощь существенно ускорит развитие этого продукта.</p>
-                <button onclick="location.href='your-donation-link';">Donate</button>
+                <button onclick="location.href='https://www.donationalerts.com/r/ankrio';">Donate</button>
+            </section>
+            <section class="feedback">
+                <h2>Обратная связь</h2>
+                <textarea placeholder="Баги/предложения/пожелания"></textarea>
+                <button>Отправить</button>
             </section>
         </div>
     </div>
 </div>
+<script>
+    const feedbackbtn = document.querySelector('.feedback button');
+    feedbackbtn.addEventListener('click', () => {
+        const feedbackText = document.querySelector('.feedback textarea').value;
+        if (feedbackText != "") {
+            $.ajax({
+                url: '/Home/FeedBack', // Замените на URL вашего контроллера
+                type: 'POST',
+                data: { feedback: feedbackText },
+                success: function (response) {
+                    const textarea = document.querySelector('.feedback textarea');
+                    textarea.value = ""; // Очистка текстового поля
+                },
+                error: function (error) {
+
+                }
+            });
+        }
+        
+    });
+    
+</script>
