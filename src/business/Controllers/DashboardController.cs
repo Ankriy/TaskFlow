@@ -43,17 +43,18 @@ namespace business.Controllers
             return Json(data);
         }
         [HttpGet]
-        public IActionResult profit(DateTime start, DateTime end)
+        public IActionResult profit(DateTime startDate, DateTime endDate)
         {
             var currentUser = _currentUserService.GetUser();
             if (currentUser == null)
                 return BadRequest("Bad credentials");
+            if(endDate == DateTime.MinValue)
+                endDate = DateTime.MaxValue;
             var orders = _orderService
                 .GetOrderList(0, 99999, (int)currentUser.Id, null).Orders
-                .Where(c => (c.OrderDate >= start && c.OrderDate <= end && (c.OrderStatusId == (int)OrderStatusType.Завершён || c.OrderStatusId == (int)OrderStatusType.Доставлен)))
+                .Where(c => (c.OrderDate >= startDate && c.OrderDate <= endDate && (c.OrderStatusId == (int)OrderStatusType.Завершён || c.OrderStatusId == (int)OrderStatusType.Доставлен)))
                     .Select(c => new { value = c.TotalCost - c.CostPrice, label = c.OrderDate, date = c.OrderDate });
-            var data = new List<int> { 10, 12, 9, 15, 13 };
-            return Json(new {ff = data});
+            return Json(orders);
         }
         [HttpGet]
         public IActionResult expenses()

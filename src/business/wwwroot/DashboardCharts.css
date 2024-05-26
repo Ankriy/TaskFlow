@@ -1,26 +1,19 @@
 .dashboard-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(2, 4fr);
+    gap: 20px;
+    padding: 40px;
 }
 
-.chart-container {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    padding: 15px;
-    margin-bottom: 20px;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-    position: relative;
+@media (max-width: 768px) {
+    .dashboard-container {
+        grid-template-columns: 1fr;
+        /* Single column on smaller screens */
+    }
 }
 
-.resize-handle {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 15px;
-    height: 15px;
-    background-color: #ccc;
-    cursor: se-resize;
-    z-index: 10;
+
+.chart-container canvas {
+    width: 100% !important;
+    height: auto !important;
 }

@@ -11,11 +11,13 @@
         width: 300px;
         border-radius: 5px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        display: grid;
     }
 
     h2 {
         color: #333;
         margin-bottom: 15px;
+        margin-top: 0px;
     }
 
     label {
@@ -34,7 +36,7 @@
         border-radius: 3px;
     }
 
-    button {
+    .button {
         background-color: #333;
         color: #fff;
         padding: 8px 15px;
@@ -43,25 +45,23 @@
         cursor: pointer;
     }
 
-        button:hover {
+        .button:hover {
             background-color: #555;
         }
 
-    /* Стили для модального окна */
+    
     .modal {
-        display: block; /* Скрыть модальное окно по умолчанию */
-        position: fixed; /* Оставаться на месте при прокрутке */
-        z-index: 998; /* Сидеть над другими элементами */
+        display: block;
+        position: fixed;
+        z-index: 998;
         left: 0;
         top: 0;
-        width: 100%; /* Полная ширина */
-        height: 100%; /* Полная высота */
-        overflow: auto; /* Включить прокрутку, если нужно */
+        width: 100%;
+        height: 100%; 
         background-color: rgb(0,0,0); 
         background-color: rgba(0,0,0,0.4);
     }
 
-    /* Стили для содержимого модального окна */
     .modal-content {
         background-color: #fefefe;
         padding: 20px;
@@ -94,27 +94,52 @@
         display: none;
         color: red;
     }
+
+    .link {
+        color: #007bff;
+        text-decoration: none;
+        font-weight: bold;
+        margin: 10px 0px 5px 0px;
+        justify-self: center;
+    }
+
+        .link:hover {
+            text-decoration: underline; 
+            color: #0056b3;
+        }
+
+    #forgot-password-link {
+        color: #28a745;
+        text-decoration: none;
+        font-weight: bold;
+        margin: 10px 0px 5px 0px;
+        justify-self: center;
+    }
+
+        #forgot-password-link:hover {
+            text-decoration: underline;
+            color: #1e7e34;
+        }
 </style>
 @model bool
 <div id="loginModal" class="modal">
     <div class="modal-content">
         <div id="authorization-form" class="authorization-form-class" style="display:block">
-            <!-- Форма авторизации -->
             <form asp-action="Authenticate" asp-controller="Authorization" method="post">
                 <h2>Вход</h2>
                 <input type="text" name="email" placeholder="Почта/логин" required>
                 <input type="password" name="password" placeholder="Пароль" required>
-                <button type="submit">Войти</button>
+                <button type="submit" class="button">Войти</button>
                 @if (!@Model)
                 {
                     <p style="color:red;">Неверный логин или пароль</p>
                 }
-                <p><a href="#" id="register-link">Зарегестрироваться</a> | <a href="#" id="forgot-password-link">Восстановить пароль</a></p>
+                <a href="#" id="register-link" class="link">Зарегестрироваться</a>
+                <a href="#" id="forgot-password-link">Восстановить пароль</a>
             </form>
         </div>
 
         <div id="registration-form" class="authorization-form-class">
-            <!-- Форма регистрации -->
              <form asp-action="Register" asp-controller="Authorization" method="post">
                 <h2>Регистрация</h2>
                 <input id="register-email" type="email" name="email" placeholder="Почта" required>
@@ -124,20 +149,19 @@
                 </div>
                 <input id="register-passwordConfirm" type="password" name="passwordConfirm" placeholder="Подтвердите пароль" required>
                 
-                <button id="validateRegisterForm">Зарегестрироваться</button>
+                <button id="validateRegisterForm" class="button">Зарегестрироваться</button>
 
                 <button id="btnregister" type="submit" style="display:none"></button>
-                <p><a href="#" id="login-link">Назад к входу</a></p>
+                <p><a href="#" id="login-link" class="link">Назад к входу</a></p>
              </form>
         </div>
 
         <div id="forgot-password-form" class="authorization-form-class">
-            <!-- Форма восстановления пароля -->
             <form asp-action="ForgotPassword" method="post">
                 <h2>Восстановление пароля</h2>
                 <input type="email" name="email" placeholder="Почта" required>
-                <button type="submit">Восстановить пароль</button>
-                <p><a href="#" id="back-to-login-link">Назад к входу</a></p>
+                <button type="submit" class="button">Восстановить пароль</button>
+                <p><a href="#" id="back-to-login-link" class="link">Назад к входу</a></p>
             </form>
         </div>
     </div>

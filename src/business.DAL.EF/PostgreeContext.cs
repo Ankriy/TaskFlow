@@ -5,6 +5,7 @@ using business.Logic.Domain.Models.Notes;
 using business.Logic.Domain.Models.NoteTags;
 using business.Logic.Domain.Models.Orders;
 using business.Logic.Domain.Models.FeedBack;
+using business.Logic.Domain.Models.Tasks;
 
 namespace business.DAL.EF
 {
@@ -22,6 +23,7 @@ namespace business.DAL.EF
         public DbSet<NoteTag> NoteTags { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<FeedBack> FeedBacks { get; set; }
+        public DbSet<Tasks> Tasks { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

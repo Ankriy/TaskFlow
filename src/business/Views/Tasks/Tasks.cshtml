@@ -1,0 +1,1228 @@
+﻿
+<style>
+    .Main-Tasks {
+        margin: 0;
+        font-size: 18px;
+        height: 97%;
+        display: flex;
+        width: 100%;
+        min-height: 87vh;
+    }
+
+
+    .TaskCard {
+        width: 100%;
+        padding: 30px;
+    }
+
+    .TaskCardWrapper {
+        width: 100%;
+        max-width: 500px;
+    }
+
+    .TaskColorSelector {
+        position: relative;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 50px;
+        width: 40px;
+    }
+
+    .ColorIndicator {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        display: inline-block;
+        transition: border-color 0.2s;
+    }
+
+    .OverlayContainer {
+        display: none;
+        position: absolute;
+        z-index: 1000;
+        top: 24px;
+        left: 0;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 10px;
+        width: 150px;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: flex-start;
+        flex-direction: row;
+    }
+
+    .OverlayPriorityContainer {
+        display: none;
+        position: absolute;
+        z-index: 1000;
+        top: 24px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: flex-start;
+        flex-direction: row;
+        top: 100%;
+        right: 0;
+        z-index: 100;
+    }
+
+    .OverlaySettingsContainer {
+        display: none;
+        position: absolute;
+        z-index: 1000;
+        top: 24px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: flex-start;
+        flex-direction: row;
+        top: 100%;
+        right: 0;
+        z-index: 100;
+    }
+
+    .ColorRadio_colorSelect {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+
+    .TaskColor_container input[type="radio"] {
+        display: none;
+    }
+
+    .TaskInformation {
+        display: flex;
+        width: 100%;
+    }
+
+    .TaskHeader {
+        display: flex;
+        margin-bottom: 5px;
+        position: relative;
+    }
+
+    .MultilineInputField {
+        white-space: pre-wrap;
+        text-align: left;
+        outline: none;
+        min-height: 50px;
+        border-radius: 6px;
+        box-sizing: border-box;
+        width: 100%;
+        padding: 8px;
+        border: none;
+        font-size: 18px;
+    }
+
+        .MultilineInputField:hover {
+            background-color: #eaecef;
+        }
+
+    .TaskDetailsContainer {
+        width: 100%;
+    }
+
+    .MultilineInputField:focus {
+        background-color: #eaecef;
+    }
+
+    .SettingsButton {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: none;
+        cursor: pointer;
+        background-color: transparent;
+        height: 40px;
+        width: 40px;
+        border-radius: 8px;
+        margin-left: 5px;
+    }
+
+        .SettingsButton:hover {
+            background-color: #eaecef;
+        }
+
+    .TaskCreationSection {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 40px;
+        padding: 10px;
+        border-radius: 6px;
+    }
+
+        .TaskCreationSection:hover input,
+        .TaskCreationSection:hover {
+            background-color: #eaecef;
+        }
+
+        .TaskCreationSection:focus-within {
+            background-color: #eaecef;
+        }
+
+    .TaskDatePickerButton {
+        border: none;
+        padding: 0;
+        margin: 0;
+        cursor: pointer;
+        background-color: transparent;
+        outline: none;
+        width: 130px;
+        text-align: right;
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    input[type="date"]::-webkit-calendar-picker-indicator {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: auto;
+        height: auto;
+        color: transparent;
+        background: transparent;
+    }
+
+    input[type="date"] {
+        height: 16px;
+        width: 16px;
+        position: relative;
+        border: 0;
+        color: #99a2ba;
+        font-size: 0px;
+        text-indent: -9999px;
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' style='fill: gray'><path fill-rule='evenodd' clip-rule='evenodd' d='M13 15H3a2 2 0 01-2-2V3c0-1.1.9-2 2-2a1 1 0 012 0h6a1 1 0 012 0 2 2 0 012 2v10a2 2 0 01-2 2zm-7.5-3c.3 0 .5-.2.5-.5v-1c0-.3-.2-.5-.5-.5h-1c-.3 0-.5.2-.5.5v1c0 .3.2.5.5.5h1zm3 0c.3 0 .5-.2.5-.5v-1c0-.3-.2-.5-.5-.5h-1c-.3 0-.5.2-.5.5v1c0 .3.2.5.5.5h1zm0-3c.3 0 .5-.2.5-.5v-1c0-.3-.2-.5-.5-.5h-1c-.3 0-.5.2-.5.5v1c0 .3.2.5.5.5h1zm-3 0c.3 0 .5-.2.5-.5v-1c0-.3-.2-.5-.5-.5h-1c-.3 0-.5.2-.5.5v1c0 .3.2.5.5.5h1zm6 0c.3 0 .5-.2.5-.5v-1c0-.3-.2-.5-.5-.5h-1c-.3 0-.5.2-.5.5v1c0 .3.2.5.5.5h1zm-3-3c.3 0 .5-.2.5-.5v-1c0-.3-.2-.5-.5-.5h-1c-.3 0-.5.2-.5.5v1c0 .3.2.5.5.5h1zm3 0c.3 0 .5-.2.5-.5v-1c0-.3-.2-.5-.5-.5h-1c-.3 0-.5.2-.5.5v1c0 .3.2.5.5.5h1z'/></svg>");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+    }
+
+    .TaskItem .TaskDatePickerButton {
+        visibility: hidden;
+    }
+
+    .SelectedDate {
+        visibility: visible;
+        text-decoration: underline;
+        color: gray;
+    }
+
+    .taskAndInputWrap {
+        display: flex;
+        align-items: center;
+    }
+
+    .CurrentTask-TaskList {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        box-sizing: border-box;
+        margin-top: 7px;
+    }
+
+    .TaskList {
+        display: flex;
+        position: relative;
+        margin: 0;
+        padding: 10px;
+        border-radius: 8px;
+        height: 40px;
+    }
+
+    .TaskItem {
+        display: flex;
+        align-items: center;
+        width: 100%;
+    }
+
+    .TaskPriorityPickerButton {
+        visibility: hidden;
+        padding: 0;
+        margin: 0;
+        cursor: pointer;
+        background-color: transparent;
+        outline: none;
+        border: none;
+        display: flex;
+        position: relative;
+        width: 20px;
+        height: 20px;
+        margin-left: 10px;
+    }
+
+    .TaskDragButton {
+        visibility: hidden;
+        cursor: move;
+        outline: none;
+        position: relative;
+        background-color: transparent;
+        border: none;
+        box-shadow: none;
+        padding: 0;
+        height: 40px;
+        width: 40px;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .TaskList:hover .TaskDragButton,
+    .TaskList:hover .TaskPriorityPickerButton,
+    .TaskList:hover .TaskDatePickerButton {
+        visibility: visible;
+    }
+
+    .TaskList:focus-within .TaskDragButton,
+    .TaskList:focus-within .TaskPriorityPickerButton,
+    .TaskList:focus-within .TaskDatePickerButton {
+        visibility: visible;
+    }
+
+    .TaskList:hover input,
+    .TaskList:hover {
+        background-color: #eaecef;
+    }
+
+    .TaskList:focus-within {
+        background-color: #eaecef;
+    }
+
+    .real-checkbox {
+        position: absolute;
+        opacity: 0;
+        z-index: -1;
+    }
+
+    .custom-checkbox {
+        width: 16px;
+        height: 16px;
+        border: 2px solid #9e9e9e;
+        border-radius: 4px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color 0.2s, border-color 0.2s;
+    }
+
+    .checkbox-icon {
+        display: none;
+        fill: white;
+    }
+
+    .Task_checkbox:hover .custom-checkbox {
+        border-color: #606060;
+    }
+
+    .real-checkbox:checked + .custom-checkbox {
+        background-color: #4CAF50;
+        border-color: #4CAF50;
+    }
+
+        .real-checkbox:checked + .custom-checkbox .checkbox-icon {
+            display: block;
+        }
+
+    .strikethrough {
+        text-decoration: line-through;
+        color: #858585;
+    }
+
+    .drop-target {
+        height: 2px;
+        background-color: #009688;
+        margin: 4px 0;
+    }
+
+    .PriorityOption {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+        .PriorityOption span {
+            margin-left: 5px;
+        }
+
+        .PriorityOption:hover {
+            background-color: rgb(234, 234, 234);
+        }
+
+        .PriorityOption.selected {
+            background-color: #e4e4e4;
+        }
+
+    .SettingsOption {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+        .SettingsOption span {
+            margin-left: 5px;
+        }
+
+        .SettingsOption:hover {
+            background-color: rgb(234, 234, 234);
+        }
+
+    .TaskList .TaskPriorityPickerButton.priority-set {
+        visibility: visible;
+    }
+
+    .TaskDatePickerButton .SelectedDate:not(:empty) + .TaskDateInput {
+        display: none;
+    }
+
+    /* Показывает .TaskDateInput, если .SelectedDate пустой */
+    .TaskDatePickerButton .SelectedDate:empty + .TaskDateInput {
+        display: block;
+    }
+
+
+
+
+
+
+    .Task-sidebar {
+        max-width: 250px;
+        width: 100%;
+        height: 100%;
+        background-color: #ffffff;
+        padding: 10px;
+        border-right: 1px solid #ccc;
+        min-height: 87vh;
+    }
+
+    .Task-sidebar-lists {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        max-height: 83%;
+        overflow-y: auto;
+    }
+
+        .Task-sidebar-lists::-webkit-scrollbar {
+            width: 6px;
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+
+        .Task-sidebar-lists::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+
+    .Task-list {
+        margin-right: 12px;
+    }
+
+    .Task-listItem {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        background-color: #ffffff;
+        border-radius: 6px;
+        overflow: hidden;
+        text-decoration: none;
+        color: #333;
+        transition: background-color 0.2s;
+        height: 40px;
+    }
+
+        .Task-listItem:hover {
+            background-color: #eaecef;
+        }
+
+    .Task-listItem-icon {
+        flex-shrink: 0;
+        margin-right: 10px;
+    }
+
+    .Color-listItem {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+    }
+
+    .Task-listItem div:last-child {
+        margin-left: auto;
+    }
+
+    .Task-addItem {
+        display: flex;
+        align-items: center;
+        height: 40px;
+        padding: 10px;
+        border-radius: 6px;
+        margin-right: 12px;
+    }
+
+        .Task-addItem:hover {
+            background-color: #eaecef;
+        }
+
+        .Task-addItem input[type="text"] {
+            box-sizing: border-box;
+            width: 100%;
+            padding: 8px;
+            border: none;
+            outline: none;
+            box-sizing: border-box;
+            background-color: transparent;
+            color: inherit;
+            font-size: 18px;
+        }
+
+            .Task-addItem input[type="text"]:focus::placeholder {
+                color: #535353;
+            }
+
+        .Task-addItem:focus-within {
+            background-color: #eaecef;
+        }
+
+    .Create-listItem-icon svg {
+        fill: #555;
+        width: 24px;
+        height: 24px;
+    }
+</style>
+
+
+
+<div class="Main-Tasks">
+    <div class="Task-sidebar">
+        <ul class="Task-sidebar-lists">
+        </ul>
+        <div class="Task-addItem">
+            <div class="Create-listItem-icon">
+                <svg viewBox="0 0 16 16" width="16" height="16" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                          d="M8.4 3c.3 0 .6.3.6.6V7h3.4c.3 0 .6.3.6.6v.8c0 .3-.3.6-.6.6H9v3.4c0 .3-.3.6-.6.6h-.8a.6.6 0 01-.6-.6V9H3.6a.6.6 0 01-.6-.6v-.8c0-.3.3-.6.6-.6H7V3.6c0-.3.3-.6.6-.6h.8z">
+                    </path>
+                </svg>
+            </div>
+            <input placeholder="Новый список" type="text" class="Create-listItem-input" value="">
+        </div>
+    </div>
+
+    <div class="TaskCard">
+        <div class="TaskCardWrapper">
+            <div class="TaskInformation">
+                <div class="TaskColorSelector">
+                    <div class="ColorIndicator" style="background-color: rgb(255, 218, 109);"></div>
+                    <div data-test-id="overlay" class="OverlayContainer">
+
+                        <label class="TaskColor_container">
+                            <input type="radio" name="colors">
+                            <div class="ColorRadio_colorSelect" style="background-color: rgb(0, 209, 238);">
+                            </div>
+                        </label>
+                        <label class="TaskColor_container">
+                            <input type="radio" name="colors">
+                            <div class="ColorRadio_colorSelect" style="background-color: rgb(246, 142, 66);">
+                            </div>
+                        </label>
+                        <label class="TaskColor_container">
+                            <input type="radio" name="colors">
+                            <div class="ColorRadio_colorSelect" style="background-color: rgb(194, 150, 255);">
+                            </div>
+                        </label>
+                        <label class="TaskColor_container">
+                            <input type="radio" name="colors">
+                            <div class="ColorRadio_colorSelect" style="background-color: rgb(131, 207, 203);">
+                            </div>
+                        </label>
+                        <label class="TaskColor_container">
+                            <input type="radio" name="colors">
+                            <div class="ColorRadio_colorSelect" style="background-color: rgb(66, 215, 165);">
+                            </div>
+                        </label>
+
+                    </div>
+                </div>
+                <div class="TaskDetailsContainer">
+                    <div class="TaskHeader">
+                        <input placeholder="Новый список" type="text" class="MultilineInputField" value="dsfsdf">
+
+                        <button class="SettingsButton">
+                            <svg width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg" class="c017">
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                      d="M4.6 8A1.8 1.8 0 111 8a1.8 1.8 0 013.6 0zm5.2 0a1.8 1.8 0 11-3.6 0 1.8 1.8 0 013.6 0zM15 8a1.8 1.8 0 11-3.6 0A1.8 1.8 0 0115 8z"
+                                      fill="#B6B8BE"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <input placeholder="Описание" type="text" class="MultilineInputField" value="">
+                </div>
+            </div>
+
+            <div class="TaskCreationSection">
+                <div class="taskAndInputWrap">
+                    <div class="TaskAddIconContainer">
+                        <svg viewBox="0 0 16 16" width="16" height="16" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                  d="M8.4 3c.3 0 .6.3.6.6V7h3.4c.3 0 .6.3.6.6v.8c0 .3-.3.6-.6.6H9v3.4c0 .3-.3.6-.6.6h-.8a.6.6 0 01-.6-.6V9H3.6a.6.6 0 01-.6-.6v-.8c0-.3.3-.6.6-.6H7V3.6c0-.3.3-.6.6-.6h.8z">
+                            </path>
+                        </svg>
+                    </div>
+                    <div class="InputFieldContainer">
+                        <input placeholder="Создать задачу" type="text" class="MultilineInputField" value="">
+                    </div>
+                </div>
+                <button class="TaskDatePickerButton">
+                    <span class="SelectedDate"></span>
+                    <input type="date" class="TaskDateInput">
+
+                </button>
+            </div>
+
+            <ul class="CurrentTask-TaskList">
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    var addItem = document.querySelector('.TaskCreationSection');
+    var input = document.querySelector('.TaskCreationSection input');
+    addItem.addEventListener('click', function () {
+        input.focus();
+    });
+    function initializeFocusBagFix() {
+        var tasklistItems = document.querySelectorAll('.TaskList');
+        tasklistItems.forEach(function (item) {
+            if (item.getAttribute('data-initialized')) {
+                return;
+            }
+            item.addEventListener('click', function () {
+                item.querySelector('#TaskText').focus();
+            });
+            item.setAttribute('data-initialized', 'true');
+        });
+    }
+    //Перечеркивание текста при активном чекбоксе
+    function initializeCheckBoxes() {
+        var taskLists = document.querySelectorAll('.TaskList');
+        taskLists.forEach(function (taskList) {
+            var checkbox = taskList.querySelector('.real-checkbox');
+            if (checkbox.getAttribute('data-initialized')) {
+                return;
+            }
+            checkbox.addEventListener('change', function (e) {
+
+                var checkbox = e.target;
+                var inputField = taskList.querySelector('.MultilineInputField');
+                if (checkbox.checked) {
+                    inputField.classList.add('strikethrough');
+                } else {
+                    inputField.classList.remove('strikethrough');
+                }
+                checkbox.blur();
+            });
+            checkbox.setAttribute('data-initialized', 'true');
+        });
+    }
+    //Выбор даты задачи
+    function initializeDatePickers() {
+        document.querySelectorAll('.TaskDateInput').forEach(function (input) {
+            if (input.getAttribute('data-initialized')) {
+                return; // Если уже инициализирован, то пропустить
+            }
+
+            var button = input.parentElement;
+            var span = button.querySelector('span');
+
+
+            span.addEventListener('click', function () {
+                input.style.display = 'block';
+                input.focus();
+            });
+
+            input.addEventListener('change', function () {
+                var dateString = this.value;
+                if (!dateString) {
+                    input.style.display = 'none';
+                    return;
+                }
+
+                var date = new Date(this.value);
+                var options = { day: 'numeric', month: 'long' };
+                var formattedDate = date.toLocaleDateString('ru-RU', options);
+
+                span.textContent = formattedDate;
+
+                input.style.display = 'none';
+            });
+            document.addEventListener('click', (event) => {
+                if (!button.contains(event.target) && input.value) {
+                    input.style.display = 'none';
+                }
+            });
+            input.setAttribute('data-initialized', 'true');
+        });
+    }
+
+    //Добавление задачи // Инициализируется 1 раз
+    function initializeCreateTask() {
+        function createTask(taskContent, selectedDate) {
+            var taskItem = document.createElement('li');
+            taskItem.className = 'TaskList';
+            taskItem.setAttribute('draggable', 'true');
+            taskItem.innerHTML = `
+                        <div class="TaskItem">
+                            <button class="TaskDragButton" draggable="true">
+                                <svg width="6" height="10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M1 2a1 1 0 100-2 1 1 0 000 2zm0 4a1 1 0 100-2 1 1 0 000 2zm1 3a1 1 0 11-2 0 1 1 0 012 0zm3-7a1 1 0 100-2 1 1 0 000 2zm1 3a1 1 0 11-2 0 1 1 0 012 0zm-1 5a1 1 0 100-2 1 1 0 000 2z"
+                                        fill="#B6B8BE">
+                                    </path>
+                                </svg>
+                            </button>
+
+                            <label class="Task_checkbox">
+                                <input type="checkbox" id="checkbox" class="real-checkbox" />
+                                <span class="custom-checkbox">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"
+                                        class="checkbox-icon">
+                                        <path fill-rule="evenodd"
+                                            d="M12.4 5.6c-.4-.4-1-.4-1.4 0l-4 4-2-2c-.4-.4-1-.4-1.4 0-.4.4-.4 1 0 1.4l2.7 2.7c.2.2.4.3.7.3.3 0 .5-.1.7-.3L12.4 7c.4-.4.4-1 0-1.4z">
+                                        </path>
+                                    </svg>
+                                </span>
+                            </label>
+
+                            <input id="TaskText" type="text" class="MultilineInputField"
+                                value="${taskContent}">
+
+                            <button class="TaskDatePickerButton">
+                                <span class="SelectedDate">${selectedDate}</span>
+                                <input type="date" class="TaskDateInput">
+                            </button>
+
+                            <button class="TaskPriorityPickerButton">
+                                <div class="Priority">
+                                    <svg width="20px" height="20px" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"
+                                        style="fill: gray;">
+                                        <path
+                                            d="m501.769531 231.292969-221.078125-221.082031c-13.613281-13.613282-35.769531-13.613282-49.382812 0l-221.078125 221.082031c-6.597657 6.59375-10.230469 15.363281-10.230469 24.691406s3.632812 18.09375 10.230469 24.691406l221.078125 221.078125c6.804687 6.808594 15.75 10.210938 24.691406 10.210938s17.886719-3.402344 24.691406-10.210938l221.078125-221.078125c6.597657-6.59375 10.230469-15.363281 10.230469-24.691406s-3.632812-18.097656-10.230469-24.691406zm-21.164062 28.21875-221.078125 221.078125c-1.945313 1.945312-5.109375 1.945312-7.054688 0l-221.078125-221.078125c-1.945312-1.945313-1.945312-5.109375 0-7.054688l221.078125-221.082031c.972656-.972656 2.25-1.457031 3.527344-1.457031s2.554688.484375 3.527344 1.457031l221.078125 221.082031c1.945312 1.945313 1.945312 5.109375 0 7.054688zm0 0">
+                                        </path>
+                                        <path
+                                            d="m76.15625 255.984375 179.84375 179.839844 179.84375-179.839844-179.84375-179.84375zm179.84375 137.511719-137.511719-137.511719 137.511719-137.515625 137.511719 137.515625zm0 0">
+                                        </path>
+                                    </svg>
+                                </div>
+                            </button>
+                        </div>
+                `;
+
+            taskList.appendChild(taskItem);
+            initializeDatePickers();
+            initializeCheckBoxes();
+            initializeTaskDragStart();
+            initializeDeleteTask();
+            initializeFocusBagFix();
+            initializePriorityPicker();
+        }
+        var inputField = document.querySelector('.TaskCreationSection .MultilineInputField');
+        var inputDate = document.querySelector('.TaskCreationSection .TaskDateInput');
+        var taskList = document.querySelector('.CurrentTask-TaskList');
+        // Обработчик событий для текстового поля для добавления задачи по нажатию Enter
+        inputField.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter' && inputField.value.trim() !== '') {
+                var selectedDateInput = document.querySelector('.TaskCreationSection .SelectedDate');
+                var selectedDate = selectedDateInput.textContent;
+                createTask(inputField.value.trim(), selectedDate);
+                inputField.value = ''; // Очистка поля ввода после добавления задачи
+                selectedDateInput.textContent = '';
+                inputDate.style.display = 'block';
+
+            }
+        });
+    }
+    //Drag and drop для задач
+    var draggedItem = null;
+    var dropTarget = document.createElement('div');
+    dropTarget.className = 'drop-target';
+    dropTarget.innerHTML = '&nbsp;';
+    function initializeTaskDragStart() {
+        document.querySelectorAll('.TaskDragButton').forEach(function (button) {
+            if (button.getAttribute('data-initialized')) {
+                return; // Если уже инициализирован, то пропустить
+            }
+            button.addEventListener('dragstart', function (e) {
+
+                draggedItem = button.closest('.TaskList');
+                e.dataTransfer.effectAllowed = 'move';
+                e.dataTransfer.setData('text/plain', draggedItem.dataset.taskId);
+
+                // Временное изображение
+                var dragImage = document.createElement('div');
+                dragImage.style.border = '1px solid #ccc';
+                dragImage.style.backgroundColor = 'white';
+                dragImage.style.width = '100%';
+                dragImage.style.height = '50px';
+                dragImage.innerHTML = draggedItem.innerHTML;
+                document.body.appendChild(dragImage);
+                e.dataTransfer.setDragImage(dragImage, 0, 0);
+
+                setTimeout(function () {
+                    dragImage.remove();
+                }, 0);
+            });
+            button.setAttribute('data-initialized', 'true');
+        });
+    }
+    document.addEventListener('dragend', function () {
+        if (dropTarget.parentNode) {
+            dropTarget.parentNode.removeChild(dropTarget);
+        }
+    });
+    var list = document.querySelector('.CurrentTask-TaskList');
+    list.addEventListener('dragover', function (e) {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
+
+        var afterElement = getDragAfterElement(list, e.clientY);
+        if (afterElement) {
+            afterElement.parentNode.insertBefore(dropTarget, afterElement);
+        } else {
+            list.appendChild(dropTarget);
+        }
+    });
+    list.addEventListener('dragleave', function (e) {
+        if (dropTarget.parentNode) {
+            dropTarget.parentNode.removeChild(dropTarget);
+        }
+    });
+    list.addEventListener('drop', function (e) {
+        e.preventDefault();
+        if (draggedItem) {
+            if (dropTarget.parentNode) {
+                dropTarget.parentNode.insertBefore(draggedItem, dropTarget);
+                dropTarget.parentNode.removeChild(dropTarget);
+            }
+        }
+    });
+    function getDragAfterElement(container, y) {
+        var draggableElements = [...container.querySelectorAll('.TaskList:not(.dragging)')];
+
+        return draggableElements.reduce(function (closest, child) {
+            var box = child.getBoundingClientRect();
+            var offset = y - box.top - box.height / 2;
+            if (offset < 0 && offset > closest.offset) {
+                return { offset: offset, element: child };
+            } else {
+                return closest;
+            }
+        }, { offset: Number.NEGATIVE_INFINITY }).element;
+    }
+
+    //Удаление задачи
+    function initializeDeleteTask() {
+        function deleteTaskIfEmpty(inputField) {
+            if (inputField.value.trim() === '') {
+                var taskItem = inputField.closest('.TaskList');
+                if (taskItem) {
+                    taskItem.remove();
+                }
+            }
+        }
+        document.querySelectorAll('.TaskList .MultilineInputField').forEach(function (inputField) {
+            if (inputField.getAttribute('data-initialized')) {
+                return; // Если уже инициализирован, то пропустить
+            }
+            // Обработчик события потери фокуса
+            inputField.addEventListener('blur', function () {
+                deleteTaskIfEmpty(inputField);
+            });
+            // Обработчик события нажатия Backspace
+            inputField.addEventListener('keydown', function (e) {
+                if (e.key === 'Backspace' && inputField.value.trim() === '') {
+                    deleteTaskIfEmpty(inputField);
+                }
+            });
+            input.setAttribute('data-initialized', 'true');
+        });
+    }
+
+    //Выбор цвета задачи
+    var colorIndicator = document.querySelector('.TaskColorSelector .ColorIndicator');
+    var colorLabels = document.querySelectorAll('.TaskColorSelector .TaskColor_container');
+    var modalOverlay = document.querySelector('.OverlayContainer');
+    colorLabels.forEach(function (label) {
+        label.addEventListener('click', function () {
+            var color = label.querySelector('.ColorRadio_colorSelect').style.backgroundColor;
+            colorIndicator.style.backgroundColor = color;
+            modalOverlay.style.display = 'none';
+            label.querySelector('input[type="radio"]').checked = true;
+
+        });
+    });
+    colorIndicator.addEventListener('click', function () {
+        modalOverlay.style.display = 'flex';
+    });
+    document.addEventListener('click', function (event) {
+        var isClickInsideModal = modalOverlay.contains(event.target);
+        var isClickOnIndicator = colorIndicator.contains(event.target);
+
+        if (!isClickInsideModal && !isClickOnIndicator) {
+            modalOverlay.style.display = 'none';
+        }
+    });
+
+    //Выбор приоритета
+    function initializePriorityPicker() {
+        const priorityButtons = document.querySelectorAll('.TaskPriorityPickerButton');
+        function createPriorityPickerDialog(button) {
+            const dialog = document.createElement('div');
+            dialog.classList.add('OverlayPriorityContainer');
+            dialog.style.display = 'none';
+
+            dialog.innerHTML = `
+            <div class="PriorityOption">
+                <svg width="20px" height="20px" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" style="fill: red;">
+                    <path
+                        d="m501.769531 231.292969-221.078125-221.082031c-13.613281-13.613282-35.769531-13.613282-49.382812 0l-221.078125 221.082031c-6.597657 6.59375-10.230469 15.363281-10.230469 24.691406s3.632812 18.09375 10.230469 24.691406l221.078125 221.078125c6.804687 6.808594 15.75 10.210938 24.691406 10.210938s17.886719-3.402344 24.691406-10.210938l221.078125-221.078125c6.597657-6.59375 10.230469-15.363281 10.230469-24.691406s-3.632812-18.097656-10.230469-24.691406zm-21.164062 28.21875-221.078125 221.078125c-1.945313 1.945312-5.109375 1.945312-7.054688 0l-221.078125-221.078125c-1.945312-1.945313-1.945312-5.109375 0-7.054688l221.078125-221.082031c.972656-.972656 2.25-1.457031 3.527344-1.457031s2.554688.484375 3.527344 1.457031l221.078125 221.082031c1.945312 1.945313 1.945312 5.109375 0 7.054688zm0 0">
+                    </path>
+                    <path
+                        d="m76.15625 255.984375 179.84375 179.839844 179.84375-179.839844-179.84375-179.84375zm179.84375 137.511719-137.511719-137.511719 137.511719-137.515625 137.511719 137.515625zm0 0">
+                    </path>
+                </svg>
+                <span>Высокий</span>
+            </div>
+            <div class="PriorityOption">
+                <svg width="20px" height="20px" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" style="fill: orange;">
+                    <path
+                        d="m501.769531 231.292969-221.078125-221.082031c-13.613281-13.613282-35.769531-13.613282-49.382812 0l-221.078125 221.082031c-6.597657 6.59375-10.230469 15.363281-10.230469 24.691406s3.632812 18.09375 10.230469 24.691406l221.078125 221.078125c6.804687 6.808594 15.75 10.210938 24.691406 10.210938s17.886719-3.402344 24.691406-10.210938l221.078125-221.078125c6.597657-6.59375 10.230469-15.363281 10.230469-24.691406s-3.632812-18.097656-10.230469-24.691406zm-21.164062 28.21875-221.078125 221.078125c-1.945313 1.945312-5.109375 1.945312-7.054688 0l-221.078125-221.078125c-1.945312-1.945313-1.945312-5.109375 0-7.054688l221.078125-221.082031c.972656-.972656 2.25-1.457031 3.527344-1.457031s2.554688.484375 3.527344 1.457031l221.078125 221.082031c1.945312 1.945313 1.945312 5.109375 0 7.054688zm0 0">
+                    </path>
+                    <path
+                        d="m76.15625 255.984375 179.84375 179.839844 179.84375-179.839844-179.84375-179.84375zm179.84375 137.511719-137.511719-137.511719 137.511719-137.515625 137.511719 137.515625zm0 0">
+                    </path>
+                </svg>
+                <span>Средний</span>
+            </div>
+            <div class="PriorityOption">
+                <svg width="20px" height="20px" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" style="fill: green;">
+                    <path
+                        d="m501.769531 231.292969-221.078125-221.082031c-13.613281-13.613282-35.769531-13.613282-49.382812 0l-221.078125 221.082031c-6.597657 6.59375-10.230469 15.363281-10.230469 24.691406s3.632812 18.09375 10.230469 24.691406l221.078125 221.078125c6.804687 6.808594 15.75 10.210938 24.691406 10.210938s17.886719-3.402344 24.691406-10.210938l221.078125-221.078125c6.597657-6.59375 10.230469-15.363281 10.230469-24.691406s-3.632812-18.097656-10.230469-24.691406zm-21.164062 28.21875-221.078125 221.078125c-1.945313 1.945312-5.109375 1.945312-7.054688 0l-221.078125-221.078125c-1.945312-1.945313-1.945312-5.109375 0-7.054688l221.078125-221.082031c.972656-.972656 2.25-1.457031 3.527344-1.457031s2.554688.484375 3.527344 1.457031l221.078125 221.082031c1.945312 1.945313 1.945312 5.109375 0 7.054688zm0 0">
+                    </path>
+                    <path
+                        d="m76.15625 255.984375 179.84375 179.839844 179.84375-179.839844-179.84375-179.84375zm179.84375 137.511719-137.511719-137.511719 137.511719-137.515625 137.511719 137.515625zm0 0">
+                    </path>
+                </svg>
+                <span>Низкий</span>
+            </div>
+            <div class="PriorityOption">
+                <svg width="20px" height="20px" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" style="fill: gray;">
+                    <path
+                        d="m501.769531 231.292969-221.078125-221.082031c-13.613281-13.613282-35.769531-13.613282-49.382812 0l-221.078125 221.082031c-6.597657 6.59375-10.230469 15.363281-10.230469 24.691406s3.632812 18.09375 10.230469 24.691406l221.078125 221.078125c6.804687 6.808594 15.75 10.210938 24.691406 10.210938s17.886719-3.402344 24.691406-10.210938l221.078125-221.078125c6.597657-6.59375 10.230469-15.363281 10.230469-24.691406s-3.632812-18.097656-10.230469-24.691406zm-21.164062 28.21875-221.078125 221.078125c-1.945313 1.945312-5.109375 1.945312-7.054688 0l-221.078125-221.078125c-1.945312-1.945313-1.945312-5.109375 0-7.054688l221.078125-221.082031c.972656-.972656 2.25-1.457031 3.527344-1.457031s2.554688.484375 3.527344 1.457031l221.078125 221.082031c1.945312 1.945313 1.945312 5.109375 0 7.054688zm0 0">
+                    </path>
+                    <path
+                        d="m76.15625 255.984375 179.84375 179.839844 179.84375-179.839844-179.84375-179.84375zm179.84375 137.511719-137.511719-137.511719 137.511719-137.515625 137.511719 137.515625zm0 0">
+                    </path>
+                </svg>
+                <span>Без приоритета</span>
+            </div>
+            `;
+
+            button.parentNode.appendChild(dialog);
+
+            button.addEventListener('click', () => {
+                dialog.style.display = 'block';
+            });
+
+            dialog.querySelectorAll('.PriorityOption').forEach(option => {
+                option.addEventListener('click', () => {
+                    dialog.querySelectorAll('.PriorityOption').forEach(o => o.classList.remove('selected'));
+                    option.classList.add('selected');
+                    const priorityColor = option.querySelector('svg').style.fill;
+                    button.querySelector('svg').style.fill = priorityColor;
+
+                    if (priorityColor !== 'gray') {
+                        button.classList.add('priority-set');
+                    } else {
+                        button.classList.remove('priority-set');
+                    }
+                });
+            });
+
+            document.addEventListener('click', (event) => {
+                if (!button.contains(event.target) && !dialog.contains(event.target)) {
+                    dialog.style.display = 'none';
+                }
+            });
+        }
+
+        priorityButtons.forEach(button => {
+            if (button.getAttribute('data-initialized')) {
+                return;
+            }
+            createPriorityPickerDialog(button);
+
+            button.setAttribute('data-initialized', 'true');
+        });
+    }
+    //Проверяем все задачи. Если дата выбрана, то скрываем иконку выбора даты
+    function updateDateInputDisplay(btn) {
+        var datePickerButtons = document.querySelectorAll('.TaskDatePickerButton');
+        datePickerButtons.forEach(function (button) {
+            var selectedDate = button.querySelector('.SelectedDate');
+            var dateInput = button.querySelector('.TaskDateInput');
+            if (selectedDate.textContent.trim() === '') {
+                dateInput.style.display = 'block';
+            } else {
+                dateInput.style.display = 'none';
+            }
+        });
+    }
+    updateDateInputDisplay();
+
+
+    //Диалоговое окно настроек
+    function initializeSettingsDialog() {
+        const settingsButtons = document.querySelectorAll('.SettingsButton');
+
+        settingsButtons.forEach(button => {
+            const dialog = document.createElement('div');
+            dialog.classList.add('OverlaySettingsContainer');
+            dialog.style.display = 'none';
+            // Здесь добавьте HTML для содержимого диалога настроек
+            dialog.innerHTML = `
+            <div class="SettingsOption">
+                <svg width="20px" height="20px" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" style="fill: black;">
+                    <path
+                        d="m501.769531 231.292969-221.078125-221.082031c-13.613281-13.613282-35.769531-13.613282-49.382812 0l-221.078125 221.082031c-6.597657 6.59375-10.230469 15.363281-10.230469 24.691406s3.632812 18.09375 10.230469 24.691406l221.078125 221.078125c6.804687 6.808594 15.75 10.210938 24.691406 10.210938s17.886719-3.402344 24.691406-10.210938l221.078125-221.078125c6.597657-6.59375 10.230469-15.363281 10.230469-24.691406s-3.632812-18.097656-10.230469-24.691406zm-21.164062 28.21875-221.078125 221.078125c-1.945313 1.945312-5.109375 1.945312-7.054688 0l-221.078125-221.078125c-1.945312-1.945313-1.945312-5.109375 0-7.054688l221.078125-221.082031c.972656-.972656 2.25-1.457031 3.527344-1.457031s2.554688.484375 3.527344 1.457031l221.078125 221.082031c1.945312 1.945313 1.945312 5.109375 0 7.054688zm0 0">
+                    </path>
+                    <path
+                        d="m76.15625 255.984375 179.84375 179.839844 179.84375-179.839844-179.84375-179.84375zm179.84375 137.511719-137.511719-137.511719 137.511719-137.515625 137.511719 137.515625zm0 0">
+                    </path>
+                </svg>
+                <span>Сортировать по приоритету</span>
+            </div>
+            <div class="SettingsOption">
+                <svg width="20px" height="20px" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" style="fill: black;">
+                    <path
+                        d="m501.769531 231.292969-221.078125-221.082031c-13.613281-13.613282-35.769531-13.613282-49.382812 0l-221.078125 221.082031c-6.597657 6.59375-10.230469 15.363281-10.230469 24.691406s3.632812 18.09375 10.230469 24.691406l221.078125 221.078125c6.804687 6.808594 15.75 10.210938 24.691406 10.210938s17.886719-3.402344 24.691406-10.210938l221.078125-221.078125c6.597657-6.59375 10.230469-15.363281 10.230469-24.691406s-3.632812-18.097656-10.230469-24.691406zm-21.164062 28.21875-221.078125 221.078125c-1.945313 1.945312-5.109375 1.945312-7.054688 0l-221.078125-221.078125c-1.945312-1.945313-1.945312-5.109375 0-7.054688l221.078125-221.082031c.972656-.972656 2.25-1.457031 3.527344-1.457031s2.554688.484375 3.527344 1.457031l221.078125 221.082031c1.945312 1.945313 1.945312 5.109375 0 7.054688zm0 0">
+                    </path>
+                    <path
+                        d="m76.15625 255.984375 179.84375 179.839844 179.84375-179.839844-179.84375-179.84375zm179.84375 137.511719-137.511719-137.511719 137.511719-137.515625 137.511719 137.515625zm0 0">
+                    </path>
+                </svg>
+                <span>Сортировать тексту</span>
+            </div>
+            <div class="SettingsOption">
+                <svg width="20px" height="20px" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" style="fill: black;">
+                    <path
+                        d="m501.769531 231.292969-221.078125-221.082031c-13.613281-13.613282-35.769531-13.613282-49.382812 0l-221.078125 221.082031c-6.597657 6.59375-10.230469 15.363281-10.230469 24.691406s3.632812 18.09375 10.230469 24.691406l221.078125 221.078125c6.804687 6.808594 15.75 10.210938 24.691406 10.210938s17.886719-3.402344 24.691406-10.210938l221.078125-221.078125c6.597657-6.59375 10.230469-15.363281 10.230469-24.691406s-3.632812-18.097656-10.230469-24.691406zm-21.164062 28.21875-221.078125 221.078125c-1.945313 1.945312-5.109375 1.945312-7.054688 0l-221.078125-221.078125c-1.945312-1.945313-1.945312-5.109375 0-7.054688l221.078125-221.082031c.972656-.972656 2.25-1.457031 3.527344-1.457031s2.554688.484375 3.527344 1.457031l221.078125 221.082031c1.945312 1.945313 1.945312 5.109375 0 7.054688zm0 0">
+                    </path>
+                    <path
+                        d="m76.15625 255.984375 179.84375 179.839844 179.84375-179.839844-179.84375-179.84375zm179.84375 137.511719-137.511719-137.511719 137.511719-137.515625 137.511719 137.515625zm0 0">
+                    </path>
+                </svg>
+                <span>Сортировать по дате</span>
+            </div>
+            <div class="SettingsOption">
+                <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M18 6L17.1991 18.0129C17.129 19.065 17.0939 19.5911 16.8667 19.99C16.6666 20.3412 16.3648 20.6235 16.0011 20.7998C15.588 21 15.0607 21 14.0062 21H9.99377C8.93927 21 8.41202 21 7.99889 20.7998C7.63517 20.6235 7.33339 20.3412 7.13332 19.99C6.90607 19.5911 6.871 19.065 6.80086 18.0129L6 6M4 6H20M16 6L15.7294 5.18807C15.4671 4.40125 15.3359 4.00784 15.0927 3.71698C14.8779 3.46013 14.6021 3.26132 14.2905 3.13878C13.9376 3 13.523 3 12.6936 3H11.3064C10.477 3 10.0624 3 9.70951 3.13878C9.39792 3.26132 9.12208 3.46013 8.90729 3.71698C8.66405 4.00784 8.53292 4.40125 8.27064 5.18807L8 6"
+                        stroke="black" fill="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <span>Удалить</span>
+            </div>
+            `;
+            button.parentNode.appendChild(dialog);
+
+            // Показать диалог
+            button.addEventListener('click', (event) => {
+                dialog.style.display = 'block';
+                event.stopPropagation(); // Предотвратить всплытие события
+            });
+
+            // Обработчик клика вне диалога и кнопки
+            document.addEventListener('click', (event) => {
+                if (!dialog.contains(event.target) && !button.contains(event.target)) {
+                    dialog.style.display = 'none';
+                }
+            });
+
+            // Предотвратить всплытие события клика внутри диалога
+            dialog.addEventListener('click', (event) => {
+                event.stopPropagation();
+            });
+            //Обработка кнопок в диалоговом окне
+            dialog.querySelectorAll('.SettingsOption').forEach(option => {
+                option.addEventListener('click', () => {
+                    if (option.querySelector('span').textContent == 'Удалить') {
+                        option.remove();
+                    }
+                    if (option.querySelector('span').textContent == 'Сортировать по приоритету') {
+                        sortTasksByPriority();
+                    }
+                    if (option.querySelector('span').textContent == 'Сортировать тексту') {
+                        sortTasksByText();
+                    }
+                    if (option.querySelector('span').textContent == 'Сортировать по дате') {
+                        sortTasksByDate();
+                    }
+                    option.parentElement.style.display = 'none';
+                });
+            });
+        });
+    }
+    // Инициализируем диалог настроек
+    initializeSettingsDialog();
+
+    //Сортировка по приоритету
+    function sortTasksByPriority() {
+        var tasks = document.querySelectorAll('.CurrentTask-TaskList .TaskList');
+        tasks = Array.from(tasks);
+        function getPriorityValue(color) {
+            const priorityColors = {
+                'red': 3,
+                'orange': 2,
+                'green': 1,
+                'gray': 0
+            };
+            return priorityColors[color] || 0;
+        }
+        // Сортировка
+        tasks.sort(function (a, b) {
+            var colorA = a.querySelector('.TaskPriorityPickerButton .Priority svg').style.fill;
+            var colorB = b.querySelector('.TaskPriorityPickerButton .Priority svg').style.fill;
+            var priorityA = getPriorityValue(colorA);
+            var priorityB = getPriorityValue(colorB);
+            return priorityB - priorityA; // Сортируем по убыванию приоритета
+        });
+        // Очищаем список задач
+        var taskListContainer = document.querySelector('.CurrentTask-TaskList');
+        taskListContainer.innerHTML = '';
+
+        // Добавляем отсортированные задачи
+        tasks.forEach(function (task) {
+            taskListContainer.appendChild(task);
+        });
+    }
+    //Сортировка по тексту
+    function sortTasksByText() {
+        var tasks = Array.from(document.querySelectorAll('.CurrentTask-TaskList .TaskList'));
+        tasks.sort(function (a, b) {
+            var textA = a.querySelector('.MultilineInputField').value.trim().toLowerCase();
+            var textB = b.querySelector('.MultilineInputField').value.trim().toLowerCase();
+            return textA.localeCompare(textB);
+        });
+        var taskListContainer = document.querySelector('.CurrentTask-TaskList');
+        taskListContainer.innerHTML = '';
+        tasks.forEach(task => taskListContainer.appendChild(task));
+    }
+
+    const months = {
+        'января': '01',
+        'февраля': '02',
+        'марта': '03',
+        'апреля': '04',
+        'мая': '05',
+        'июня': '06',
+        'июля': '07',
+        'августа': '08',
+        'сентября': '09',
+        'октября': '10',
+        'ноября': '11',
+        'декабря': '12'
+    };
+    //строки с датой в объект Date
+    function parseDate(str) {
+        const parts = str.match(/(\d+)\s+(.*)/);
+        if (!parts) return new Date("10-10-9999");
+
+        const day = parts[1].padStart(2, '0');
+        const month = months[parts[2]];
+        const year = new Date().getFullYear();
+        const formattedDate = `${year}-${month}-${day}`;
+        return new Date(formattedDate);
+    }
+
+    //сортировка по дате
+    function sortTasksByDate() {
+        var tasks = Array.from(document.querySelectorAll('.CurrentTask-TaskList .TaskList'));
+        tasks.sort(function (a, b) {
+            var dateA = parseDate(a.querySelector('.SelectedDate').textContent);
+            var dateB = parseDate(b.querySelector('.SelectedDate').textContent);
+            return dateA - dateB;
+        });
+        var taskListContainer = document.querySelector('.CurrentTask-TaskList');
+        taskListContainer.innerHTML = '';
+        tasks.forEach(task => taskListContainer.appendChild(task));
+    }
+
+
+
+
+    initializeDatePickers();
+    initializeCheckBoxes();
+    initializeTaskDragStart();
+    initializeCreateTask();
+    initializeDeleteTask();
+    initializeFocusBagFix();
+    initializePriorityPicker();
+
+    //Фокус на поле добавления списка
+    var taskAddItem = document.querySelector('.Task-addItem');
+    var CreateInput = document.querySelector('.Create-listItem-input');
+    taskAddItem.addEventListener('click', function () {
+        CreateInput.focus();
+    });
+
+    //Добавление списка // Инициализируется 1 раз
+    function initializeAddSideBarListItem() {
+        function createTask(textContent) {
+            var taskItem = document.createElement('li');
+            taskItem.className = 'Task-list';
+            //taskItem.setAttribute('draggable', 'true');
+            taskItem.innerHTML = `
+                    <a class="Task-listItem" href="/100">
+                        <div class="Task-listItem-drag"></div>
+                        <div class="Task-listItem-icon">
+                            <div class="Color-listItem" style="background-color: rgb(255, 218, 109);"></div>
+                        </div>
+                        <div class="Task-listItem-name">
+                        ${textContent}
+                        </div>
+                        <div>
+
+                        </div>
+                    </a>
+                `;
+
+            sidebarList.appendChild(taskItem);
+        }
+        var inputField = document.querySelector('.Create-listItem-input');
+        var sidebarList = document.querySelector('.Task-sidebar-lists');
+        // Обработчик событий для текстового поля для добавления задачи по нажатию Enter
+        inputField.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter' && inputField.value.trim() !== '') {
+                createTask(inputField.value.trim());
+                inputField.value = ''; // Очистка поля ввода после добавления задачи
+                selectedDateInput.textContent = '';
+            }
+        });
+    }
+    initializeAddSideBarListItem();
+</script>
