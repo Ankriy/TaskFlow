@@ -3,12 +3,7 @@ using business.Application.Web.Data.Entities;
 using business.Application.Web.Extensions;
 using business.Application.Web.Models.Identity;
 using business.Controllers;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json.Linq;
-using System.IdentityModel.Tokens.Jwt;
 
 namespace business.Application.Web.Middleware
 {

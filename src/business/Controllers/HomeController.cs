@@ -1,12 +1,6 @@
 ﻿using business.Application.Web.Services.Identity;
-using business.Logic.Domain.Models.FeedBack;
-using business.Logic.Domain.Models.Notes;
 using business.Logic.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Diagnostics;
-using System.Drawing;
-using System.Reflection;
 
 namespace business.Controllers
 {

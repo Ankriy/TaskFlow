@@ -1,9 +1,4 @@
-﻿using business.Logic.Domain.Models.Customers;
-using business.Logic.Domain.Models.Tasks;
-using business.Logic.Domain.Models.Users;
-using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Xml.Linq;
+﻿using Microsoft.AspNetCore.Mvc;
 using Task = business.Logic.Domain.Models.Tasks.Task;
 
 namespace business.Application.Web.Models.Tasks

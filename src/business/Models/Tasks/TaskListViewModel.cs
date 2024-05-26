@@ -1,9 +1,4 @@
-﻿
-
-using business.Logic.Domain.Models.Customers;
-using business.Logic.Domain.Models.Notes;
-using business.Logic.Domain.Models.NoteTags;
-using business.Logic.Domain.Models.Tasks;
+﻿using business.Logic.Domain.Models.Tasks;
 using Task = business.Logic.Domain.Models.Tasks.Task;
 
 namespace business.Application.Web.Models.Tasks

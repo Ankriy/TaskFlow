@@ -1,8 +1,4 @@
-﻿using business.Logic.DataContracts.Repositories.Customers;
-using business.Logic.DataContracts.Repositories.Notes;
-using business.Logic.Domain.Models.Customers;
-using business.Logic.Domain.Models.Notes;
-using business.Logic.Domain.Models.NoteTags;
+﻿using business.Logic.DataContracts.Repositories.Notes;
 
 namespace business.Logic.Services
 {

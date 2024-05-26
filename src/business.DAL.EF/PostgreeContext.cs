@@ -5,7 +5,6 @@ using business.Logic.Domain.Models.Notes;
 using business.Logic.Domain.Models.NoteTags;
 using business.Logic.Domain.Models.Orders;
 using business.Logic.Domain.Models.FeedBack;
-using business.Logic.Domain.Models.Tasks;
 
 namespace business.DAL.EF
 {

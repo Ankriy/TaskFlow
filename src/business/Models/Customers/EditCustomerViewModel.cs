@@ -1,6 +1,5 @@
 ﻿using business.Logic.Domain.Models.Customers;
 using Microsoft.AspNetCore.Mvc;
-using System.Xml.Linq;
 
 namespace business.Application.Web.Models.Customers
 {

@@ -1,7 +1,4 @@
-﻿
-
-using business.Logic.Domain.Models.Customers;
-using business.Logic.Domain.Models.Filters;
+﻿using business.Logic.Domain.Models.Filters;
 using business.Logic.Domain.Models.Orders;
 
 namespace business.Application.Web.Models.Orders

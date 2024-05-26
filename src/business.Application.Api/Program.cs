@@ -1,8 +1,6 @@
 using business.Application.Api.Data;
 using business.Application.Api.Data.Entities;
 using business.Application.Api.Services.Identity;
-using business.DAL.EF;
-using business.PostgresMigrate;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;

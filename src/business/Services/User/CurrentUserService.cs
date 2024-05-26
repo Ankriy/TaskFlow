@@ -1,8 +1,6 @@
 using business.Application.Web.Data.Entities;
 using business.Application.Web.Extensions;
-using business.Logic.Domain.Models.Users;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Options;
 using System.IdentityModel.Tokens.Jwt;
 
 namespace business.Application.Web.Services.Identity;

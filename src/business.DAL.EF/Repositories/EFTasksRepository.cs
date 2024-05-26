@@ -1,16 +1,10 @@
 ﻿using business.Logic.DataContracts.Repositories;
-using business.Logic.DataContracts.Repositories.Customers;
-using business.Logic.DataContracts.Repositories.Notes;
 using business.Logic.DataContracts.Repositories.Task;
-using business.Logic.Domain.Models.Customers;
-using business.Logic.Domain.Models.Notes;
-using business.Logic.Domain.Models.NoteTags;
-using business.Logic.Domain.Models.Tasks;
-using Microsoft.EntityFrameworkCore;
+using Task = business.Logic.Domain.Models.Tasks.Task;
 
 namespace business.DAL.EF.Repositories
 {
-    public class EFTasksRepository : ITasksRepository, IRepository<Logic.Domain.Models.Tasks.Task>
+    public class EFTasksRepository : ITasksRepository, IRepository<Task>
     {
         private readonly PostgreeContext _context;
         public EFTasksRepository(PostgreeContext context)
@@ -27,7 +21,7 @@ namespace business.DAL.EF.Repositories
             return _context.Tasks.Where(x => x.UserId == userid).Count();
         }
 
-        public Logic.Domain.Models.Tasks.Task Create(Logic.Domain.Models.Tasks.Task item)
+        public Task Create(Task item)
         {
             _context.Tasks.Add(item);
             _context.SaveChanges();
@@ -44,11 +38,10 @@ namespace business.DAL.EF.Repositories
                 _context.SaveChanges();
             }
         }
-
         
-        public ICollection<Logic.Domain.Models.Tasks.Task> GetByUserId(int userid)
+        public ICollection<Task> GetByUserId(int userid)
         {
-            IQueryable<Logic.Domain.Models.Tasks.Task> query = _context.Tasks;
+            IQueryable<Task> query = _context.Tasks;
             
             var tasks = query
                 .OrderBy(p => p.Id)
@@ -58,14 +51,12 @@ namespace business.DAL.EF.Repositories
             return tasks;
         }
 
-        public Logic.Domain.Models.Tasks.Task? Get(int id)
+        public Task? Get(int id)
         {
             return _context.Tasks.FirstOrDefault(x => x.Id == id);
         }
 
-        
-
-        public void Update(Logic.Domain.Models.Tasks.Task item)
+        public void Update(Task item)
         {
             _context.Tasks.Update(item);
             _context.SaveChanges();

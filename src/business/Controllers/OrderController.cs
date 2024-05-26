@@ -6,12 +6,7 @@ using business.Logic.Domain.Models.Orders;
 using business.Logic.Domain.Models.Orders.Enums;
 using business.Logic.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using System.Drawing;
-using System.Xml.Linq;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace business.Controllers
 {

@@ -1,8 +1,5 @@
-﻿using business.Logic.DataContracts.Repositories.Customers;
-using business.Logic.DataContracts.Repositories.FeedBacks;
-using business.Logic.Domain.Models.Customers;
+﻿using business.Logic.DataContracts.Repositories.FeedBacks;
 using business.Logic.Domain.Models.FeedBack;
-using System.Net;
 
 namespace business.Logic.Services
 {

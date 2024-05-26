@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace business.Logic.Domain.Models.Users
+﻿namespace business.Logic.Domain.Models.Users
 {
     public class AspNetUsers
     {

@@ -1,9 +1,4 @@
-﻿using business.Logic.DataContracts.Repositories.Customers;
-using business.Logic.DataContracts.Repositories.Notes;
-using business.Logic.DataContracts.Repositories.Task;
-using business.Logic.Domain.Models.Customers;
-using business.Logic.Domain.Models.Notes;
-using business.Logic.Domain.Models.NoteTags;
+﻿using business.Logic.DataContracts.Repositories.Task;
 using business.Logic.Domain.Models.Tasks;
 using Task = business.Logic.Domain.Models.Tasks.Task;
 
@@ -22,12 +17,12 @@ namespace business.Logic.Services
             return _taskRepository.Count(userid);
         }
         
-        public int AddTask(Domain.Models.Tasks.Task task)
+        public int AddTask(Task task)
         {
             _taskRepository.Create(task);
             return task.Id;
         }
-        public Domain.Models.Tasks.Task GetTask(int id)
+        public Task GetTask(int id)
         {
             var task = _taskRepository.Get(id);
             return task;
@@ -48,7 +43,7 @@ namespace business.Logic.Services
                 }).ToList();
             return result;
         }
-        public object EditTask(Domain.Models.Tasks.Task task)
+        public object EditTask(Task task)
         {
             _taskRepository.Update(task);
             return task.Id;

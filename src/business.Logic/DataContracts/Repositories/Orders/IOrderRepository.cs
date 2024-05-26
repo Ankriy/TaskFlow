@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using business.Logic.Domain.Models.Customers;
-using business.Logic.Domain.Models.Filters;
-using business.Logic.Domain.Models.Notes;
-using business.Logic.Domain.Models.NoteTags;
+﻿using business.Logic.Domain.Models.Filters;
 using business.Logic.Domain.Models.Orders;
 
 namespace business.Logic.DataContracts.Repositories.Orders

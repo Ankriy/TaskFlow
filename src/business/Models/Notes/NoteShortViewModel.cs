@@ -1,7 +1,5 @@
-﻿using business.Logic.Domain.Models.Customers;
-using business.Logic.Domain.Models.Notes;
+﻿using business.Logic.Domain.Models.Notes;
 using Microsoft.AspNetCore.Mvc;
-using System.Xml.Linq;
 
 namespace business.Application.Web.Models.Notes
 {
