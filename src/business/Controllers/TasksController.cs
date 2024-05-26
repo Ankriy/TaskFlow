@@ -1,4 +1,5 @@
 ﻿using business.Application.Web.Models.Notes;
+using business.Application.Web.Models.Tasks;
 using business.Application.Web.Services.Identity;
 using business.Logic.Domain.Models.Notes;
 using business.Logic.Domain.Models.NoteTags;
@@ -9,27 +10,28 @@ namespace business.Controllers
 {
     public class TasksController : Controller
     {
-        private readonly ILogger<NotesController> _logger;
-        private readonly NoteService _noteService;
+        private readonly ILogger<TasksController> _logger;
+        private readonly TaskService _taskService;
         private readonly CurrentUserService _currentUserService;
 
-        public TasksController(ILogger<NotesController> logger, 
-                               NoteService noteService,
+        public TasksController(ILogger<TasksController> logger,
+                               TaskService taskService,
                                CurrentUserService currentUserService)
         {
             _logger = logger;
-            _noteService = noteService;
+            _taskService = taskService;
             _currentUserService = currentUserService;
         }
         [HttpGet]
-        public IActionResult Tasks()
+        public IActionResult Tasks(int id)
         {
             var currentUser = _currentUserService.GetUser();
             if (currentUser == null)
                 return BadRequest("Bad credentials");
-            var customerList = _noteService.GetNoteList((int)currentUser.Id);
-            var tags = _noteService.GetTags((int)currentUser.Id);
-            var model = new NoteListViewModel(customerList, tags);
+            var customerList = _taskService.GetTaskList((int)currentUser.Id);
+            var model = new TaskListViewModel(customerList);
+            if(id > 0)
+                model.CurrentTask = model.Tasks.Where(x => x.Id == id).First();
             
             return View(model);
         }

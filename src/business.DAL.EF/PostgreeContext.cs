@@ -23,7 +23,7 @@ namespace business.DAL.EF
         public DbSet<NoteTag> NoteTags { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<FeedBack> FeedBacks { get; set; }
-        public DbSet<Tasks> Tasks { get; set; }
+        public DbSet<Logic.Domain.Models.Tasks.Task> Tasks { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

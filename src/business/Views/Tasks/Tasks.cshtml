@@ -1,4 +1,5 @@
 ﻿
+
 <style>
     .Main-Tasks {
         margin: 0;
@@ -504,11 +505,27 @@
     }
 </style>
 
-
+@model business.Application.Web.Models.Tasks.TaskListViewModel
 
 <div class="Main-Tasks">
     <div class="Task-sidebar">
         <ul class="Task-sidebar-lists">
+            @foreach (var task in Model.Tasks)
+            {
+                <li class="Task-list">
+                    <a class="Task-listItem" asp-controller="Tasks" asp-action="Tasks" asp-route-id="@task.Id">
+                        <div class="Task-listItem-drag"></div>
+                        <div class="Task-listItem-icon">
+                            <div class="Color-listItem" style="background-color: @task.Color;"></div>
+                        </div>
+                        <div class="Task-listItem-name">
+                            @task.Name
+                        </div>
+                        <div>
+                        </div>
+                    </a>
+                </li>
+            }
         </ul>
         <div class="Task-addItem">
             <div class="Create-listItem-icon">
@@ -524,77 +541,80 @@
 
     <div class="TaskCard">
         <div class="TaskCardWrapper">
-            <div class="TaskInformation">
-                <div class="TaskColorSelector">
-                    <div class="ColorIndicator" style="background-color: rgb(255, 218, 109);"></div>
-                    <div data-test-id="overlay" class="OverlayContainer">
+            
+            @if (@Model.CurrentTask != null && @Model.CurrentTask.Id > 0) {
+                <div class="TaskInformation">
+                    <div class="TaskColorSelector">
+                        <div class="ColorIndicator" style="background-color: @Model.CurrentTask.Color;"></div>
+                        <div data-test-id="overlay" class="OverlayContainer">
 
-                        <label class="TaskColor_container">
-                            <input type="radio" name="colors">
-                            <div class="ColorRadio_colorSelect" style="background-color: rgb(0, 209, 238);">
-                            </div>
-                        </label>
-                        <label class="TaskColor_container">
-                            <input type="radio" name="colors">
-                            <div class="ColorRadio_colorSelect" style="background-color: rgb(246, 142, 66);">
-                            </div>
-                        </label>
-                        <label class="TaskColor_container">
-                            <input type="radio" name="colors">
-                            <div class="ColorRadio_colorSelect" style="background-color: rgb(194, 150, 255);">
-                            </div>
-                        </label>
-                        <label class="TaskColor_container">
-                            <input type="radio" name="colors">
-                            <div class="ColorRadio_colorSelect" style="background-color: rgb(131, 207, 203);">
-                            </div>
-                        </label>
-                        <label class="TaskColor_container">
-                            <input type="radio" name="colors">
-                            <div class="ColorRadio_colorSelect" style="background-color: rgb(66, 215, 165);">
-                            </div>
-                        </label>
+                            <label class="TaskColor_container">
+                                <input type="radio" name="colors">
+                                <div class="ColorRadio_colorSelect" style="background-color: rgb(0, 209, 238);">
+                                </div>
+                            </label>
+                            <label class="TaskColor_container">
+                                <input type="radio" name="colors">
+                                <div class="ColorRadio_colorSelect" style="background-color: rgb(246, 142, 66);">
+                                </div>
+                            </label>
+                            <label class="TaskColor_container">
+                                <input type="radio" name="colors">
+                                <div class="ColorRadio_colorSelect" style="background-color: rgb(194, 150, 255);">
+                                </div>
+                            </label>
+                            <label class="TaskColor_container">
+                                <input type="radio" name="colors">
+                                <div class="ColorRadio_colorSelect" style="background-color: rgb(131, 207, 203);">
+                                </div>
+                            </label>
+                            <label class="TaskColor_container">
+                                <input type="radio" name="colors">
+                                <div class="ColorRadio_colorSelect" style="background-color: rgb(66, 215, 165);">
+                                </div>
+                            </label>
 
+                        </div>
+                    </div>
+                    <div class="TaskDetailsContainer">
+                        <div class="TaskHeader">
+                            <input placeholder="Название" type="text" class="MultilineInputField" value="@Model.CurrentTask.Name">
+
+                            <button class="SettingsButton">
+                                <svg width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg" class="c017">
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M4.6 8A1.8 1.8 0 111 8a1.8 1.8 0 013.6 0zm5.2 0a1.8 1.8 0 11-3.6 0 1.8 1.8 0 013.6 0zM15 8a1.8 1.8 0 11-3.6 0A1.8 1.8 0 0115 8z"
+                                    fill="#B6B8BE"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        <input placeholder="Описание" type="text" class="MultilineInputField" value="@Model.CurrentTask.Description">
                     </div>
                 </div>
-                <div class="TaskDetailsContainer">
-                    <div class="TaskHeader">
-                        <input placeholder="Новый список" type="text" class="MultilineInputField" value="dsfsdf">
 
-                        <button class="SettingsButton">
-                            <svg width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg" class="c017">
+                <div class="TaskCreationSection">
+                    <div class="taskAndInputWrap">
+                        <div class="TaskAddIconContainer">
+                            <svg viewBox="0 0 16 16" width="16" height="16" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" clip-rule="evenodd"
-                                      d="M4.6 8A1.8 1.8 0 111 8a1.8 1.8 0 013.6 0zm5.2 0a1.8 1.8 0 11-3.6 0 1.8 1.8 0 013.6 0zM15 8a1.8 1.8 0 11-3.6 0A1.8 1.8 0 0115 8z"
-                                      fill="#B6B8BE"></path>
+                                d="M8.4 3c.3 0 .6.3.6.6V7h3.4c.3 0 .6.3.6.6v.8c0 .3-.3.6-.6.6H9v3.4c0 .3-.3.6-.6.6h-.8a.6.6 0 01-.6-.6V9H3.6a.6.6 0 01-.6-.6v-.8c0-.3.3-.6.6-.6H7V3.6c0-.3.3-.6.6-.6h.8z">
+                                </path>
                             </svg>
-                        </button>
+                        </div>
+                        <div class="InputFieldContainer">
+                            <input placeholder="Создать задачу" type="text" class="MultilineInputField" value="">
+                        </div>
                     </div>
-                    <input placeholder="Описание" type="text" class="MultilineInputField" value="">
+                    <button class="TaskDatePickerButton">
+                        <span class="SelectedDate"></span>
+                        <input type="date" class="TaskDateInput">
+
+                    </button>
                 </div>
-            </div>
 
-            <div class="TaskCreationSection">
-                <div class="taskAndInputWrap">
-                    <div class="TaskAddIconContainer">
-                        <svg viewBox="0 0 16 16" width="16" height="16" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" clip-rule="evenodd"
-                                  d="M8.4 3c.3 0 .6.3.6.6V7h3.4c.3 0 .6.3.6.6v.8c0 .3-.3.6-.6.6H9v3.4c0 .3-.3.6-.6.6h-.8a.6.6 0 01-.6-.6V9H3.6a.6.6 0 01-.6-.6v-.8c0-.3.3-.6.6-.6H7V3.6c0-.3.3-.6.6-.6h.8z">
-                            </path>
-                        </svg>
-                    </div>
-                    <div class="InputFieldContainer">
-                        <input placeholder="Создать задачу" type="text" class="MultilineInputField" value="">
-                    </div>
-                </div>
-                <button class="TaskDatePickerButton">
-                    <span class="SelectedDate"></span>
-                    <input type="date" class="TaskDateInput">
-
-                </button>
-            </div>
-
-            <ul class="CurrentTask-TaskList">
-            </ul>
+                <ul class="CurrentTask-TaskList">
+                </ul>
+            }
         </div>
     </div>
 </div>
