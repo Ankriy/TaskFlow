@@ -27,11 +27,11 @@ namespace business.Logic.Services
             var task = _taskRepository.Get(id);
             return task;
         }
-        public TaskList GetTaskList(int userId)
+        public List<Task> GetTaskList(int userId)
         {
-            var result = new TaskList();
+            var result = new List<Task>();
 
-            result.Tasks = _taskRepository
+            result = _taskRepository
                 .GetByUserId(userId)
                 .Select(x => new Task()
                 {

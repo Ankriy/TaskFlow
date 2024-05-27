@@ -12,10 +12,10 @@ namespace business.Application.Web.Models.Tasks
             Tasks = new List<TaskShortViewModel>();
         }
 
-        public TaskListViewModel(TaskList list)
+        public TaskListViewModel(List<Task> list)
         {
             Tasks = new List<TaskShortViewModel>();
-            foreach (Task note in list.Tasks)
+            foreach (Task note in list)
             {
                 Tasks.Add(new TaskShortViewModel(note));
             }

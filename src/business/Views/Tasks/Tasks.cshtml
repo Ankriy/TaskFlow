@@ -753,7 +753,7 @@
                         </div>
                 `;
 
-            taskList.appendChild(taskItem);
+            taskList.insertBefore(taskItem, taskList.firstChild);
             initializeDatePickers();
             initializeCheckBoxes();
             initializeTaskDragStart();
