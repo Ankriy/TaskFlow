@@ -28,7 +28,12 @@ namespace business.Controllers
             var customerList = _taskService.GetTaskList((int)currentUser.Id);
             var model = new TaskListViewModel(customerList);
             if(id > 0)
+            {
                 model.CurrentTask = model.Tasks.Where(x => x.Id == id).First();
+                model.SubTasks = _taskService.GetSubTaskList(model.CurrentTask.Id)
+                                             .Select(x => new SubTaskShortViewModel(x)).ToList();
+            }
+                
             
             return View(model);
         }

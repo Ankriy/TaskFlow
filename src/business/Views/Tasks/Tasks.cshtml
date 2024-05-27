@@ -613,6 +613,54 @@
                 </div>
 
                 <ul class="CurrentTask-TaskList">
+                    @if(Model.SubTasks != null)
+                        @foreach (var subtask in Model.SubTasks)
+                        {
+                            <li class="TaskList">
+                                <div class="TaskItem">
+                                    <button class="TaskDragButton" draggable="true">
+                                        <svg width="6" height="10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                                  d="M1 2a1 1 0 100-2 1 1 0 000 2zm0 4a1 1 0 100-2 1 1 0 000 2zm1 3a1 1 0 11-2 0 1 1 0 012 0zm3-7a1 1 0 100-2 1 1 0 000 2zm1 3a1 1 0 11-2 0 1 1 0 012 0zm-1 5a1 1 0 100-2 1 1 0 000 2z"
+                                                  fill="#B6B8BE">
+                                            </path>
+                                        </svg>
+                                    </button>
+
+                                    <label class="Task_checkbox">
+                                        <input type="checkbox" id="checkbox" class="real-checkbox" @(subtask.IsDone == true ? "checked" : "") />
+                                        <span class="custom-checkbox">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"
+                                                 class="checkbox-icon">
+                                                <path fill-rule="evenodd"
+                                                      d="M12.4 5.6c-.4-.4-1-.4-1.4 0l-4 4-2-2c-.4-.4-1-.4-1.4 0-.4.4-.4 1 0 1.4l2.7 2.7c.2.2.4.3.7.3.3 0 .5-.1.7-.3L12.4 7c.4-.4.4-1 0-1.4z">
+                                                </path>
+                                            </svg>
+                                        </span>
+                                    </label>
+
+                                    <input id="TaskText" type="text" class="MultilineInputField @(subtask.IsDone == true ? "strikethrough" : "")"
+                                           value="@subtask.Name">
+
+                                    <button class="TaskDatePickerButton">
+                                        <span class="SelectedDate">@subtask.Date</span>
+                                        <input type="date" class="TaskDateInput">
+                                    </button>
+
+                                    <button class="TaskPriorityPickerButton @(subtask.Priority != null ? "priority-set" : "")">
+                                        <div class="Priority">
+                                            <svg width="20px" height="20px" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"
+                                                 style="fill: @(subtask.Priority != null ? subtask.Priority : "gray");">
+                                                <path d="m501.769531 231.292969-221.078125-221.082031c-13.613281-13.613282-35.769531-13.613282-49.382812 0l-221.078125 221.082031c-6.597657 6.59375-10.230469 15.363281-10.230469 24.691406s3.632812 18.09375 10.230469 24.691406l221.078125 221.078125c6.804687 6.808594 15.75 10.210938 24.691406 10.210938s17.886719-3.402344 24.691406-10.210938l221.078125-221.078125c6.597657-6.59375 10.230469-15.363281 10.230469-24.691406s-3.632812-18.097656-10.230469-24.691406zm-21.164062 28.21875-221.078125 221.078125c-1.945313 1.945312-5.109375 1.945312-7.054688 0l-221.078125-221.078125c-1.945312-1.945313-1.945312-5.109375 0-7.054688l221.078125-221.082031c.972656-.972656 2.25-1.457031 3.527344-1.457031s2.554688.484375 3.527344 1.457031l221.078125 221.082031c1.945312 1.945313 1.945312 5.109375 0 7.054688zm0 0">
+                                                </path>
+                                                <path d="m76.15625 255.984375 179.84375 179.839844 179.84375-179.839844-179.84375-179.84375zm179.84375 137.511719-137.511719-137.511719 137.511719-137.515625 137.511719 137.515625zm0 0">
+                                                </path>
+                                            </svg>
+                                        </div>
+                                    </button>
+                                </div>
+                            </li>
+                        }
                 </ul>
             }
         </div>

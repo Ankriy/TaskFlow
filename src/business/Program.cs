@@ -68,8 +68,10 @@ builder.Services.AddScoped<OrderService>();
 builder.Services.AddScoped<IOrderRepository, EFOrderRepository>();
 builder.Services.AddScoped<IFeedBackRepository, EFFeedBackRepository>();
 builder.Services.AddScoped<FeedBackService>();
-builder.Services.AddScoped<ITasksRepository, EFTasksRepository>();
+builder.Services.AddScoped<ITaskRepository, EFTaskRepository>();
+builder.Services.AddScoped<ISubTaskRepository, EFSubTaskRepository>();
 builder.Services.AddScoped<TaskService>();
+
 
 var connectionStringEF = "host=localhost; port=5432; database=business; username=postgres; password=123;";  //builder.Configuration.GetConnectionString("NpgsqlConnectionString");
 PostgresMigrator.Migrate(connectionStringEF);

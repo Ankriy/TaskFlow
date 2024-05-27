@@ -7,6 +7,7 @@ namespace business.Application.Web.Models.Tasks
     {
         public List<TaskShortViewModel> Tasks { get; set; }
         public TaskShortViewModel? CurrentTask {  get; set; }
+        public List<SubTaskShortViewModel>? SubTasks { get; set; }
         public TaskListViewModel()
         {
             Tasks = new List<TaskShortViewModel>();

@@ -4,10 +4,10 @@ using Task = business.Logic.Domain.Models.Tasks.Task;
 
 namespace business.DAL.EF.Repositories
 {
-    public class EFTasksRepository : ITasksRepository, IRepository<Task>
+    public class EFTaskRepository : ITaskRepository, IRepository<Task>
     {
         private readonly PostgreeContext _context;
-        public EFTasksRepository(PostgreeContext context)
+        public EFTaskRepository(PostgreeContext context)
         {
             _context = context;
         }

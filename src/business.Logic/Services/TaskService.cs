@@ -6,13 +6,15 @@ namespace business.Logic.Services
 {
     public class TaskService
     {
-        private ITasksRepository _taskRepository;
+        private ITaskRepository _taskRepository;
+        private ISubTaskRepository _subtaskRepository;
 
-        public TaskService(ITasksRepository taskRepository)
+        public TaskService(ITaskRepository taskRepository, ISubTaskRepository subtaskRepository)
         {
             _taskRepository = taskRepository;
+            _subtaskRepository = subtaskRepository;
         }
-        public int GetAllCount(int userid)
+        public int GetAllTaskCount(int userid)
         {
             return _taskRepository.Count(userid);
         }
@@ -52,6 +54,50 @@ namespace business.Logic.Services
         {
             _taskRepository.Delete(idTask);
         }
-        
+
+
+
+        public int GetAllSubTaskCount(int userid)
+        {
+            return _subtaskRepository.Count(userid);
+        }
+
+        public int AddSubTask(SubTask subtask)
+        {
+            _subtaskRepository.Create(subtask);
+            return subtask.Id;
+        }
+        public SubTask GetSubTask(int id)
+        {
+            var subtask = _subtaskRepository.Get(id);
+            return subtask;
+        }
+        public List<SubTask> GetSubTaskList(int taskId)
+        {
+            var result = new List<SubTask>();
+
+            result = _subtaskRepository
+                .GetByTaskId(taskId)
+                .Select(x => new SubTask()
+                {
+                    Id = x.Id,
+                    TaskId = x.TaskId,
+                    Name = x.Name,
+                    IsDone = x.IsDone,
+                    Date = x.Date,
+                    Priority = x.Priority
+                }).ToList();
+            return result;
+        }
+        public object EditSubTask(SubTask subtask)
+        {
+            _subtaskRepository.Update(subtask);
+            return subtask.Id;
+        }
+        public void DeleteSubTask(int idsubTask)
+        {
+            _subtaskRepository.Delete(idsubTask);
+        }
+
     }
 }
